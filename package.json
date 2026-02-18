@@ -11,7 +11,7 @@
     "deploy": "npm run deploy --workspaces --if-present",
     "db:migrate": "npm run db:migrate --workspace=packages/server",
     "start": "npm run dev",
-    "deploy:prod": "cd packages/client && npm run build && cd ../server && npx wrangler deploy --env production",
-    "deploy:dev": "cd packages/client && npm run build && cd ../server && npx wrangler deploy"
+    "deploy:prod": "npm run build && npx wrangler deploy --env production",
+    "deploy:dev": "npm run build && npx wrangler deploy"
   }
 }

@@ -31,7 +31,7 @@ class_name = "FormRoom"
 
 [[migrations]]
 tag = "v1"
-new_classes = ["FormRoom"]
+new_sqlite_classes = ["FormRoom"]
 
 [env.production]
 name = "makepdfform-server-prod"

@@ -89,4 +89,6 @@ app.all('*', (c) => {
 
 
 
+export { FormRoom } from './do/FormRoom'
+
 export default app

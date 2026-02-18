@@ -15,4 +15,3 @@
     "deploy:dev": "cd packages/client && npm run build && cd ../server && npx wrangler deploy"
   }
 }
-```

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
-  import { editorState } from '../../lib/editorState.svelte';
+  import { editorState } from '../../../lib/editorState.svelte';
   import Header from '../../components/design/Header.svelte';
   import ComponentSidebar from '../../components/design/ComponentSidebar.svelte';
   import EditorMain from '../../components/design/EditorMain.svelte';

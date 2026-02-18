@@ -32,3 +32,23 @@ class_name = "FormRoom"
 [[migrations]]
 tag = "v1"
 new_classes = ["FormRoom"]
+
+[env.production]
+name = "makepdfform-server-prod"
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "makepdfform-prod"
+database_id = "4ebc8ae7-502f-4237-944e-54fe86ade49a"
+migrations_dir = "drizzle"
+
+[[env.production.r2_buckets]]
+binding = "R2_BUCKET"
+bucket_name = "makepdfform-files"
+
+[[env.production.kv_namespaces]]
+binding = "KV_CACHE"
+id = "734ee63d8db7431296cccf988defc443"
+
+[[env.production.durable_objects.bindings]]
+name = "FORM_ROOM"
+class_name = "FormRoom"

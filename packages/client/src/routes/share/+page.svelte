@@ -1,3 +1,4 @@
+<script lang="ts">
   import Header from '../../components/design/Header.svelte';
   import ShareSidebar from '../../components/share/ShareSidebar.svelte';
   import LinksTable from '../../components/share/LinksTable.svelte';

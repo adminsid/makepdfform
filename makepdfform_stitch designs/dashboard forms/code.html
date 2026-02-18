@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Make PDF Form - Dashboard</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Playfair+Display:ital,wght@1,500&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#000000", 
+                        "primary-hover": "#333333",
+                        "background-light": "#F9FAFB", 
+                        "background-dark": "#000000", 
+                        "surface-light": "#FFFFFF",
+                        "surface-dark": "#171717", 
+                        "border-light": "#E5E7EB",
+                        "border-dark": "#404040",
+                        "editor-bg": "#FFFFFF",
+                        "editor-dark-bg": "#171717",
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #D1D5DB;
+            border-radius: 0px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background-color: #525252;
+        }
+    </style>
+</head>
+<body class="bg-white dark:bg-background-dark text-gray-900 dark:text-gray-100 font-sans h-screen flex flex-col overflow-hidden transition-colors duration-200">
+<header class="h-14 bg-surface-light dark:bg-surface-dark border-b border-black dark:border-white flex items-center justify-between px-4 z-20 shrink-0">
+<div class="flex items-center space-x-4">
+<div class="w-8 h-8 bg-black dark:bg-white rounded-sm flex items-center justify-center text-white dark:text-black font-bold text-lg tracking-tighter">MP</div>
+<div>
+<h1 class="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider">Make PDF Form</h1>
+</div>
+<div class="h-4 w-px bg-gray-300 dark:bg-gray-600 mx-2"></div>
+<nav class="flex space-x-1">
+<button class="px-3 py-1.5 text-xs font-medium bg-black text-white dark:bg-white dark:text-black rounded-sm transition-colors">Forms</button>
+<button class="px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors">Submissions</button>
+<button class="px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors">Analytics</button>
+</nav>
+</div>
+<div class="flex items-center space-x-3">
+<button class="flex items-center space-x-2 px-3 py-1.5 border border-black dark:border-white hover:bg-gray-100 dark:hover:bg-gray-800 text-black dark:text-white rounded-sm text-xs font-medium transition-colors">
+<span class="material-symbols-outlined text-[16px]">settings</span>
+<span>Settings</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden border border-gray-300 dark:border-gray-600">
+<img alt="User Avatar" class="h-full w-full object-cover grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCATnFGX1JQrWQzfMtfy_--hVTQU5J1BtmqS9guqaGsp437-pfoUNQIICFTEw4Ray1Qj3E4v8ONPlWRsMQ0MbI5cf0splWxnPK8BcwJtX8gd89lP8k0LC8muUqfRZLvUVdzIjZ9uR5aqvUXLhroc7RxA_BOPd7c1_qR9KyjDE8OvwnSQBXV7t-QFz1Z9Rtp4rwGEQ5l8-bgytRLoIRBYdkb5ohgkqCe0UKtBGLfPvZOu9w3YaGxjg4WUKRLbl6i8mDOYdyeUotqmrI"/>
+</div>
+<button class="ml-2 p-1.5 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 rounded-sm" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-symbols-outlined text-[18px] dark:hidden">dark_mode</span>
+<span class="material-symbols-outlined text-[18px] hidden dark:block">light_mode</span>
+</button>
+</div>
+</header>
+<div class="h-14 bg-white dark:bg-black border-b border-gray-200 dark:border-gray-800 flex items-center justify-between px-8 z-10 shrink-0">
+<div class="flex space-x-6">
+<button class="text-sm font-bold text-black dark:text-white border-b-2 border-black dark:border-white pb-[18px] translate-y-[2px]">My Forms</button>
+<button class="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors pb-[18px]">Shared with me</button>
+<button class="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors pb-[18px]">Archived</button>
+</div>
+<div class="flex-1 max-w-md mx-8 relative">
+<span class="material-symbols-outlined absolute left-3 top-2 text-gray-400 text-lg">search</span>
+<input class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-sm pl-10 pr-4 py-1.5 text-sm focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-black dark:focus:border-white outline-none transition-all placeholder-gray-400" placeholder="Search forms..." type="text"/>
+</div>
+<div class="flex items-center space-x-3">
+<div class="relative group">
+<button class="flex items-center space-x-1 text-xs font-medium text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white">
+<span>Sort by: Last Edited</span>
+<span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+</div>
+<div class="h-4 w-px bg-gray-300 dark:bg-gray-700 mx-2"></div>
+<button class="p-1.5 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-sm transition-colors">
+<span class="material-symbols-outlined text-[20px]">grid_view</span>
+</button>
+<button class="p-1.5 text-gray-400 dark:text-gray-500 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-sm transition-colors">
+<span class="material-symbols-outlined text-[20px]">format_list_bulleted</span>
+</button>
+</div>
+</div>
+<main class="flex-1 overflow-y-auto bg-white dark:bg-black p-8">
+<div class="max-w-7xl mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<button class="group flex flex-col items-center justify-center h-[320px] border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-sm hover:border-black dark:hover:border-white hover:bg-gray-50 dark:hover:bg-gray-900 transition-all duration-200 cursor-pointer">
+<div class="h-16 w-16 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-4 group-hover:bg-black group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-black transition-colors">
+<span class="material-symbols-outlined text-3xl text-gray-400 dark:text-gray-500 group-hover:text-white dark:group-hover:text-black">add</span>
+</div>
+<span class="text-sm font-bold text-gray-900 dark:text-white">Create New Form</span>
+<span class="text-xs text-gray-500 mt-1">Start from scratch or template</span>
+</button>
+<div class="group h-[320px] bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-sm hover:border-black dark:hover:border-white transition-all duration-200 flex flex-col cursor-pointer">
+<div class="h-48 bg-gray-50 dark:bg-black border-b border-gray-200 dark:border-gray-800 p-4 flex items-center justify-center overflow-hidden relative">
+<div class="w-32 h-40 bg-white shadow-sm border border-gray-200 dark:border-gray-700 transform group-hover:scale-105 transition-transform duration-300 flex flex-col p-2">
+<div class="h-2 w-16 bg-gray-200 mb-2"></div>
+<div class="space-y-1">
+<div class="h-1 w-full bg-gray-100"></div>
+<div class="h-1 w-full bg-gray-100"></div>
+<div class="h-1 w-2/3 bg-gray-100"></div>
+</div>
+<div class="mt-4 border border-black h-8 w-full"></div>
+</div>
+<div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 bg-white border border-black shadow-sm hover:bg-black hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-sm text-gray-900 dark:text-white truncate pr-4">Rental Agreement</h3>
+<button class="text-gray-400 hover:text-black dark:hover:text-white">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+<p class="text-[10px] text-gray-500 mt-1 font-mono">Last edited: Oct 26, 2023</p>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-800 mt-2">
+<div class="flex items-center text-xs text-gray-600 dark:text-gray-400">
+<span class="material-symbols-outlined text-[14px] mr-1">description</span>
+<span>42 Submissions</span>
+</div>
+<span class="px-2 py-0.5 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300 text-[10px] font-bold uppercase rounded-sm">Active</span>
+</div>
+</div>
+</div>
+<div class="group h-[320px] bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-sm hover:border-black dark:hover:border-white transition-all duration-200 flex flex-col cursor-pointer">
+<div class="h-48 bg-gray-50 dark:bg-black border-b border-gray-200 dark:border-gray-800 p-4 flex items-center justify-center overflow-hidden relative">
+<div class="w-32 h-40 bg-white shadow-sm border border-gray-200 dark:border-gray-700 transform group-hover:scale-105 transition-transform duration-300 flex flex-col p-2">
+<div class="h-2 w-20 bg-gray-800 mb-3"></div>
+<div class="grid grid-cols-2 gap-1">
+<div class="h-6 border border-gray-200"></div>
+<div class="h-6 border border-gray-200"></div>
+<div class="h-6 border border-gray-200 col-span-2"></div>
+</div>
+</div>
+<div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 bg-white border border-black shadow-sm hover:bg-black hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-sm text-gray-900 dark:text-white truncate pr-4">Vendor Application</h3>
+<button class="text-gray-400 hover:text-black dark:hover:text-white">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+<p class="text-[10px] text-gray-500 mt-1 font-mono">Last edited: Oct 24, 2023</p>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-800 mt-2">
+<div class="flex items-center text-xs text-gray-600 dark:text-gray-400">
+<span class="material-symbols-outlined text-[14px] mr-1">description</span>
+<span>18 Submissions</span>
+</div>
+<span class="px-2 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-[10px] font-bold uppercase rounded-sm">Draft</span>
+</div>
+</div>
+</div>
+<div class="group h-[320px] bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-sm hover:border-black dark:hover:border-white transition-all duration-200 flex flex-col cursor-pointer">
+<div class="h-48 bg-gray-50 dark:bg-black border-b border-gray-200 dark:border-gray-800 p-4 flex items-center justify-center overflow-hidden relative">
+<div class="w-32 h-40 bg-white shadow-sm border border-gray-200 dark:border-gray-700 transform group-hover:scale-105 transition-transform duration-300 flex flex-col p-2">
+<div class="flex justify-between mb-2">
+<div class="h-2 w-8 bg-gray-300"></div>
+<div class="h-2 w-8 bg-gray-300"></div>
+</div>
+<div class="space-y-2 mt-4">
+<div class="h-px w-full bg-gray-200"></div>
+<div class="h-px w-full bg-gray-200"></div>
+<div class="h-px w-full bg-gray-200"></div>
+<div class="h-px w-full bg-gray-200"></div>
+</div>
+</div>
+<div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 bg-white border border-black shadow-sm hover:bg-black hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-sm text-gray-900 dark:text-white truncate pr-4">Invoice Template 2023</h3>
+<button class="text-gray-400 hover:text-black dark:hover:text-white">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+<p class="text-[10px] text-gray-500 mt-1 font-mono">Last edited: Oct 20, 2023</p>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-800 mt-2">
+<div class="flex items-center text-xs text-gray-600 dark:text-gray-400">
+<span class="material-symbols-outlined text-[14px] mr-1">description</span>
+<span>156 Submissions</span>
+</div>
+<span class="px-2 py-0.5 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300 text-[10px] font-bold uppercase rounded-sm">Active</span>
+</div>
+</div>
+</div>
+<div class="group h-[320px] bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-sm hover:border-black dark:hover:border-white transition-all duration-200 flex flex-col cursor-pointer">
+<div class="h-48 bg-gray-50 dark:bg-black border-b border-gray-200 dark:border-gray-800 p-4 flex items-center justify-center overflow-hidden relative">
+<div class="w-32 h-40 bg-white shadow-sm border border-gray-200 dark:border-gray-700 transform group-hover:scale-105 transition-transform duration-300 flex flex-col p-2">
+<div class="w-full h-8 bg-gray-100 mb-2"></div>
+<div class="w-full h-20 border border-dashed border-gray-300"></div>
+</div>
+<div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 bg-white border border-black shadow-sm hover:bg-black hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-sm text-gray-900 dark:text-white truncate pr-4">Event Registration</h3>
+<button class="text-gray-400 hover:text-black dark:hover:text-white">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+<p class="text-[10px] text-gray-500 mt-1 font-mono">Last edited: Sep 15, 2023</p>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-800 mt-2">
+<div class="flex items-center text-xs text-gray-600 dark:text-gray-400">
+<span class="material-symbols-outlined text-[14px] mr-1">description</span>
+<span>89 Submissions</span>
+</div>
+<span class="px-2 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-[10px] font-bold uppercase rounded-sm">Closed</span>
+</div>
+</div>
+</div>
+<div class="group h-[320px] bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-sm hover:border-black dark:hover:border-white transition-all duration-200 flex flex-col cursor-pointer">
+<div class="h-48 bg-gray-50 dark:bg-black border-b border-gray-200 dark:border-gray-800 p-4 flex items-center justify-center overflow-hidden relative">
+<div class="w-32 h-40 bg-white shadow-sm border border-gray-200 dark:border-gray-700 transform group-hover:scale-105 transition-transform duration-300 flex flex-col p-2">
+<div class="w-full text-[6px] text-gray-400 mb-1">CONFIDENTIAL</div>
+<div class="h-px w-full bg-black mb-2"></div>
+<div class="space-y-1">
+<div class="h-1 w-full bg-gray-200"></div>
+<div class="h-1 w-full bg-gray-200"></div>
+<div class="h-1 w-full bg-gray-200"></div>
+</div>
+</div>
+<div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 bg-white border border-black shadow-sm hover:bg-black hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-sm text-gray-900 dark:text-white truncate pr-4">NDA Template</h3>
+<button class="text-gray-400 hover:text-black dark:hover:text-white">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+<p class="text-[10px] text-gray-500 mt-1 font-mono">Last edited: Aug 12, 2023</p>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-800 mt-2">
+<div class="flex items-center text-xs text-gray-600 dark:text-gray-400">
+<span class="material-symbols-outlined text-[14px] mr-1">description</span>
+<span>12 Submissions</span>
+</div>
+<span class="px-2 py-0.5 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300 text-[10px] font-bold uppercase rounded-sm">Active</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+
+</body></html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Make PDF Form - Logo Concepts</title>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                        "card-dark": "#1a2230", // Slightly lighter for cards
+                        "secondary-text": "#94a3b8",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["monospace"], // For Variant 2 description
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for better aesthetics in dark mode */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #101622; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #232f48; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #135bec; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display antialiased min-h-screen flex flex-col">
+<!-- Top Navigation / Header -->
+<header class="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<!-- Left: Logo & Title -->
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-8 rounded bg-primary text-white">
+<span class="material-symbols-outlined text-xl">design_services</span>
+</div>
+<div>
+<h1 class="text-sm font-bold text-slate-900 dark:text-white leading-none">Make PDF Form</h1>
+<span class="text-xs text-slate-500 dark:text-secondary-text">Identity Concepts</span>
+</div>
+</div>
+<!-- Right: Actions -->
+<div class="flex items-center gap-3">
+<button class="hidden sm:flex items-center gap-2 px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">ios_share</span>
+                        Share
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-white text-sm font-bold rounded-lg transition-colors shadow-[0_0_15px_rgba(19,91,236,0.3)]">
+<span class="material-symbols-outlined text-[20px]">download</span>
+                        Export Assets
+                    </button>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<!-- Intro Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-12 border-b border-slate-800 pb-8">
+<div class="max-w-2xl">
+<div class="flex items-center gap-2 mb-2">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-yellow-500/10 text-yellow-500 border border-yellow-500/20">In Review</span>
+<span class="text-slate-500 text-xs">Updated 2 hours ago</span>
+</div>
+<h2 class="text-3xl md:text-4xl font-black tracking-tight text-white mb-3">Logo Concepts</h2>
+<p class="text-lg text-secondary-text font-light leading-relaxed">
+                    Visual identity exploration for <span class="text-white font-medium">makepdfform.com</span>. Focus on minimalist geometry, developer-centric aesthetics, and high-contrast typography.
+                </p>
+</div>
+<!-- View Toggle -->
+<div class="flex bg-slate-800/50 p-1 rounded-lg border border-slate-700">
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-md bg-slate-700 text-white shadow-sm text-xs font-medium transition-all">
+<span class="material-symbols-outlined text-[16px]">grid_view</span>
+                    Grid
+                </button>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-md text-slate-400 hover:text-white text-xs font-medium transition-all">
+<span class="material-symbols-outlined text-[16px]">view_list</span>
+                    List
+                </button>
+</div>
+</div>
+<!-- Concepts Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+<!-- Variant 1: The Builder -->
+<div class="group flex flex-col gap-4">
+<div class="relative w-full aspect-square bg-card-dark rounded-xl border border-slate-800 group-hover:border-primary/50 transition-all duration-300 overflow-hidden flex flex-col items-center justify-center p-8 shadow-sm group-hover:shadow-[0_0_20px_rgba(19,91,236,0.15)]">
+<!-- Concept Visual Mockup -->
+<div class="flex flex-col items-center justify-center gap-6 text-white w-full h-full bg-gradient-to-br from-slate-900 to-black rounded-lg border border-slate-800/50" data-alt="Minimalist geometric icon with plus sign on dark background">
+<!-- Icon Representation -->
+<div class="size-20 border-2 border-white rounded-lg relative flex items-center justify-center bg-white/5">
+<div class="absolute bottom-[-10px] right-[-10px] bg-black border-2 border-white size-8 flex items-center justify-center rounded-full">
+<span class="material-symbols-outlined text-white text-lg font-bold">add</span>
+</div>
+<span class="material-symbols-outlined text-white text-4xl">description</span>
+</div>
+<span class="text-xl font-bold tracking-tight uppercase">Make PDF Form</span>
+</div>
+<!-- Hover Overlay Actions -->
+<div class="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="bg-white/10 hover:bg-white/20 backdrop-blur-sm p-2 rounded-lg text-white transition-colors" title="Zoom">
+<span class="material-symbols-outlined text-sm">open_in_full</span>
+</button>
+</div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-lg font-bold text-white mb-1">Variant 1: The Builder</h3>
+<p class="text-sm text-secondary-text leading-relaxed">Minimalist geometric icon representing a stylized document page with a creation modifier.</p>
+</div>
+<button class="text-primary hover:text-primary/80 transition-colors" title="Download SVG">
+<span class="material-symbols-outlined">download</span>
+</button>
+</div>
+</div>
+<!-- Variant 2: The Developer -->
+<div class="group flex flex-col gap-4">
+<div class="relative w-full aspect-square bg-card-dark rounded-xl border border-slate-800 group-hover:border-primary/50 transition-all duration-300 overflow-hidden flex flex-col items-center justify-center p-8 shadow-sm group-hover:shadow-[0_0_20px_rgba(19,91,236,0.15)]">
+<!-- Concept Visual Mockup -->
+<div class="flex flex-col items-center justify-center gap-6 text-white w-full h-full bg-gradient-to-br from-slate-900 to-black rounded-lg border border-slate-800/50" data-alt="Monospaced MP monogram inside a square border">
+<!-- Icon Representation -->
+<div class="size-24 border-4 border-white flex items-center justify-center bg-transparent">
+<span class="font-mono text-4xl font-bold tracking-tighter">MP</span>
+</div>
+<span class="font-mono text-sm tracking-widest text-slate-400 opacity-80">&lt;MAKE_PDF_FORM /&gt;</span>
+</div>
+<!-- Hover Overlay Actions -->
+<div class="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="bg-white/10 hover:bg-white/20 backdrop-blur-sm p-2 rounded-lg text-white transition-colors" title="Zoom">
+<span class="material-symbols-outlined text-sm">open_in_full</span>
+</button>
+</div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-lg font-bold text-white mb-1">Variant 2: The Developer</h3>
+<p class="text-sm text-secondary-text leading-relaxed font-mono">Monospaced MP monogram enclosed in a thick border. Conveying a technical, code-first feel.</p>
+</div>
+<button class="text-primary hover:text-primary/80 transition-colors" title="Download SVG">
+<span class="material-symbols-outlined">download</span>
+</button>
+</div>
+</div>
+<!-- Variant 3: The Typographic -->
+<div class="group flex flex-col gap-4">
+<div class="relative w-full aspect-square bg-card-dark rounded-xl border border-slate-800 group-hover:border-primary/50 transition-all duration-300 overflow-hidden flex flex-col items-center justify-center p-8 shadow-sm group-hover:shadow-[0_0_20px_rgba(19,91,236,0.15)]">
+<!-- Concept Visual Mockup -->
+<div class="flex flex-col items-center justify-center gap-2 text-white w-full h-full bg-gradient-to-br from-slate-900 to-black rounded-lg border border-slate-800/50" data-alt="Typographic logo with MAKE thin and PDF FORM bold">
+<div class="flex flex-col items-start leading-none tracking-tight">
+<span class="text-4xl font-light opacity-90">MAKE</span>
+<span class="text-4xl font-black">PDF FORM</span>
+</div>
+</div>
+<!-- Hover Overlay Actions -->
+<div class="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="bg-white/10 hover:bg-white/20 backdrop-blur-sm p-2 rounded-lg text-white transition-colors" title="Zoom">
+<span class="material-symbols-outlined text-sm">open_in_full</span>
+</button>
+</div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-lg font-bold text-white mb-1">Variant 3: The Typographic</h3>
+<p class="text-sm text-secondary-text leading-relaxed">Hierarchical typography focus. Contrast between thin 'MAKE' and heavy 'PDF FORM'.</p>
+</div>
+<button class="text-primary hover:text-primary/80 transition-colors" title="Download SVG">
+<span class="material-symbols-outlined">download</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Detailed Preview Section -->
+<div class="mt-16">
+<div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
+<h2 class="text-2xl font-bold text-white">Application Preview</h2>
+<div class="flex gap-4">
+<button class="text-sm font-bold text-primary border-b-2 border-primary pb-4 -mb-[17px]">Stationery</button>
+<button class="text-sm font-medium text-secondary-text hover:text-white transition-colors pb-4">Social Media</button>
+<button class="text-sm font-medium text-secondary-text hover:text-white transition-colors pb-4">Web Header</button>
+</div>
+</div>
+<div class="bg-card-dark rounded-xl border border-slate-800 p-8 md:p-12 flex items-center justify-center min-h-[300px]">
+<div class="grid grid-cols-1 md:grid-cols-2 w-full gap-8 max-w-4xl">
+<!-- Business Card Front -->
+<div class="aspect-[1.586/1] bg-white rounded shadow-2xl flex flex-col justify-between p-6 relative overflow-hidden" data-alt="Business card mockup featuring Variant 1 logo">
+<div class="absolute top-0 right-0 w-32 h-32 bg-slate-100 rounded-bl-full -mr-10 -mt-10 z-0"></div>
+<div class="z-10 text-slate-900">
+<div class="flex items-center gap-2 mb-1">
+<div class="size-6 border border-slate-900 rounded bg-transparent flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px] font-bold">add</span>
+</div>
+<span class="font-bold tracking-tight text-sm">MAKE PDF FORM</span>
+</div>
+</div>
+<div class="z-10 text-right">
+<p class="font-bold text-slate-900 text-lg">John Doe</p>
+<p class="text-slate-500 text-xs uppercase tracking-wide">Product Lead</p>
+</div>
+</div>
+<!-- Business Card Back -->
+<div class="aspect-[1.586/1] bg-slate-900 rounded shadow-2xl flex items-center justify-center p-6 relative" data-alt="Business card back dark version">
+<div class="absolute bottom-0 left-0 w-full h-1 bg-primary"></div>
+<div class="flex flex-col items-center gap-3">
+<div class="size-12 border-2 border-white rounded-lg relative flex items-center justify-center bg-white/5">
+<div class="absolute bottom-[-6px] right-[-6px] bg-slate-900 border border-white size-5 flex items-center justify-center rounded-full">
+<span class="material-symbols-outlined text-white text-[10px] font-bold">add</span>
+</div>
+<span class="material-symbols-outlined text-white text-2xl">description</span>
+</div>
+<p class="text-white text-xs tracking-[0.2em] font-light">MAKEPDFFORM.COM</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="border-t border-slate-800 bg-background-dark py-8 mt-auto">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-slate-500 text-sm">© 2023 Make PDF Form. All rights reserved.</p>
+<div class="flex gap-6">
+<a class="text-slate-500 hover:text-white text-sm transition-colors" href="#">Privacy</a>
+<a class="text-slate-500 hover:text-white text-sm transition-colors" href="#">Terms</a>
+<a class="text-slate-500 hover:text-white text-sm transition-colors" href="#">Contact Design Team</a>
+</div>
+</div>
+</footer>
+</body></html>

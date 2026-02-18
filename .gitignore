@@ -1,0 +1,10 @@
+node_modules
+dist
+build
+.wrangler
+.env
+.DS_Store
+coverage
+.svelte-kit
+drizzle/*.sql
+packages/server/drizzle/*.sql

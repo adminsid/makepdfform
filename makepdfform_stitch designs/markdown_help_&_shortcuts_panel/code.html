@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Markdown Syntax Guide</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#195de6",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                        "surface-dark": "#1e2430", // Slightly lighter than background-dark for cards
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for the panel content */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #2d3748;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body class="bg-black/50 font-display flex justify-end min-h-screen w-full overflow-hidden">
+<!-- Main Panel Container -->
+<!-- Simulating a drawer sliding in from the right -->
+<div class="h-screen w-full max-w-[520px] bg-background-light dark:bg-background-dark flex flex-col shadow-2xl border-l border-neutral-200 dark:border-neutral-800 relative">
+<!-- Sticky Header -->
+<div class="flex-none p-6 border-b border-neutral-200 dark:border-neutral-800 bg-background-light dark:bg-background-dark z-10">
+<div class="flex items-center justify-between mb-4">
+<div>
+<h1 class="text-neutral-900 dark:text-white text-2xl font-bold leading-tight tracking-tight">Markdown Guide</h1>
+<p class="text-neutral-500 dark:text-neutral-400 text-sm mt-1">Formatting reference for client documents</p>
+</div>
+<button class="flex items-center justify-center w-8 h-8 rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-800 text-neutral-500 dark:text-neutral-400 transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Search Bar -->
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-neutral-500 dark:text-neutral-400">
+<span class="material-symbols-outlined" style="font-size: 20px;">search</span>
+</div>
+<input class="block w-full p-2.5 pl-10 text-sm text-neutral-900 border border-neutral-200 rounded-lg bg-white focus:ring-primary focus:border-primary dark:bg-surface-dark dark:border-neutral-700 dark:placeholder-neutral-500 dark:text-white dark:focus:ring-primary dark:focus:border-primary" placeholder="Search syntax (e.g., Table, Bold)..." type="text"/>
+</div>
+<!-- Category Chips -->
+<div class="flex gap-2 mt-4 overflow-x-auto pb-1 no-scrollbar">
+<button class="whitespace-nowrap px-3 py-1.5 bg-primary text-white rounded-full text-xs font-semibold shadow-sm hover:bg-blue-600 transition-colors">
+                    All
+                </button>
+<button class="whitespace-nowrap px-3 py-1.5 bg-neutral-200 dark:bg-surface-dark text-neutral-700 dark:text-neutral-300 rounded-full text-xs font-medium border border-transparent dark:border-neutral-700 hover:border-primary/50 transition-colors">
+                    Basics
+                </button>
+<button class="whitespace-nowrap px-3 py-1.5 bg-neutral-200 dark:bg-surface-dark text-neutral-700 dark:text-neutral-300 rounded-full text-xs font-medium border border-transparent dark:border-neutral-700 hover:border-primary/50 transition-colors">
+                    Headers
+                </button>
+<button class="whitespace-nowrap px-3 py-1.5 bg-neutral-200 dark:bg-surface-dark text-neutral-700 dark:text-neutral-300 rounded-full text-xs font-medium border border-transparent dark:border-neutral-700 hover:border-primary/50 transition-colors">
+                    Financial Tables
+                </button>
+</div>
+</div>
+<!-- Scrollable Content Area -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-8">
+<!-- Section: Essentials -->
+<section>
+<h2 class="text-neutral-900 dark:text-white text-sm uppercase tracking-wider font-bold mb-4 opacity-70">Essentials</h2>
+<div class="space-y-4">
+<!-- Card: Headings -->
+<div class="bg-white dark:bg-surface-dark rounded-lg border border-neutral-200 dark:border-neutral-700 overflow-hidden">
+<div class="p-4 border-b border-neutral-200 dark:border-neutral-700 flex justify-between items-start">
+<div>
+<h3 class="text-neutral-900 dark:text-white font-bold text-sm">Headings</h3>
+<p class="text-neutral-500 dark:text-neutral-400 text-xs mt-1">Use for document structure.</p>
+</div>
+<button class="text-primary hover:text-blue-400 text-xs font-bold flex items-center gap-1 bg-primary/10 hover:bg-primary/20 px-2 py-1 rounded transition-colors">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+                                Copy
+                            </button>
+</div>
+<div class="p-4 bg-neutral-50 dark:bg-[#161b26]">
+<div class="flex flex-col gap-2">
+<div class="font-mono text-xs text-neutral-600 dark:text-neutral-300">
+<span class="text-primary font-bold">#</span> Heading 1<br/>
+<span class="text-primary font-bold">##</span> Heading 2<br/>
+<span class="text-primary font-bold">###</span> Heading 3
+                                </div>
+</div>
+</div>
+</div>
+<!-- Card: Emphasis -->
+<div class="bg-white dark:bg-surface-dark rounded-lg border border-neutral-200 dark:border-neutral-700 overflow-hidden">
+<div class="p-4 border-b border-neutral-200 dark:border-neutral-700 flex justify-between items-start">
+<div>
+<h3 class="text-neutral-900 dark:text-white font-bold text-sm">Emphasis</h3>
+<p class="text-neutral-500 dark:text-neutral-400 text-xs mt-1">Bold and italic styling.</p>
+</div>
+<button class="text-primary hover:text-blue-400 text-xs font-bold flex items-center gap-1 bg-primary/10 hover:bg-primary/20 px-2 py-1 rounded transition-colors">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+                                Copy
+                            </button>
+</div>
+<div class="p-4 bg-neutral-50 dark:bg-[#161b26]">
+<div class="flex flex-col gap-2">
+<div class="font-mono text-xs text-neutral-600 dark:text-neutral-300">
+<span class="text-primary font-bold">**</span>Bold Text<span class="text-primary font-bold">**</span><br/>
+<span class="text-primary font-bold">*</span>Italic Text<span class="text-primary font-bold">*</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Layouts -->
+<section>
+<h2 class="text-neutral-900 dark:text-white text-sm uppercase tracking-wider font-bold mb-4 opacity-70">Layouts</h2>
+<!-- Card: Lists -->
+<div class="bg-white dark:bg-surface-dark rounded-lg border border-neutral-200 dark:border-neutral-700 overflow-hidden mb-4">
+<div class="p-4 border-b border-neutral-200 dark:border-neutral-700 flex justify-between items-start">
+<div>
+<h3 class="text-neutral-900 dark:text-white font-bold text-sm">Lists</h3>
+<p class="text-neutral-500 dark:text-neutral-400 text-xs mt-1">Bulleted and numbered lists.</p>
+</div>
+<button class="text-primary hover:text-blue-400 text-xs font-bold flex items-center gap-1 bg-primary/10 hover:bg-primary/20 px-2 py-1 rounded transition-colors">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+                            Copy
+                        </button>
+</div>
+<div class="p-4 bg-neutral-50 dark:bg-[#161b26]">
+<div class="font-mono text-xs text-neutral-600 dark:text-neutral-300">
+<span class="text-primary font-bold">-</span> Item 1<br/>
+<span class="text-primary font-bold">-</span> Item 2<br/>
+                              <span class="text-primary font-bold">-</span> Sub-item<br/>
+<span class="text-primary font-bold">1.</span> First Item<br/>
+<span class="text-primary font-bold">2.</span> Second Item
+                        </div>
+</div>
+</div>
+<!-- Card: Blockquotes -->
+<div class="bg-white dark:bg-surface-dark rounded-lg border border-neutral-200 dark:border-neutral-700 overflow-hidden">
+<div class="p-4 border-b border-neutral-200 dark:border-neutral-700 flex justify-between items-start">
+<div>
+<h3 class="text-neutral-900 dark:text-white font-bold text-sm">Blockquotes</h3>
+<p class="text-neutral-500 dark:text-neutral-400 text-xs mt-1">Perfect for client testimonials or callouts.</p>
+</div>
+<button class="text-primary hover:text-blue-400 text-xs font-bold flex items-center gap-1 bg-primary/10 hover:bg-primary/20 px-2 py-1 rounded transition-colors">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+                            Copy
+                        </button>
+</div>
+<div class="p-4 bg-neutral-50 dark:bg-[#161b26]">
+<div class="font-mono text-xs text-neutral-600 dark:text-neutral-300">
+<span class="text-primary font-bold">&gt;</span> "This deal was excellent."<br/>
+<span class="text-primary font-bold">&gt;</span> - Client Name
+                        </div>
+</div>
+</div>
+</section>
+<!-- Section: Broker Templates (Financial) -->
+<section>
+<div class="flex items-center gap-2 mb-4">
+<h2 class="text-neutral-900 dark:text-white text-sm uppercase tracking-wider font-bold opacity-70">Broker Templates</h2>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-primary text-white uppercase">Pro</span>
+</div>
+<!-- Card: Assets & Liabilities Table -->
+<div class="bg-white dark:bg-surface-dark rounded-lg border border-primary/30 ring-1 ring-primary/20 overflow-hidden shadow-lg shadow-primary/5">
+<!-- Preview Area -->
+<div class="p-4 border-b border-neutral-200 dark:border-neutral-700 bg-gradient-to-br from-white to-neutral-50 dark:from-surface-dark dark:to-[#161b26]">
+<div class="flex justify-between items-center mb-3">
+<h3 class="text-neutral-900 dark:text-white font-bold text-sm">Financial Statement Table</h3>
+<span class="text-[10px] uppercase font-bold text-neutral-400 tracking-wide">Preview</span>
+</div>
+<!-- Rendered Preview Simulation -->
+<div class="rounded border border-neutral-200 dark:border-neutral-700 bg-background-light dark:bg-background-dark p-3">
+<table class="w-full text-xs text-left">
+<thead class="border-b border-neutral-300 dark:border-neutral-700 font-bold text-neutral-900 dark:text-white">
+<tr>
+<th class="pb-1">Category</th>
+<th class="pb-1 text-right">Amount (USD)</th>
+</tr>
+</thead>
+<tbody class="text-neutral-600 dark:text-neutral-300">
+<tr>
+<td class="pt-1">Total Assets</td>
+<td class="pt-1 text-right">$1,200,000</td>
+</tr>
+<tr>
+<td class="pt-1">Liabilities</td>
+<td class="pt-1 text-right">$450,000</td>
+</tr>
+<tr class="font-bold text-neutral-900 dark:text-white">
+<td class="pt-2 border-t border-neutral-200 dark:border-neutral-700 mt-1">Net Worth</td>
+<td class="pt-2 border-t border-neutral-200 dark:border-neutral-700 mt-1 text-right">$750,000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Code Snippet & Action -->
+<div class="p-4 bg-neutral-100 dark:bg-[#0f131a] relative group">
+<div class="absolute right-4 top-4">
+<button class="bg-primary hover:bg-blue-600 text-white text-xs font-bold py-1.5 px-3 rounded flex items-center gap-1.5 shadow-md shadow-primary/20 transition-all active:scale-95">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+                                Copy Snippet
+                            </button>
+</div>
+<pre class="font-mono text-xs text-neutral-600 dark:text-neutral-400 overflow-x-auto whitespace-pre p-1">| Category | Amount (USD) |
+| :--- | ---: |
+| Total Assets | $1,200,000 |
+| Liabilities | $450,000 |
+| **Net Worth** | **$750,000** |</pre>
+</div>
+</div>
+<!-- Card: Deal Highlights Box -->
+<div class="bg-white dark:bg-surface-dark rounded-lg border border-neutral-200 dark:border-neutral-700 overflow-hidden mt-4">
+<div class="p-4 border-b border-neutral-200 dark:border-neutral-700 flex justify-between items-start">
+<div>
+<h3 class="text-neutral-900 dark:text-white font-bold text-sm">Deal Highlights Box</h3>
+<p class="text-neutral-500 dark:text-neutral-400 text-xs mt-1">Callout box for key deal metrics.</p>
+</div>
+<button class="text-primary hover:text-blue-400 text-xs font-bold flex items-center gap-1 bg-primary/10 hover:bg-primary/20 px-2 py-1 rounded transition-colors">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+                            Copy
+                        </button>
+</div>
+<div class="p-4 bg-neutral-50 dark:bg-[#161b26]">
+<div class="font-mono text-xs text-neutral-600 dark:text-neutral-300 whitespace-pre-wrap">::: tip 💡 Deal Highlights
+**EBITDA:** $250k  |  **Multiple:** 3.5x  
+**Location:** Remote
+:::</div>
+</div>
+</div>
+</section>
+<!-- Footer Link -->
+<div class="pt-4 border-t border-neutral-200 dark:border-neutral-800 flex justify-center pb-8">
+<a class="text-primary text-sm font-medium hover:underline flex items-center gap-1" href="#">
+                    View Full Documentation
+                    <span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</a>
+</div>
+</div>
+</div>
+</body></html>

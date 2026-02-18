@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin System Overview Dashboard</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#000000",
+                        "primary-hover": "#333333",
+                        "background-light": "#F9FAFB",
+                        "background-dark": "#000000",
+                        "surface-light": "#FFFFFF",
+                        "surface-dark": "#171717",
+                        "border-light": "#E5E7EB",
+                        "border-dark": "#404040",
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0px", // Strict minimalist look often uses sharp corners or very small radius
+                        sm: "0.125rem",
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #D1D5DB;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background-color: #525252;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-gray-900 dark:text-gray-100 font-sans h-screen flex flex-col overflow-hidden transition-colors duration-200">
+<header class="h-16 bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark flex items-center justify-between px-6 z-20 shrink-0">
+<div class="flex items-center space-x-6">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 bg-black dark:bg-white flex items-center justify-center text-white dark:text-black font-bold text-lg tracking-tighter">MP</div>
+<div>
+<h1 class="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider">Make PDF Form <span class="text-gray-400 dark:text-gray-500 mx-1">|</span> ADMIN</h1>
+</div>
+</div>
+<div class="h-6 w-px bg-gray-200 dark:bg-gray-700 mx-2"></div>
+<nav class="flex space-x-6">
+<a class="text-sm font-medium text-black dark:text-white border-b-2 border-black dark:border-white pb-0.5" href="#">Dashboard</a>
+<a class="text-sm font-medium text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors" href="#">Users</a>
+<a class="text-sm font-medium text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors" href="#">System Health</a>
+<a class="text-sm font-medium text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors" href="#">Revenue</a>
+<a class="text-sm font-medium text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors" href="#">Permissions</a>
+</nav>
+</div>
+<div class="flex items-center space-x-4">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2 top-1.5 text-gray-400 text-lg">search</span>
+<input class="w-64 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 pl-8 pr-3 py-1.5 text-sm focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent outline-none transition-shadow placeholder-gray-400" placeholder="Search logs, users..." type="text"/>
+</div>
+<button class="p-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-symbols-outlined text-[20px] dark:hidden">dark_mode</span>
+<span class="material-symbols-outlined text-[20px] hidden dark:block">light_mode</span>
+</button>
+<div class="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center text-xs font-bold">AD</div>
+</div>
+</header>
+<main class="flex-1 overflow-y-auto p-8">
+<div class="max-w-7xl mx-auto space-y-8">
+<div class="flex items-end justify-between border-b border-border-light dark:border-border-dark pb-4">
+<div>
+<h2 class="text-2xl font-bold tracking-tight mb-1">System Overview</h2>
+<p class="text-sm text-gray-500 dark:text-gray-400 font-mono">Server Time: <span id="clock">14:32:01 UTC</span></p>
+</div>
+<div class="flex space-x-3">
+<button class="flex items-center px-3 py-1.5 border border-gray-300 dark:border-gray-600 text-xs font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+<span class="material-symbols-outlined text-base mr-1">refresh</span> Refresh Data
+                    </button>
+<button class="flex items-center px-3 py-1.5 bg-black dark:bg-white text-white dark:text-black text-xs font-medium hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-base mr-1">download</span> Export Report
+                    </button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-6 relative group hover:border-black dark:hover:border-white transition-colors">
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">Total Users</h3>
+<span class="material-symbols-outlined text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors">group</span>
+</div>
+<div class="flex items-baseline space-x-2">
+<span class="text-4xl font-mono font-medium tracking-tight">24,592</span>
+<span class="text-xs font-medium text-green-600 flex items-center">
+<span class="material-symbols-outlined text-sm mr-0.5">arrow_upward</span> 12%
+                        </span>
+</div>
+<div class="mt-4 pt-4 border-t border-dashed border-gray-200 dark:border-gray-800 flex justify-between text-xs text-gray-500 dark:text-gray-400 font-mono">
+<span>New (24h): +142</span>
+<span>Churn: 0.8%</span>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-6 relative group hover:border-black dark:hover:border-white transition-colors">
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">Active Subscriptions</h3>
+<span class="material-symbols-outlined text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors">credit_card</span>
+</div>
+<div class="flex items-baseline space-x-2">
+<span class="text-4xl font-mono font-medium tracking-tight">8,103</span>
+<span class="text-xs font-medium text-green-600 flex items-center">
+<span class="material-symbols-outlined text-sm mr-0.5">arrow_upward</span> 4.2%
+                        </span>
+</div>
+<div class="mt-4 pt-4 border-t border-dashed border-gray-200 dark:border-gray-800 flex justify-between text-xs text-gray-500 dark:text-gray-400 font-mono">
+<span>MRR: $124,520</span>
+<span>Pro Plan: 65%</span>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-6 relative group hover:border-black dark:hover:border-white transition-colors">
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">API Latency (p95)</h3>
+<span class="material-symbols-outlined text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors">speed</span>
+</div>
+<div class="flex items-baseline space-x-2">
+<span class="text-4xl font-mono font-medium tracking-tight">42ms</span>
+<span class="text-xs font-medium text-gray-500 dark:text-gray-400 flex items-center">
+                            Stable
+                        </span>
+</div>
+<div class="mt-4 pt-4 border-t border-dashed border-gray-200 dark:border-gray-800 flex justify-between text-xs text-gray-500 dark:text-gray-400 font-mono">
+<span>Uptime: 99.99%</span>
+<span>Req/s: 340</span>
+</div>
+<div class="absolute top-6 right-12 w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[500px]">
+<div class="lg:col-span-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark flex flex-col">
+<div class="p-4 border-b border-border-light dark:border-border-dark flex justify-between items-center">
+<h3 class="text-sm font-bold text-gray-900 dark:text-white">Traffic &amp; Usage</h3>
+<div class="flex space-x-2">
+<button class="text-[10px] uppercase font-bold px-2 py-1 bg-black text-white dark:bg-white dark:text-black">24h</button>
+<button class="text-[10px] uppercase font-bold px-2 py-1 text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white">7d</button>
+<button class="text-[10px] uppercase font-bold px-2 py-1 text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white">30d</button>
+</div>
+</div>
+<div class="flex-1 p-6 relative flex items-end justify-between space-x-1">
+<div class="w-full bg-gray-100 dark:bg-gray-800 h-full relative overflow-hidden">
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none">
+<div class="w-full h-px bg-gray-200 dark:bg-gray-700 border-dashed border-t border-gray-300 dark:border-gray-600"></div>
+<div class="w-full h-px bg-gray-200 dark:bg-gray-700 border-dashed border-t border-gray-300 dark:border-gray-600"></div>
+<div class="w-full h-px bg-gray-200 dark:bg-gray-700 border-dashed border-t border-gray-300 dark:border-gray-600"></div>
+<div class="w-full h-px bg-gray-200 dark:bg-gray-700 border-dashed border-t border-gray-300 dark:border-gray-600"></div>
+</div>
+<div class="absolute bottom-0 left-0 right-0 h-[80%] flex items-end justify-around px-4 pb-0">
+<div class="w-8 bg-black dark:bg-white h-[40%] opacity-20 hover:opacity-100 transition-opacity"></div>
+<div class="w-8 bg-black dark:bg-white h-[55%] opacity-30 hover:opacity-100 transition-opacity"></div>
+<div class="w-8 bg-black dark:bg-white h-[45%] opacity-20 hover:opacity-100 transition-opacity"></div>
+<div class="w-8 bg-black dark:bg-white h-[70%] opacity-40 hover:opacity-100 transition-opacity"></div>
+<div class="w-8 bg-black dark:bg-white h-[60%] opacity-30 hover:opacity-100 transition-opacity"></div>
+<div class="w-8 bg-black dark:bg-white h-[85%] opacity-80 hover:opacity-100 transition-opacity"></div>
+<div class="w-8 bg-black dark:bg-white h-[75%] opacity-50 hover:opacity-100 transition-opacity"></div>
+<div class="w-8 bg-black dark:bg-white h-[90%] opacity-90 hover:opacity-100 transition-opacity"></div>
+<div class="w-8 bg-black dark:bg-white h-[65%] opacity-40 hover:opacity-100 transition-opacity"></div>
+<div class="w-8 bg-black dark:bg-white h-[50%] opacity-25 hover:opacity-100 transition-opacity"></div>
+<div class="w-8 bg-black dark:bg-white h-[95%] opacity-100 hover:opacity-100 transition-opacity shadow-lg"></div>
+<div class="w-8 bg-black dark:bg-white h-[80%] opacity-60 hover:opacity-100 transition-opacity"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-1 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark flex flex-col overflow-hidden">
+<div class="p-4 border-b border-border-light dark:border-border-dark flex justify-between items-center bg-gray-50 dark:bg-[#111]">
+<h3 class="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                            Recent Activity Log
+                        </h3>
+<a class="text-xs text-gray-500 hover:underline" href="#">View All</a>
+</div>
+<div class="flex-1 overflow-y-auto p-0 font-mono text-xs">
+<table class="w-full text-left border-collapse">
+<tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+<td class="p-3 text-gray-400 whitespace-nowrap align-top">14:30</td>
+<td class="p-3 align-top">
+<div class="font-bold text-gray-900 dark:text-gray-200">New Admin Added</div>
+<div class="text-gray-500 mt-0.5">User 'dev_ops_lead' granted full access.</div>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+<td class="p-3 text-gray-400 whitespace-nowrap align-top">14:15</td>
+<td class="p-3 align-top">
+<div class="font-bold text-gray-900 dark:text-gray-200">Database Migration</div>
+<div class="text-gray-500 mt-0.5">Migration <span class="bg-gray-100 dark:bg-gray-700 px-1 border border-gray-200 dark:border-gray-600">v4.2.1</span> completed successfully.</div>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+<td class="p-3 text-gray-400 whitespace-nowrap align-top">13:58</td>
+<td class="p-3 align-top">
+<div class="font-bold text-gray-900 dark:text-gray-200">API Alert Resolved</div>
+<div class="text-gray-500 mt-0.5">Latency spike in US-EAST-1 normalized.</div>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+<td class="p-3 text-gray-400 whitespace-nowrap align-top">13:42</td>
+<td class="p-3 align-top">
+<div class="font-bold text-gray-900 dark:text-gray-200">Backup Complete</div>
+<div class="text-gray-500 mt-0.5">Hourly snapshot stored in S3 bucket.</div>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+<td class="p-3 text-gray-400 whitespace-nowrap align-top">13:20</td>
+<td class="p-3 align-top">
+<div class="font-bold text-gray-900 dark:text-gray-200">User Report</div>
+<div class="text-gray-500 mt-0.5">Flagged content in PDF ID #99281 reviewed.</div>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+<td class="p-3 text-gray-400 whitespace-nowrap align-top">12:55</td>
+<td class="p-3 align-top">
+<div class="font-bold text-gray-900 dark:text-gray-200">System Deploy</div>
+<div class="text-gray-500 mt-0.5">Hotfix deployed to production cluster A.</div>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+<td class="p-3 text-gray-400 whitespace-nowrap align-top">12:40</td>
+<td class="p-3 align-top">
+<div class="font-bold text-gray-900 dark:text-gray-200">Plan Upgrade</div>
+<div class="text-gray-500 mt-0.5">Enterprise License activated for Org #442.</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-6">
+<h3 class="text-sm font-bold text-gray-900 dark:text-white mb-4">Infrastructure Health</h3>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="flex items-center justify-between p-3 border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-[#111]">
+<div class="flex items-center space-x-2">
+<div class="w-2 h-2 bg-green-500 rounded-full"></div>
+<span class="text-xs font-mono font-medium text-gray-600 dark:text-gray-300">Auth Service</span>
+</div>
+<span class="text-xs font-mono text-gray-400">v2.1.0</span>
+</div>
+<div class="flex items-center justify-between p-3 border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-[#111]">
+<div class="flex items-center space-x-2">
+<div class="w-2 h-2 bg-green-500 rounded-full"></div>
+<span class="text-xs font-mono font-medium text-gray-600 dark:text-gray-300">PDF Generator</span>
+</div>
+<span class="text-xs font-mono text-gray-400">v3.0.5</span>
+</div>
+<div class="flex items-center justify-between p-3 border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-[#111]">
+<div class="flex items-center space-x-2">
+<div class="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
+<span class="text-xs font-mono font-medium text-gray-600 dark:text-gray-300">Email Queue</span>
+</div>
+<span class="text-xs font-mono text-gray-400">High Load</span>
+</div>
+<div class="flex items-center justify-between p-3 border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-[#111]">
+<div class="flex items-center space-x-2">
+<div class="w-2 h-2 bg-green-500 rounded-full"></div>
+<span class="text-xs font-mono font-medium text-gray-600 dark:text-gray-300">Storage (S3)</span>
+</div>
+<span class="text-xs font-mono text-gray-400">45% Used</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Simple clock update script for the dashboard
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toISOString().split('T')[1].split('.')[0] + ' UTC';
+            document.getElementById('clock').textContent = timeString;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+
+</body></html>

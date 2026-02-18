@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Make PDF Form - User Settings</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Playfair+Display:ital,wght@1,500&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#000000", 
+                        "primary-hover": "#333333",
+                        "background-light": "#FFFFFF", 
+                        "background-dark": "#000000", 
+                        "surface-light": "#FFFFFF",
+                        "surface-dark": "#171717", 
+                        "border-light": "#E5E7EB",
+                        "border-dark": "#404040",
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #D1D5DB;
+            border-radius: 0px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background-color: #525252;
+        }input[type="checkbox"] {
+            color: black;
+            border-color: black;
+            border-radius: 0;
+        }
+        input[type="checkbox"]:focus {
+            ring: 0;
+            outline: 2px solid black;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-gray-900 dark:text-gray-100 font-sans h-screen flex flex-col overflow-hidden transition-colors duration-200">
+<header class="h-14 bg-surface-light dark:bg-surface-dark border-b border-black dark:border-white flex items-center justify-between px-4 z-20 shrink-0">
+<div class="flex items-center space-x-4">
+<div class="w-8 h-8 bg-black dark:bg-white rounded-sm flex items-center justify-center text-white dark:text-black font-bold text-lg tracking-tighter">MP</div>
+<div>
+<h1 class="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider">Make PDF Form</h1>
+</div>
+<div class="h-4 w-px bg-gray-300 dark:bg-gray-600 mx-2"></div>
+<nav class="flex space-x-1">
+<button class="px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors">Forms</button>
+<button class="px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors">Submissions</button>
+<button class="px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors">Analytics</button>
+</nav>
+</div>
+<div class="flex items-center space-x-3">
+<button class="p-1.5 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 rounded-sm" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-symbols-outlined text-[18px] dark:hidden">dark_mode</span>
+<span class="material-symbols-outlined text-[18px] hidden dark:block">light_mode</span>
+</button>
+<button class="p-1.5 bg-black dark:bg-white text-white dark:text-black rounded-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden border border-gray-300 dark:border-gray-600">
+<div class="w-full h-full flex items-center justify-center text-xs font-bold text-gray-600 dark:text-gray-300">JD</div>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<aside class="w-64 bg-gray-50 dark:bg-black border-r border-gray-200 dark:border-gray-800 flex-shrink-0 overflow-y-auto">
+<div class="p-6">
+<h2 class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">Account Settings</h2>
+<nav class="space-y-1">
+<a class="flex items-center px-3 py-2 text-sm font-medium bg-black dark:bg-white text-white dark:text-black rounded-sm" href="#">
+<span class="material-symbols-outlined text-[18px] mr-3">person</span>
+                    Profile
+                </a>
+<a class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800 rounded-sm transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px] mr-3">lock</span>
+                    Login &amp; Security
+                </a>
+<a class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800 rounded-sm transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px] mr-3">credit_card</span>
+                    Billing &amp; Plans
+                </a>
+<a class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800 rounded-sm transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px] mr-3">notifications</span>
+                    Notifications
+                </a>
+<a class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800 rounded-sm transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px] mr-3">api</span>
+                    API Access
+                </a>
+</nav>
+</div>
+</aside>
+<main class="flex-1 overflow-y-auto bg-white dark:bg-black p-8 md:p-12">
+<div class="max-w-3xl mx-auto space-y-12">
+<section>
+<div class="border-b border-black dark:border-white pb-4 mb-8">
+<h2 class="text-xl font-bold text-black dark:text-white">Profile Settings</h2>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Manage your public profile and personal details.</p>
+</div>
+<div class="flex items-start space-x-8 mb-8">
+<div class="flex-shrink-0">
+<div class="h-24 w-24 rounded-full bg-gray-200 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-4xl text-gray-400 dark:text-gray-600">person</span>
+</div>
+</div>
+<div class="pt-2">
+<h3 class="text-sm font-bold text-black dark:text-white mb-2">Profile Photo</h3>
+<div class="flex space-x-3">
+<button class="px-4 py-2 text-xs font-medium bg-white dark:bg-black text-black dark:text-white border border-black dark:border-white rounded-sm hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors">
+                                Change Photo
+                            </button>
+<button class="px-4 py-2 text-xs font-medium text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 transition-colors">
+                                Remove
+                            </button>
+</div>
+<p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Recommended size: 400x400px. JPG or PNG.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 gap-6 max-w-xl">
+<div>
+<label class="block text-xs font-bold text-gray-900 dark:text-gray-100 uppercase mb-1.5" for="full-name">Full Name</label>
+<input class="w-full bg-white dark:bg-black border border-black dark:border-white rounded-sm px-3 py-2 text-sm text-black dark:text-white focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-black dark:focus:border-white outline-none placeholder-gray-400" id="full-name" type="text" value="John Doe"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-gray-900 dark:text-gray-100 uppercase mb-1.5" for="display-name">Display Name</label>
+<input class="w-full bg-white dark:bg-black border border-black dark:border-white rounded-sm px-3 py-2 text-sm text-black dark:text-white focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-black dark:focus:border-white outline-none placeholder-gray-400" id="display-name" type="text" value="johndoe"/>
+<p class="text-xs text-gray-500 dark:text-gray-400 mt-1">This will be visible on your shared forms.</p>
+</div>
+<div>
+<label class="block text-xs font-bold text-gray-900 dark:text-gray-100 uppercase mb-1.5" for="organization">Organization</label>
+<input class="w-full bg-white dark:bg-black border border-black dark:border-white rounded-sm px-3 py-2 text-sm text-black dark:text-white focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-black dark:focus:border-white outline-none placeholder-gray-400" id="organization" type="text" value="Acme Corp"/>
+</div>
+</div>
+<div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-800">
+<button class="px-5 py-2.5 text-sm font-medium bg-black dark:bg-white text-white dark:text-black rounded-sm hover:opacity-90 transition-opacity">
+                        Save Changes
+                    </button>
+</div>
+</section>
+<section class="pt-8">
+<div class="border-b border-black dark:border-white pb-4 mb-8">
+<h2 class="text-xl font-bold text-black dark:text-white">Login &amp; Security</h2>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Update your email and password.</p>
+</div>
+<div class="grid grid-cols-1 gap-8 max-w-xl">
+<div class="flex items-end gap-4">
+<div class="flex-grow">
+<label class="block text-xs font-bold text-gray-900 dark:text-gray-100 uppercase mb-1.5" for="email">Email Address</label>
+<input class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-sm px-3 py-2 text-sm text-gray-500 dark:text-gray-400 cursor-not-allowed" disabled="" id="email" type="email" value="john.doe@example.com"/>
+</div>
+<button class="px-4 py-2 text-sm font-medium text-black dark:text-white border border-black dark:border-white rounded-sm hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors whitespace-nowrap mb-[1px]">
+                            Change Email
+                        </button>
+</div>
+<div>
+<label class="block text-xs font-bold text-gray-900 dark:text-gray-100 uppercase mb-1.5">Password</label>
+<div class="p-4 border border-gray-200 dark:border-gray-800 rounded-sm bg-gray-50 dark:bg-gray-900 flex justify-between items-center">
+<div class="flex items-center">
+<span class="material-symbols-outlined text-gray-400 mr-2 text-[20px]">lock</span>
+<span class="text-sm text-gray-900 dark:text-gray-300">••••••••••••••••</span>
+</div>
+<button class="text-xs font-bold text-black dark:text-white border-b border-black dark:border-white pb-0.5 hover:opacity-70">
+                                Reset Password
+                            </button>
+</div>
+</div>
+</div>
+</section>
+<section class="pt-8">
+<div class="border-b border-black dark:border-white pb-4 mb-8">
+<h2 class="text-xl font-bold text-black dark:text-white">Billing &amp; Plans</h2>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Manage your subscription and payment methods.</p>
+</div>
+<div class="border border-black dark:border-white rounded-sm p-6 mb-6">
+<div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
+<div>
+<p class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-1">Current Plan</p>
+<h3 class="text-2xl font-bold text-black dark:text-white">Pro <span class="text-base font-normal text-gray-500 ml-1">($9/mo)</span></h3>
+</div>
+<div class="mt-4 md:mt-0">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-black text-white dark:bg-white dark:text-black">
+                                Active
+                            </span>
+</div>
+</div>
+<div class="border-t border-gray-200 dark:border-gray-800 pt-6 flex flex-col md:flex-row gap-4">
+<button class="px-4 py-2 text-xs font-medium bg-black dark:bg-white text-white dark:text-black rounded-sm hover:opacity-90 transition-opacity">
+                            Manage Subscription
+                        </button>
+<button class="px-4 py-2 text-xs font-medium text-black dark:text-white border border-gray-300 dark:border-gray-700 rounded-sm hover:border-black dark:hover:border-white transition-colors">
+                            View Invoices
+                        </button>
+</div>
+</div>
+<div class="max-w-xl">
+<h3 class="text-sm font-bold text-black dark:text-white mb-4">Payment Method</h3>
+<div class="flex items-center p-4 border border-gray-200 dark:border-gray-800 rounded-sm bg-gray-50 dark:bg-gray-900">
+<div class="w-10 h-6 bg-white border border-gray-200 rounded-sm flex items-center justify-center mr-4">
+<div class="w-6 h-3 bg-black rounded-sm opacity-20"></div>
+</div>
+<div class="flex-1">
+<p class="text-sm font-medium text-gray-900 dark:text-white font-mono">**** **** **** 4242</p>
+<p class="text-xs text-gray-500">Expires 12/25</p>
+</div>
+<button class="text-xs font-medium text-gray-500 hover:text-black dark:hover:text-white transition-colors">Edit</button>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+
+</body></html>

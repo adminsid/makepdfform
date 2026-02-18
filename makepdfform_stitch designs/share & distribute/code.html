@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Form Link Management - Make PDF Form</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Playfair+Display:ital,wght@1,500&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#000000", 
+                        "primary-hover": "#333333",
+                        "background-light": "#F9FAFB", 
+                        "background-dark": "#000000", 
+                        "surface-light": "#FFFFFF",
+                        "surface-dark": "#171717", 
+                        "border-light": "#E5E7EB",
+                        "border-dark": "#404040",
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #D1D5DB;
+            border-radius: 0px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background-color: #525252;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-gray-900 dark:text-gray-100 font-sans h-screen flex flex-col overflow-hidden transition-colors duration-200">
+<header class="h-14 bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark flex items-center justify-between px-4 z-20 shrink-0">
+<div class="flex items-center space-x-4">
+<div class="w-8 h-8 bg-black dark:bg-white rounded-sm flex items-center justify-center text-white dark:text-black font-bold text-lg tracking-tighter">MP</div>
+<div>
+<h1 class="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider">Make PDF Form</h1>
+</div>
+<div class="h-4 w-px bg-gray-300 dark:bg-gray-600 mx-2"></div>
+<nav class="flex space-x-1">
+<button class="px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors">Dashboard</button>
+<button class="px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors">Submissions</button>
+<button class="px-3 py-1.5 text-xs font-medium bg-gray-100 dark:bg-gray-800 text-black dark:text-white rounded-sm transition-colors">Share &amp; Distribute</button>
+<button class="px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors">Settings</button>
+</nav>
+</div>
+<div class="flex items-center space-x-3">
+<div class="flex items-center mr-4">
+<span class="text-xs font-medium mr-2 text-gray-600 dark:text-gray-300">Form Active</span>
+<button class="relative inline-flex h-5 w-9 items-center rounded-full bg-black dark:bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2">
+<span class="translate-x-4 inline-block h-3 w-3 transform rounded-full bg-white dark:bg-black transition-transform"></span>
+</button>
+</div>
+<div class="h-4 w-px bg-gray-300 dark:bg-gray-600 mx-1"></div>
+<div class="flex items-center space-x-2">
+<div class="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center text-xs font-bold text-gray-600 dark:text-gray-300">JD</div>
+</div>
+<button class="ml-2 p-1.5 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 rounded-sm" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-symbols-outlined text-[18px] dark:hidden">dark_mode</span>
+<span class="material-symbols-outlined text-[18px] hidden dark:block">light_mode</span>
+</button>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<aside class="w-64 bg-surface-light dark:bg-surface-dark border-r border-border-light dark:border-border-dark flex flex-col overflow-y-auto z-10 shrink-0">
+<div class="p-4 border-b border-border-light dark:border-border-dark">
+<div class="flex items-center space-x-3">
+<div class="bg-gray-100 dark:bg-gray-800 p-2 rounded-sm border border-gray-200 dark:border-gray-700">
+<span class="material-symbols-outlined text-gray-600 dark:text-gray-300">description</span>
+</div>
+<div>
+<h2 class="text-xs font-bold text-gray-900 dark:text-white">Buyer Registration</h2>
+<p class="text-[10px] text-gray-500 dark:text-gray-400">Last edited 2h ago</p>
+</div>
+</div>
+</div>
+<div class="p-3 space-y-1">
+<h3 class="px-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 mt-2">Distribution</h3>
+<a class="flex items-center px-2 py-2 text-xs font-medium text-black dark:text-white bg-gray-100 dark:bg-gray-800 rounded-sm" href="#">
+<span class="material-symbols-outlined text-[18px] mr-3">link</span>
+                    Share Links
+                </a>
+<a class="flex items-center px-2 py-2 text-xs font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-sm transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px] mr-3">code</span>
+                    Embed
+                </a>
+<a class="flex items-center px-2 py-2 text-xs font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-sm transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px] mr-3">qr_code</span>
+                    QR Code
+                </a>
+<a class="flex items-center px-2 py-2 text-xs font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-sm transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px] mr-3">mail</span>
+                    Email Invites
+                </a>
+<h3 class="px-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 mt-6">Settings</h3>
+<a class="flex items-center px-2 py-2 text-xs font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-sm transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px] mr-3">security</span>
+                    Access Control
+                </a>
+<a class="flex items-center px-2 py-2 text-xs font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-sm transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px] mr-3">notifications</span>
+                    Notifications
+                </a>
+</div>
+<div class="mt-auto p-4 border-t border-border-light dark:border-border-dark">
+<div class="bg-gray-50 dark:bg-gray-800/50 p-3 rounded-sm border border-dashed border-gray-300 dark:border-gray-700">
+<h4 class="text-xs font-bold text-gray-900 dark:text-white mb-1">Plan Limit</h4>
+<div class="w-full bg-gray-200 dark:bg-gray-700 h-1.5 rounded-full mb-2 overflow-hidden">
+<div class="bg-black dark:bg-white h-1.5 rounded-full" style="width: 45%"></div>
+</div>
+<p class="text-[10px] text-gray-500 dark:text-gray-400">450 / 1,000 monthly submissions</p>
+</div>
+</div>
+</aside>
+<main class="flex-1 flex flex-col bg-background-light dark:bg-background-dark overflow-hidden">
+<div class="flex-1 overflow-y-auto p-8 max-w-6xl mx-auto w-full">
+<div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+<div>
+<h1 class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight mb-2">Form Links</h1>
+<p class="text-sm text-gray-600 dark:text-gray-400 max-w-2xl">
+                            Create and manage unique links for your form. Track performance separately for different channels or campaigns.
+                        </p>
+</div>
+<button class="flex items-center justify-center space-x-2 px-6 py-2.5 bg-black hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-200 text-white dark:text-black rounded-sm text-sm font-medium shadow-sm transition-colors shrink-0">
+<span class="material-symbols-outlined text-[20px]">add_link</span>
+<span>Generate New Link</span>
+</button>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-sm shadow-sm mb-8 overflow-hidden">
+<div class="px-6 py-4 border-b border-border-light dark:border-border-dark flex justify-between items-center bg-gray-50/50 dark:bg-gray-900/50">
+<h2 class="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider">Active Links</h2>
+<div class="flex items-center space-x-2">
+<span class="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Sort by:</span>
+<select class="text-xs border-none bg-transparent focus:ring-0 text-gray-700 dark:text-gray-300 font-medium cursor-pointer p-0">
+<option>Date Created</option>
+<option>Views</option>
+</select>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm">
+<thead>
+<tr class="border-b border-border-light dark:border-border-dark text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider bg-white dark:bg-surface-dark">
+<th class="px-6 py-3 font-medium">Link Name</th>
+<th class="px-6 py-3 font-medium">URL</th>
+<th class="px-6 py-3 font-medium text-center">Views</th>
+<th class="px-6 py-3 font-medium text-center">Submissions</th>
+<th class="px-6 py-3 font-medium text-center">Status</th>
+<th class="px-6 py-3 font-medium text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-light dark:divide-border-dark bg-surface-light dark:bg-surface-dark">
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors group">
+<td class="px-6 py-4">
+<div class="font-bold text-gray-900 dark:text-white">Public Website Main</div>
+<div class="text-[10px] text-gray-500 mt-1">Created on Oct 24, 2023</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center space-x-2 max-w-[200px]">
+<span class="truncate text-gray-600 dark:text-gray-300 font-mono text-xs">makepdfform.com/f/x8k2...</span>
+</div>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="text-gray-900 dark:text-white font-mono">1,240</span>
+</td>
+<td class="px-6 py-4 text-center">
+<div class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-700">
+                                            342
+                                        </div>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-black text-white dark:bg-white dark:text-black">
+                                            Active
+                                        </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end space-x-2">
+<button class="p-1.5 text-gray-400 hover:text-black dark:text-gray-500 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-sm transition-all" title="Copy Link">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="p-1.5 text-gray-400 hover:text-black dark:text-gray-500 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-sm transition-all" title="Settings">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors group">
+<td class="px-6 py-4">
+<div class="font-bold text-gray-900 dark:text-white">Email Campaign Q4</div>
+<div class="text-[10px] text-gray-500 mt-1">Created on Nov 01, 2023</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center space-x-2 max-w-[200px]">
+<span class="truncate text-gray-600 dark:text-gray-300 font-mono text-xs">makepdfform.com/f/9m2p...</span>
+</div>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="text-gray-900 dark:text-white font-mono">856</span>
+</td>
+<td class="px-6 py-4 text-center">
+<div class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-700">
+                                            128
+                                        </div>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-black text-white dark:bg-white dark:text-black">
+                                            Active
+                                        </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end space-x-2">
+<button class="p-1.5 text-gray-400 hover:text-black dark:text-gray-500 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-sm transition-all" title="Copy Link">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="p-1.5 text-gray-400 hover:text-black dark:text-gray-500 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-sm transition-all" title="Settings">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors group opacity-60">
+<td class="px-6 py-4">
+<div class="font-bold text-gray-900 dark:text-white">Internal Testing</div>
+<div class="text-[10px] text-gray-500 mt-1">Created on Oct 10, 2023</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center space-x-2 max-w-[200px]">
+<span class="truncate text-gray-600 dark:text-gray-300 font-mono text-xs">makepdfform.com/f/t3s1...</span>
+</div>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="text-gray-900 dark:text-white font-mono">42</span>
+</td>
+<td class="px-6 py-4 text-center">
+<div class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-700">
+                                            15
+                                        </div>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-gray-200 text-gray-600 dark:bg-gray-800 dark:text-gray-400">
+                                            Paused
+                                        </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end space-x-2">
+<button class="p-1.5 text-gray-400 hover:text-black dark:text-gray-500 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-sm transition-all" title="Copy Link">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="p-1.5 text-gray-400 hover:text-black dark:text-gray-500 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-sm transition-all" title="Settings">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-3 border-t border-border-light dark:border-border-dark bg-gray-50/50 dark:bg-gray-900/50 flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
+<span>Showing 3 of 3 links</span>
+<div class="flex space-x-1">
+<button class="px-2 py-1 rounded-sm hover:bg-gray-200 dark:hover:bg-gray-800 disabled:opacity-50" disabled="">Previous</button>
+<button class="px-2 py-1 rounded-sm hover:bg-gray-200 dark:hover:bg-gray-800 disabled:opacity-50" disabled="">Next</button>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-6 rounded-sm">
+<div class="flex items-start space-x-4">
+<div class="p-3 bg-gray-100 dark:bg-gray-800 rounded-sm">
+<span class="material-symbols-outlined text-2xl text-black dark:text-white">code</span>
+</div>
+<div class="flex-1">
+<h3 class="text-sm font-bold text-gray-900 dark:text-white mb-1">Embed on Website</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400 mb-4 leading-relaxed">
+                                    Display this form directly on your website. The form will automatically adapt to your container's width.
+                                </p>
+<div class="relative group">
+<pre class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 p-3 rounded-sm text-[10px] text-gray-600 dark:text-gray-300 font-mono overflow-x-auto whitespace-pre-wrap break-all">&lt;iframe src="https://makepdfform.com/e/x8k2" width="100%" height="800" frameborder="0"&gt;&lt;/iframe&gt;</pre>
+<button class="absolute top-2 right-2 p-1.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm shadow-sm opacity-0 group-hover:opacity-100 transition-opacity hover:text-black dark:hover:text-white">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark p-6 rounded-sm">
+<div class="flex items-start space-x-4">
+<div class="p-3 bg-gray-100 dark:bg-gray-800 rounded-sm">
+<span class="material-symbols-outlined text-2xl text-black dark:text-white">qr_code_2</span>
+</div>
+<div class="flex-1">
+<h3 class="text-sm font-bold text-gray-900 dark:text-white mb-1">QR Code</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400 mb-4 leading-relaxed">
+                                    Download a high-resolution QR code for print materials, posters, or business cards.
+                                </p>
+<div class="flex items-center space-x-4">
+<div class="bg-white p-2 border border-gray-200 rounded-sm">
+<div class="w-16 h-16 bg-black flex items-center justify-center">
+<div class="w-14 h-14 bg-white grid grid-cols-4 grid-rows-4 gap-0.5 p-0.5">
+<div class="bg-black col-span-2 row-span-2"></div>
+<div class="bg-black col-span-1 row-span-1 col-start-4"></div>
+<div class="bg-black col-span-1 row-span-2 row-start-3"></div>
+<div class="bg-black col-span-2 row-span-1 col-start-3 row-start-4"></div>
+<div class="bg-black col-span-1 row-span-1 col-start-2 row-start-3"></div>
+</div>
+</div>
+</div>
+<button class="px-4 py-2 border border-gray-300 dark:border-gray-600 text-xs font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-sm transition-colors">
+                                        Download SVG
+                                    </button>
+<button class="px-4 py-2 border border-gray-300 dark:border-gray-600 text-xs font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-sm transition-colors">
+                                        Download PNG
+                                    </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

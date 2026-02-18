@@ -1,0 +1,73 @@
+# MakePDFForm.com — Agent Rules
+
+## Project Identity
+You are building MakePDFForm.com — a simple, black-and-white, PDF-native collaborative form builder.
+The product looks and feels like editing a real PDF document (similar to Adobe Acrobat) but is fully online, collaborative, and minimal.
+
+## Tech Stack (STRICT — never deviate)
+- Frontend: Svelte 5 with SvelteKit (Runes: $state, $derived, $effect)
+- Backend API: Hono (ultra-lightweight, runs on Cloudflare Workers)
+- Database: Cloudflare D1 (serverless SQLite) with Drizzle ORM
+- File Storage: Cloudflare R2 (S3-compatible, zero egress)
+- Real-Time: Cloudflare Durable Objects + WebSockets
+- PDF Creation/Editing: pdf-lib (browser + server)
+- PDF Rendering: PDF.js (browser-side canvas rendering)
+- Visual Overlay: Fabric.js (drag-and-drop form fields on PDF canvas)
+- Drag & Drop: Native HTML5 Drag and Drop API or SortableJS
+- Auth: Better Auth or Hono JWT middleware
+- Payments: Stripe
+- Hosting: Cloudflare Workers (NOT Pages)
+- Styling: Vanilla CSS with CSS custom properties (no Tailwind, no CSS frameworks)
+
+## Framework Rules
+- NEVER use React, Next.js, or any React-based library
+- NEVER use JSX syntax
+- ALWAYS use Svelte 5 Runes ($state, $derived, $effect) — NEVER use legacy Svelte stores or reactive $: syntax
+- Use TypeScript everywhere
+- Use ES modules (import/export), never CommonJS
+- All Svelte components use .svelte files with <script lang="ts">
+- Use bind:this for DOM element references (needed for PDF.js canvas and Fabric.js)
+- Use {#if}, {#each}, {#await} Svelte template syntax — never ternary operators in templates
+
+## Hono API Rules
+- All API routes live in packages/server/src/routes/
+- Use Hono's native Cloudflare bindings: c.env.DB (D1), c.env.R2_BUCKET (R2), c.env.FORM_ROOM (Durable Object)
+- Use Drizzle ORM for all database queries
+- Return JSON from all API endpoints
+- Use Hono middleware for auth, CORS, and error handling
+- The Hono app serves static assets via c.env.ASSETS.fetch(c.req.raw) as fallback
+
+## Cloudflare Rules
+- wrangler.toml is the single source of truth for bindings
+- D1 binding name: DB
+- R2 binding name: R2_BUCKET
+- Durable Object binding name: FORM_ROOM
+- KV binding name: KV_CACHE
+- Use wrangler dev for local development
+- Use wrangler deploy for production deployment
+
+## Design Rules (CRITICAL)
+- Black and white aesthetic ONLY — no colors except grayscale
+- Minimal, clean UI — generous whitespace, clear typography
+- System font stack: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif
+- The editor must look like you are editing an actual PDF document
+- Form fields should have thin black borders, no shadows, no gradients
+- Toolbar should be minimal — icon-based with tooltips, not text labels
+- Maximum 2 font weights: 400 (regular) and 600 (semibold)
+- Border radius: 2px maximum (sharp, document-like feel)
+- No loading spinners — use skeleton screens
+
+## PDF Engine Rules
+- pdf-lib handles all PDF creation and modification (adding form fields, flattening, exporting)
+- PDF.js renders PDF pages as anvas> elements for visual editing
+- Fabric.js overlays on top of PDF.js canvas for interactive field placement
+- Form field positions are stored as percentages (not pixels) for resolution independence
+- All PDFs must be valid, standards-compliant PDF documents
+- Exported PDFs must have real, fillable form fields (not images)
+
+## Code Quality
+- No console.log in production code — use structured error handling
+- All functions must have TypeScript return types
+- Keep components under 150 lines — extract logic into lib/ utilities
+- Every API endpoint must validate input with Zod
+- Error responses follow: { error: string, code: number }

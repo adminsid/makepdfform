@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Developer Settings &amp; Logs</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Playfair+Display:ital,wght@1,500&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#000000", 
+                        "primary-hover": "#333333",
+                        "background-light": "#F9FAFB", 
+                        "background-dark": "#000000", 
+                        "surface-light": "#FFFFFF",
+                        "surface-dark": "#171717", 
+                        "border-light": "#E5E7EB",
+                        "border-dark": "#404040",
+                        "editor-bg": "#FFFFFF",
+                        "editor-dark-bg": "#171717",
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #D1D5DB;
+            border-radius: 4px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background-color: #525252;
+        }.toggle-checkbox:checked {
+            right: 0;
+            border-color: #000000;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #000000;
+        }
+        .dark .toggle-checkbox:checked {
+            border-color: #FFFFFF;
+        }
+        .dark .toggle-checkbox:checked + .toggle-label {
+            background-color: #FFFFFF;
+        }
+        .console-line {
+            font-family: 'JetBrains Mono', monospace;
+            padding: 2px 0;
+            border-bottom: 1px dashed rgba(156, 163, 175, 0.2);
+        }
+        .console-line:last-child {
+            border-bottom: none;
+        }
+        .console-timestamp {
+            color: #6B7280;
+            margin-right: 12px;
+        }
+        .console-type-info { color: #3B82F6; }
+        .console-type-success { color: #10B981; }
+        .console-type-warning { color: #F59E0B; }
+        .console-type-error { color: #EF4444; }
+        .dark .console-timestamp { color: #9CA3AF; }
+        .dark .console-type-info { color: #60A5FA; }
+        .dark .console-type-success { color: #34D399; }
+        .dark .console-type-warning { color: #FBBF24; }
+        .dark .console-type-error { color: #F87171; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-gray-900 dark:text-gray-100 font-sans h-screen flex flex-col overflow-hidden transition-colors duration-200">
+<header class="h-14 bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark flex items-center justify-between px-4 z-20 shrink-0">
+<div class="flex items-center space-x-4">
+<div class="w-8 h-8 bg-black dark:bg-white rounded-sm flex items-center justify-center text-white dark:text-black font-bold text-lg tracking-tighter">MP</div>
+<div>
+<h1 class="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider">Make PDF Form <span class="text-gray-400 mx-1">/</span> Admin</h1>
+</div>
+<div class="h-4 w-px bg-gray-300 dark:bg-gray-600 mx-2"></div>
+<nav class="flex space-x-1">
+<button class="px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors">Editor</button>
+<button class="px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors">History</button>
+<button class="px-3 py-1.5 text-xs font-medium bg-gray-100 dark:bg-gray-800 text-black dark:text-white rounded-sm transition-colors">Settings</button>
+</nav>
+</div>
+<div class="flex items-center space-x-3">
+<div class="flex items-center px-2 py-1 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-900/50 rounded text-xs text-yellow-700 dark:text-yellow-400 font-medium">
+<span class="material-symbols-outlined text-[14px] mr-1">warning</span>
+                Dev Mode
+            </div>
+<div class="h-4 w-px bg-gray-300 dark:bg-gray-600 mx-1"></div>
+<div class="flex items-center space-x-2">
+<div class="w-6 h-6 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+<span class="text-[10px] font-bold">AD</span>
+</div>
+<span class="text-xs text-gray-600 dark:text-gray-300">Admin User</span>
+</div>
+<button class="ml-2 p-1.5 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 rounded-sm" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-symbols-outlined text-[18px] dark:hidden">dark_mode</span>
+<span class="material-symbols-outlined text-[18px] hidden dark:block">light_mode</span>
+</button>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<aside class="w-64 bg-surface-light dark:bg-surface-dark border-r border-border-light dark:border-border-dark flex flex-col overflow-y-auto z-10 shrink-0">
+<div class="p-4 border-b border-border-light dark:border-border-dark">
+<h2 class="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-4">Configuration</h2>
+<nav class="space-y-1">
+<a class="flex items-center px-3 py-2 text-xs font-medium bg-gray-100 dark:bg-gray-800 text-black dark:text-white rounded-sm group" href="#">
+<span class="material-symbols-outlined text-[18px] mr-3 text-black dark:text-white">settings</span>
+                        Global Settings
+                    </a>
+<a class="flex items-center px-3 py-2 text-xs font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-black dark:hover:text-white rounded-sm group transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px] mr-3 text-gray-400 group-hover:text-black dark:group-hover:text-white">group</span>
+                        User Management
+                    </a>
+<a class="flex items-center px-3 py-2 text-xs font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-black dark:hover:text-white rounded-sm group transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px] mr-3 text-gray-400 group-hover:text-black dark:group-hover:text-white">shield</span>
+                        Security Policies
+                    </a>
+<a class="flex items-center px-3 py-2 text-xs font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-black dark:hover:text-white rounded-sm group transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px] mr-3 text-gray-400 group-hover:text-black dark:group-hover:text-white">database</span>
+                        Database Backups
+                    </a>
+</nav>
+</div>
+<div class="p-4">
+<h2 class="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-4">Monitoring</h2>
+<nav class="space-y-1">
+<a class="flex items-center px-3 py-2 text-xs font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-black dark:hover:text-white rounded-sm group transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px] mr-3 text-gray-400 group-hover:text-black dark:group-hover:text-white">bar_chart</span>
+                        Usage Analytics
+                    </a>
+<a class="flex items-center px-3 py-2 text-xs font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-black dark:hover:text-white rounded-sm group transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px] mr-3 text-gray-400 group-hover:text-black dark:group-hover:text-white">error</span>
+                        Error Logs
+                    </a>
+<a class="flex items-center px-3 py-2 text-xs font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-black dark:hover:text-white rounded-sm group transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px] mr-3 text-gray-400 group-hover:text-black dark:group-hover:text-white">api</span>
+                        API Health
+                    </a>
+</nav>
+</div>
+</aside>
+<main class="flex-1 flex flex-col overflow-hidden bg-background-light dark:bg-background-dark">
+<div class="flex-1 overflow-y-auto p-8">
+<div class="max-w-4xl mx-auto space-y-8">
+<div class="flex items-center justify-between pb-6 border-b border-border-light dark:border-border-dark">
+<div>
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white">Global Platform Settings</h2>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Manage system-wide configurations, API keys, and maintenance states.</p>
+</div>
+<button class="px-4 py-2 bg-black hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-200 text-white dark:text-black text-xs font-bold uppercase tracking-wider rounded-sm shadow-sm transition-colors flex items-center">
+<span class="material-symbols-outlined text-[16px] mr-2">save</span>
+                            Save Changes
+                        </button>
+</div>
+<section class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-sm p-6 shadow-sm">
+<div class="flex items-start justify-between">
+<div>
+<h3 class="text-base font-bold text-gray-900 dark:text-white flex items-center">
+<span class="material-symbols-outlined mr-2">build_circle</span>
+                                    System-wide Maintenance Mode
+                                </h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-xl">
+                                    When enabled, the platform will be inaccessible to all non-admin users. A maintenance page will be displayed.
+                                </p>
+</div>
+<div class="flex items-center">
+<div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+<input class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer border-gray-300 dark:border-gray-600 checked:border-black dark:checked:border-white transition-all duration-200 left-0" id="maintenance" name="maintenance" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 dark:bg-gray-700 cursor-pointer transition-colors duration-200" for="maintenance"></label>
+</div>
+<label class="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase" for="maintenance">Disabled</label>
+</div>
+</div>
+<div class="mt-6 pt-6 border-t border-border-light dark:border-border-dark grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-2 uppercase">Scheduled Window Start</label>
+<input class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm px-3 py-2 text-sm focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent outline-none transition-shadow text-gray-900 dark:text-white" type="datetime-local"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-2 uppercase">Estimated Duration</label>
+<select class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm px-3 py-2 text-sm focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent outline-none transition-shadow text-gray-900 dark:text-white">
+<option>30 Minutes</option>
+<option>1 Hour</option>
+<option>2 Hours</option>
+<option>4 Hours</option>
+</select>
+</div>
+</div>
+</section>
+<section class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-sm p-6 shadow-sm">
+<div class="mb-6">
+<h3 class="text-base font-bold text-gray-900 dark:text-white flex items-center">
+<span class="material-symbols-outlined mr-2">hub</span>
+                                API Configuration
+                            </h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                Manage endpoints and rate limiting for the public API.
+                            </p>
+</div>
+<div class="space-y-4">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-2 uppercase">Core API Endpoint</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-2 text-gray-400 text-sm">link</span>
+<input class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm pl-9 pr-3 py-2 text-sm font-mono focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent outline-none transition-shadow text-gray-900 dark:text-white" type="text" value="https://api.makepdfform.com/v1"/>
+</div>
+</div>
+<div>
+<label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-2 uppercase">Webhook Receiver</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-2 text-gray-400 text-sm">webhook</span>
+<input class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-sm pl-9 pr-3 py-2 text-sm font-mono focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent outline-none transition-shadow text-gray-900 dark:text-white" type="text" value="https://hooks.makepdfform.com/listener"/>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-2 uppercase">Rate Limit (Requests/Min)</label>
+<div class="flex items-center space-x-4">
+<input class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 accent-black dark:accent-white" max="1000" min="60" type="range" value="600"/>
+<span class="text-sm font-mono w-16 text-right">600</span>
+</div>
+</div>
+</div>
+</section>
+<section class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-sm p-6 shadow-sm">
+<div class="flex items-start justify-between mb-6">
+<div>
+<h3 class="text-base font-bold text-gray-900 dark:text-white flex items-center">
+<span class="material-symbols-outlined mr-2">payments</span>
+                                    Payment Gateway Status
+                                </h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                    Current active provider and transaction mode.
+                                </p>
+</div>
+<span class="px-2 py-1 rounded bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 text-xs font-bold uppercase">Active</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="p-4 border border-black dark:border-white rounded-sm bg-gray-50 dark:bg-gray-800/50 relative">
+<div class="absolute top-2 right-2 text-black dark:text-white">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<h4 class="text-sm font-bold mb-1">Stripe Connect</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400 mb-3">Primary Processor</p>
+<div class="text-xs font-mono text-gray-400">pk_live_...4592</div>
+</div>
+<div class="p-4 border border-gray-200 dark:border-gray-700 rounded-sm hover:border-gray-400 dark:hover:border-gray-500 transition-colors cursor-pointer opacity-60">
+<h4 class="text-sm font-bold mb-1">PayPal Pro</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400 mb-3">Backup Processor</p>
+<button class="text-[10px] uppercase font-bold text-gray-500 border border-gray-300 px-2 py-1 rounded-sm">Activate</button>
+</div>
+<div class="p-4 border border-gray-200 dark:border-gray-700 rounded-sm flex items-center justify-center bg-gray-50 dark:bg-gray-900 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+<div class="text-center">
+<span class="material-symbols-outlined text-gray-400 text-2xl">add</span>
+<p class="text-xs font-bold text-gray-500 mt-1">Add Provider</p>
+</div>
+</div>
+</div>
+<div class="mt-6 flex items-center space-x-3">
+<div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+<input class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer border-gray-300 dark:border-gray-600 checked:border-black dark:checked:border-white transition-all duration-200 left-0" id="testmode" name="testmode" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 dark:bg-gray-700 cursor-pointer transition-colors duration-200" for="testmode"></label>
+</div>
+<label class="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase" for="testmode">Sandbox Mode (Test Transactions)</label>
+</div>
+</section>
+</div>
+</div>
+<div class="h-64 bg-black dark:bg-[#0a0a0a] border-t border-gray-800 flex flex-col shrink-0">
+<div class="flex items-center justify-between px-4 py-2 border-b border-gray-800 bg-[#111] dark:bg-[#0f0f0f]">
+<div class="flex items-center space-x-2">
+<span class="material-symbols-outlined text-gray-400 text-sm">terminal</span>
+<h3 class="text-xs font-bold text-gray-300 uppercase tracking-widest">Developer Console</h3>
+</div>
+<div class="flex items-center space-x-2">
+<span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-[10px] text-gray-400 font-mono">LIVE CONNECTION</span>
+<div class="w-px h-3 bg-gray-700 mx-2"></div>
+<button class="text-gray-500 hover:text-white transition-colors">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+<button class="text-gray-500 hover:text-white transition-colors">
+<span class="material-symbols-outlined text-sm">vertical_align_bottom</span>
+</button>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-4 font-mono text-xs text-gray-300 space-y-1">
+<div class="console-line">
+<span class="console-timestamp">[14:23:01.042]</span>
+<span class="console-type-info">INFO</span>
+<span class="mx-2 text-gray-500">|</span>
+<span>Connection established to wss://log-stream.makepdfform.com</span>
+</div>
+<div class="console-line">
+<span class="console-timestamp">[14:23:02.115]</span>
+<span class="console-type-success">SUCCESS</span>
+<span class="mx-2 text-gray-500">|</span>
+<span>Auth handshake completed. Session ID: sess_8x923kjsd</span>
+</div>
+<div class="console-line">
+<span class="console-timestamp">[14:23:05.500]</span>
+<span class="console-type-info">INFO</span>
+<span class="mx-2 text-gray-500">|</span>
+<span>Loading configuration schema v2.4.1</span>
+</div>
+<div class="console-line">
+<span class="console-timestamp">[14:23:05.890]</span>
+<span class="console-type-warning">WARN</span>
+<span class="mx-2 text-gray-500">|</span>
+<span>Rate limit threshold approaching for endpoint /v1/templates (85%)</span>
+</div>
+<div class="console-line">
+<span class="console-timestamp">[14:24:12.331]</span>
+<span class="console-type-info">INFO</span>
+<span class="mx-2 text-gray-500">|</span>
+<span>User 'admin_dev' accessed Global Settings</span>
+</div>
+<div class="console-line">
+<span class="console-timestamp">[14:24:15.004]</span>
+<span class="console-type-error">ERROR</span>
+<span class="mx-2 text-gray-500">|</span>
+<span>Payment Gateway health check failed for PayPal Pro: Timeout (5000ms)</span>
+</div>
+<div class="console-line">
+<span class="console-timestamp">[14:24:15.005]</span>
+<span class="console-type-info">INFO</span>
+<span class="mx-2 text-gray-500">|</span>
+<span>Retrying health check... (Attempt 1/3)</span>
+</div>
+<div class="console-line">
+<span class="console-timestamp">[14:25:01.120]</span>
+<span class="console-type-info">INFO</span>
+<span class="mx-2 text-gray-500">|</span>
+<span>Fetching system metrics... CPU: 12%, Memory: 450MB</span>
+</div>
+<div class="console-line">
+<span class="console-timestamp">[14:25:03.450]</span>
+<span class="console-type-success">SUCCESS</span>
+<span class="mx-2 text-gray-500">|</span>
+<span>Database backup completed: daily_backup_2023_10_27.sql.gz (45MB)</span>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

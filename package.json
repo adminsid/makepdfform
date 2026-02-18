@@ -1,0 +1,14 @@
+{
+  "name": "makepdfform-monorepo",
+  "version": "0.0.1",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "deploy": "npm run deploy --workspaces --if-present",
+    "db:migrate": "npm run db:migrate --workspace=packages/server"
+  }
+}

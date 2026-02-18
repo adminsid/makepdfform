@@ -1,7 +1,7 @@
-<script lang="ts">
   import Header from '../../components/design/Header.svelte';
-  import ShareDetails from '../../components/share/ShareDetails.svelte';
   import ShareSidebar from '../../components/share/ShareSidebar.svelte';
+  import LinksTable from '../../components/share/LinksTable.svelte';
+  import EmbedSection from '../../components/share/EmbedSection.svelte';
   import { appState } from '../../lib/appState.svelte';
 </script>
 

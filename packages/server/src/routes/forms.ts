@@ -1,45 +1,66 @@
 import { Hono } from 'hono';
 import { drizzle } from 'drizzle-orm/d1';
 import { forms } from '../db/schema';
-import { eq } from 'drizzle-orm';
-// import { v4 as uuidv4 } from 'uuid'; // Unused
+import { eq, and, desc } from 'drizzle-orm';
 import type { D1Database, R2Bucket } from '@cloudflare/workers-types';
+import type { AdapterUser } from '@auth/core/adapters';
 
 type Bindings = {
   DB: D1Database;
   R2_BUCKET: R2Bucket;
 };
 
-const app = new Hono<{ Bindings: Bindings }>();
+type Variables = {
+  user: AdapterUser;
+}
+
+const app = new Hono<{ Bindings: Bindings; Variables: Variables }>();
 
 // GET /api/forms/:id
 app.get('/:id', async (c) => {
   const id = c.req.param('id');
+  const user = c.get('user');
   const db = drizzle(c.env.DB);
   
-  const result = await db.select().from(forms).where(eq(forms.id, id)).get();
+  const result = await db.select().from(forms).where(
+    and(
+      eq(forms.id, id),
+      eq(forms.userId, user.id)
+    )
+  ).get();
   
   if (!result) return c.json({ error: 'Form not found' }, 404);
   return c.json(result);
 });
 
-// GET /api/forms - List all forms
+// GET /api/forms - List all forms for current user
 app.get('/', async (c) => {
+    const user = c.get('user');
     const db = drizzle(c.env.DB);
-    // Assuming we want all forms for now (no auth user filtering yet)
-    const results = await db.select().from(forms).all();
+    
+    // Select all forms for this user, ordered by updatedAt desc
+    const results = await db.select()
+        .from(forms)
+        .where(eq(forms.userId, user.id))
+        .orderBy(desc(forms.updatedAt))
+        .all();
+        
     return c.json(results);
 });
 
-// PATCH /api/forms/:id
+// PATCH /api/forms/:id - Update fields
 app.patch('/:id', async (c) => {
     try {
         const id = c.req.param('id');
+        const user = c.get('user');
         const body = await c.req.json();
         const db = drizzle(c.env.DB);
         const now = new Date();
 
-        // 1. Update DB
+        // Check ownership
+        const form = await db.select().from(forms).where(and(eq(forms.id, id), eq(forms.userId, user.id))).get();
+        if (!form) return c.json({ error: 'Form not found' }, 404);
+
         if (body.fields) {
             await db.update(forms)
                 .set({ 
@@ -48,13 +69,17 @@ app.patch('/:id', async (c) => {
                 })
                 .where(eq(forms.id, id))
                 .run();
-                
-            // 2. Notify Durable Object of the update (to sync active users)
-            // This is optional if we assume the client doing the saving already has the state, 
-            // but good for other clients if they are open.
-            // However, the websocket flow usually handles real-time updates. 
-            // The "Save" is for persistence. The DO should technically be the source of truth for "active" sessions.
-            // For now, let's just save to DB.
+        }
+        
+        // Handle renaming
+        if (body.title) {
+             await db.update(forms)
+                .set({ 
+                    title: body.title,
+                    updatedAt: now 
+                })
+                .where(eq(forms.id, id))
+                .run();
         }
 
         return c.json({ success: true });
@@ -64,12 +89,47 @@ app.patch('/:id', async (c) => {
     }
 });
 
+// DELETE /api/forms/:id
+app.delete('/:id', async (c) => {
+    try {
+        const id = c.req.param('id');
+        const user = c.get('user');
+        const db = drizzle(c.env.DB);
+        
+        // Check ownership
+        const form = await db.select().from(forms).where(and(eq(forms.id, id), eq(forms.userId, user.id))).get();
+        if (!form) return c.json({ error: 'Form not found' }, 404);
+        
+        // Delete from D1
+        await db.delete(forms).where(eq(forms.id, id)).run();
+        
+        // Try delete from R2 (optional, catch error if fails)
+        try {
+            await c.env.R2_BUCKET.delete(`forms/${id}.pdf`);
+             await c.env.R2_BUCKET.delete(`logos/${id}`); // If any
+        } catch (e) {
+            console.warn('Failed to cleanup R2 files', e);
+        }
+
+        return c.json({ success: true });
+    } catch (e) {
+        console.error(e);
+        return c.json({ error: 'Failed to delete form' }, 500);
+    }
+});
+
+
 // PATCH /api/forms/:id/branding
 app.patch('/:id/branding', async (c) => {
     try {
         const id = c.req.param('id');
+        const user = c.get('user');
         const body = await c.req.json();
         const db = drizzle(c.env.DB);
+        
+        // Check ownership
+        const form = await db.select().from(forms).where(and(eq(forms.id, id), eq(forms.userId, user.id))).get();
+        if (!form) return c.json({ error: 'Form not found' }, 404);
         
         await db.update(forms)
             .set({ brandingConfig: body })
@@ -87,18 +147,22 @@ app.patch('/:id/branding', async (c) => {
 app.put('/:id/branding/logo', async (c) => {
     try {
         const id = c.req.param('id');
+        const user = c.get('user');
         const body = await c.req.arrayBuffer();
         const contentType = c.req.header('Content-Type') || 'image/png';
         const fileName = `logos/${id}-${Date.now()}`;
+        
+        // Check ownership? This is receiving binary... effectively if ID matches route.
+        // But better to check DB first.
+        const db = drizzle(c.env.DB);
+        const form = await db.select().from(forms).where(and(eq(forms.id, id), eq(forms.userId, user.id))).get();
+        if (!form) return c.json({ error: 'Form not found' }, 404);
         
         await c.env.R2_BUCKET.put(fileName, body, {
             httpMetadata: { contentType }
         });
         
-        // We need a way to serve this. For now, assuming direct access if public or via a proxy route.
-        // Let's create a proxy route for R2 files if not already there.
         const logoUrl = `/api/files/${fileName}`;
-        
         return c.json({ logoUrl });
     } catch (e) {
         console.error(e);
@@ -109,6 +173,7 @@ app.put('/:id/branding/logo', async (c) => {
 // POST /api/forms
 app.post('/', async (c) => {
   try {
+    const user = c.get('user');
     const body = await c.req.json();
     const db = drizzle(c.env.DB);
     const id = crypto.randomUUID();
@@ -116,6 +181,7 @@ app.post('/', async (c) => {
 
     await db.insert(forms).values({
       id,
+      userId: user.id /* authenticated user id */,
       title: body.title || 'Untitled Form',
       fields: body.fields || [],
       createdAt: now,
@@ -133,7 +199,13 @@ app.post('/', async (c) => {
 // Upload PDF file to R2
 app.put('/:id/file', async (c) => {
     const id = c.req.param('id');
+    const user = c.get('user');
     const body = await c.req.arrayBuffer(); // Raw PDF bytes
+    
+    // Check ownership
+    const db = drizzle(c.env.DB);
+    const form = await db.select().from(forms).where(and(eq(forms.id, id), eq(forms.userId, user.id))).get();
+    if (!form) return c.json({ error: 'Form not found' }, 404);
     
     if (!body || body.byteLength === 0) {
         return c.json({ error: 'Empty file' }, 400);
@@ -154,6 +226,16 @@ app.put('/:id/file', async (c) => {
 // Download PDF file from R2
 app.get('/:id/file', async (c) => {
     const id = c.req.param('id');
+    const user = c.get('user');
+    
+    // Check ownership? 
+    // Usually yes, unless public URL.
+    // For editor loading, we want strict auth. 
+    // Public view will use a different public route or signed URL.
+    
+    const db = drizzle(c.env.DB);
+    const form = await db.select().from(forms).where(and(eq(forms.id, id), eq(forms.userId, user.id))).get();
+    if (!form) return c.json({ error: 'Form not found' }, 404);
     
     const object = await c.env.R2_BUCKET.get(`forms/${id}.pdf`);
     if (!object) {

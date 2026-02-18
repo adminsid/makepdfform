@@ -93,7 +93,7 @@ export function createEditorState() {
       this.updateContent(newContent);
     },
 
-    async generatePDF() {
+    async getPDFBlob() {
       const pdfDoc = await PDFDocument.create();
       const page = pdfDoc.addPage();
       const { width, height } = page.getSize();
@@ -241,7 +241,11 @@ export function createEditorState() {
       }
 
       const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      return new Blob([pdfBytes], { type: 'application/pdf' });
+    },
+
+    async generatePDF() {
+      const blob = await this.getPDFBlob();
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
       link.download = 'form.pdf';

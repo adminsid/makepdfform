@@ -1,6 +1,8 @@
 <script lang="ts">
+  let { selectedCategory = $bindable() } = $props();
+
   const categories = [
-    { name: 'All Templates', count: 124, active: true },
+    { name: 'All Templates', count: 124 },
     { name: 'Real Estate', count: 42 },
     { name: 'Finance & Tax', count: 28 },
     { name: 'Human Resources', count: 35 },
@@ -16,10 +18,14 @@
     <ul class="category-list">
       {#each categories as cat}
         <li>
-          <a href="#" class="category-link" class:active={cat.active}>
+          <button 
+            class="category-link" 
+            class:active={selectedCategory === cat.name}
+            onclick={() => selectedCategory = cat.name}
+          >
             <span class="name">{cat.name}</span>
-            <span class="count" class:active={cat.active}>{cat.count}</span>
-          </a>
+            <span class="count" class:active={selectedCategory === cat.name}>{cat.count}</span>
+          </button>
         </li>
       {/each}
     </ul>
@@ -70,6 +76,11 @@
     color: #4b5563;
     text-decoration: none;
     transition: all 0.2s;
+    background: none;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    text-align: left;
   }
 
   .category-link:hover {

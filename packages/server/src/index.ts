@@ -2,11 +2,8 @@ import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { logger } from 'hono/logger'
 import { secureHeaders } from 'hono/secure-headers'
-import { Auth } from '@auth/core'
-import GitHub from '@auth/core/providers/github'
-import { DrizzleAdapter } from '@auth/drizzle-adapter'
 import { drizzle } from 'drizzle-orm/d1'
-import { users, accounts, sessions, verificationTokens } from './schema'
+import { user, session, account, verification } from './schema'
 
 import formsRouter from './routes/forms'
 import submissionsRouter from './routes/submissions'
@@ -21,8 +18,10 @@ type Bindings = {
   FORM_ROOM: DurableObjectNamespace<FormRoom>
   ASSETS: Fetcher
   AUTH_SECRET: string
-  GITHUB_ID: string
-  GITHUB_SECRET: string
+  GITHUB_CLIENT_ID: string
+  GITHUB_CLIENT_SECRET: string
+  GOOGLE_CLIENT_ID: string
+  GOOGLE_CLIENT_SECRET: string
   STRIPE_SECRET_KEY: string
   STRIPE_WEBHOOK_SECRET: string
 }
@@ -31,29 +30,25 @@ const app = new Hono<{ Bindings: Bindings }>()
 
 app.use('*', logger())
 app.use('*', secureHeaders())
-app.use('/api/*', cors())
+app.use('/api/*', cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+  allowMethods: ['POST', 'GET', 'OPTIONS'],
+  allowHeaders: ['Content-Type', 'Authorization'],
+}))
 
-app.use('/api/auth/*', async (c) => {
-  const db = drizzle(c.env.DB)
-  const res = await Auth(c.req.raw, {
-    providers: [
-      GitHub({
-        clientId: c.env.GITHUB_ID,
-        clientSecret: c.env.GITHUB_SECRET,
-      }),
-    ],
-    adapter: DrizzleAdapter(db, {
-      usersTable: users,
-      accountsTable: accounts,
-      sessionsTable: sessions,
-      verificationTokensTable: verificationTokens,
-    }),
-    secret: c.env.AUTH_SECRET,
-    basePath: '/api/auth',
-  })
-  return res
+import { createAuth } from './auth'
+
+app.on(['POST', 'GET'], '/api/auth/*', (c) => {
+  return createAuth(c.env).handler(c.req.raw);
 })
 
+import { authMiddleware } from './middleware/auth'
+
+// ... existing auth setup ...
+
+// Protect /api/forms routes (except potentially public ones later)
+app.use('/api/forms/*', authMiddleware)
 app.route('/api/forms', formsRouter)
 app.route('/api/submissions', submissionsRouter)
 app.route('/api/billing', billingRouter)

@@ -2,12 +2,29 @@
   import { editorState } from '../../lib/editorState.svelte';
   import { goto } from '$app/navigation';
 
+  let { onCreate }: { onCreate?: () => void } = $props();
+
   function handleFileSelect(e: Event) {
     const input = e.target as HTMLInputElement;
     if (input.files && input.files[0]) {
+      // For import, we might want to also create a form first?
+      // For now, let's keep import logic client-side first, 
+      // OR ideally upload PDF to new form endpoint.
+      // Let's stick to existing flow for import for now, 
+      // but for "Create New" we use the backend.
       editorState.importPDF(input.files[0]).then(() => {
         goto('/editor');
       });
+    }
+  }
+  
+  function handleClick(e: MouseEvent) {
+    e.preventDefault();
+    if (onCreate) {
+      onCreate();
+    } else {
+      editorState.clear();
+      goto('/editor');
     }
   }
 </script>
@@ -21,11 +38,7 @@
     onchange={handleFileSelect}
   />
 
-  <a href="/editor" class="create-card group" onclick={(e) => {
-    e.preventDefault();
-    editorState.clear();
-    goto('/editor');
-  }}>
+  <a href="/editor" class="create-card group" onclick={handleClick}>
     <div class="icon-container group-hover:bg-gray-100 dark:group-hover:bg-gray-800 transition-colors">
       <span class="material-symbols-outlined text-4xl text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors">
         add_circle

@@ -3,12 +3,14 @@
   import { editorState } from '../../lib/editorState.svelte';
   import Logo from '../ui/Logo.svelte';
   import Button from '../ui/Button.svelte';
+  import { getContext } from 'svelte';
 
   interface Props {
     toggleHistory: () => void;
   }
 
   let { toggleHistory }: Props = $props();
+  const userState: any = getContext('user');
 </script>
 
 <header class="header">
@@ -42,7 +44,10 @@
 
     <div class="divider"></div>
      
-    <button class="icon-btn" title="Save Version" onclick={() => editorState.saveSnapshot()}>
+    <button class="icon-btn" title="Save" onclick={() => {
+        editorState.saveSnapshot();
+        onSave?.();
+    }}>
       <span class="material-symbols-outlined">save</span>
     </button>
     
@@ -61,6 +66,21 @@
     <button class="icon-btn theme-toggle" onclick={() => appState.toggleDarkMode()}>
       <span class="material-symbols-outlined">{appState.isDarkMode ? 'light_mode' : 'dark_mode'}</span>
     </button>
+    
+    <div class="divider"></div>
+    
+    {#if userState.session?.user}
+      <div class="user-profile">
+         {#if userState.session.user.image}
+           <img src={userState.session.user.image} alt={userState.session.user.name} class="user-avatar" />
+         {:else}
+            <span class="material-symbols-outlined">account_circle</span>
+         {/if}
+        <a href="/api/auth/signout" class="auth-link">Sign Out</a>
+      </div>
+    {:else}
+      <a href="/api/auth/signin" class="auth-link">Login</a>
+    {/if}
   </div>
 </header>
 
@@ -241,5 +261,37 @@
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     cursor: pointer;
     transition: background-color 0.2s;
+  }
+  
+  .user-profile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .user-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .auth-link {
+    font-size: 0.75rem;
+    color: #6B7280;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .auth-link:hover {
+    color: #000;
+  }
+  
+  .header.dark .auth-link {
+    color: #9CA3AF;
+  }
+  
+  .header.dark .auth-link:hover {
+    color: #fff;
   }
 </style>

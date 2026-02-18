@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { page } from '$app/stores';
   import { editorState } from '../../lib/editorState.svelte';
   import Header from '../../components/design/Header.svelte';
   import ComponentSidebar from '../../components/design/ComponentSidebar.svelte';
@@ -7,15 +8,51 @@
   import PreviewPane from '../../components/design/PreviewPane.svelte';
   import HistorySidebar from '../../components/design/HistorySidebar.svelte';
 
-  let isDarkMode = $state(false);
+  let { data } = $props();
   let historyOpen = $state(false);
+  let isSaving = $state(false);
 
-  function toggleDarkMode() {
-    isDarkMode = !isDarkMode;
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
+  // Load content on mount
+  onMount(() => {
+    if (data.form && data.form.fields) {
+        // Assuming fields is parsed JSON object from Drizzle based on 'json' mode
+        // If it's stored as { content: string }
+        const storedContent = data.form.fields.content;
+        if (storedContent && typeof storedContent === 'string') {
+            editorState.updateContent(storedContent);
+        }
+    }
+  });
+
+  async function saveForm() {
+    isSaving = true;
+    try {
+        const id = $page.params.id; // Or data.form.id
+        const content = editorState.content;
+        
+        // 1. Save Content (DSL)
+        await fetch(`/api/forms/${id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                fields: { content } // Wrapping in object as planned
+            })
+        });
+
+        // 2. Generate and Upload PDF
+        const pdfBlob = await editorState.getPDFBlob();
+        await fetch(`/api/forms/${id}/file`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/pdf' },
+            body: pdfBlob
+        });
+        
+        console.log('Saved successfully');
+        // Optional: Toast "Saved"
+    } catch (e) {
+        console.error('Failed to save', e);
+    } finally {
+        isSaving = false;
     }
   }
 
@@ -31,8 +68,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 </svelte:head>
 
-<div class="app-container" class:dark={isDarkMode}>
-  <Header {isDarkMode} {toggleDarkMode} {toggleHistory} />
+<div class="app-container">
+  <Header {toggleHistory} onSave={saveForm} />
   
   <div class="main-content">
     <ComponentSidebar />

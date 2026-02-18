@@ -1,3 +1,7 @@
+<script lang="ts">
+  let { searchQuery = $bindable() } = $props();
+</script>
+
 <div class="search-section">
   <div class="container">
     <h1 class="title">Start with a professional template</h1>
@@ -7,15 +11,20 @@
     <div class="search-box">
       <div class="search-wrapper">
         <span class="material-symbols-outlined search-icon">search</span>
-        <input class="search-input" placeholder="Search templates (e.g., 'Rental Application', 'Invoice', 'W-9')" type="text"/>
+        <input 
+            class="search-input" 
+            placeholder="Search templates (e.g., 'Rental Application', 'Invoice', 'W-9')" 
+            type="text"
+            bind:value={searchQuery}
+        />
       </div>
     </div>
     <div class="popular-tags">
       <span class="label">Popular:</span>
       <div class="tags">
-        <button class="tag">Real Estate</button>
-        <button class="tag">HR & Employment</button>
-        <button class="tag">Contracts</button>
+        <button class="tag" onclick={() => searchQuery = 'Real Estate'}>Real Estate</button>
+        <button class="tag" onclick={() => searchQuery = 'Human Resources'}>Human Resources</button>
+        <button class="tag" onclick={() => searchQuery = 'Contracts'}>Contracts</button>
       </div>
     </div>
   </div>
@@ -64,6 +73,10 @@
     margin-left: auto;
     margin-right: auto;
     position: relative;
+  }
+
+  .search-wrapper {
+      position: relative;
   }
 
   .search-icon {

@@ -8,13 +8,23 @@
   import { editorState } from '../../lib/editorState.svelte';
   import { goto } from '$app/navigation';
 
-  const sections = [
+  let searchQuery = $state('');
+  let selectedCategory = $state('All Templates');
+
+  const filteredTemplates = $derived(templates.filter(t => {
+      const matchesSearch = t.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                            t.description.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesCategory = selectedCategory === 'All Templates' || t.category === selectedCategory;
+      return matchesSearch && matchesCategory;
+  }));
+
+  const sections = $derived([
     {
-      title: 'Real Estate Templates',
-      templates: templates, // Use our imported templates
+      title: selectedCategory === 'All Templates' ? 'All Templates' : `${selectedCategory} Templates`,
+      templates: filteredTemplates,
       showGridToggle: true
     }
-  ];
+  ]);
 
   function handleTemplateSelect(template: any) {
       editorState.loadTemplate(template.content);
@@ -30,11 +40,11 @@
   <Nav />
   
   <main>
-    <TemplateSearch />
+    <TemplateSearch bind:searchQuery />
     
     <div class="container py-12">
       <div class="layout">
-        <CategorySidebar />
+        <CategorySidebar bind:selectedCategory />
         
         <div class="content">
           {#each sections as section}

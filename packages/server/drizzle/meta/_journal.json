@@ -5,29 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1771326797013,
-      "tag": "0000_wonderful_invisible_woman",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1771329164413,
-      "tag": "0001_late_vermin",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1771334650638,
-      "tag": "0002_add_is_pro",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "6",
-      "when": 1771334753722,
-      "tag": "0003_add_branding_config",
+      "when": 1771422734188,
+      "tag": "0000_aberrant_fixer",
       "breakpoints": true
     }
   ]

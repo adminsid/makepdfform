@@ -3,14 +3,35 @@
   import DashboardSubHeader from '../../components/dashboard/DashboardSubHeader.svelte';
   import FormCard from '../../components/dashboard/FormCard.svelte';
   import CreateFormCard from '../../components/dashboard/CreateFormCard.svelte';
+  import { goto } from '$app/navigation';
 
-  const forms = [
-    { title: 'Buyer Registration Agreement', lastEdited: 'Oct 26, 2023', submissions: 24, users: ['JD', 'SS'] },
-    { title: 'Vendor Application 2024', lastEdited: 'Oct 25, 2023', submissions: 156 },
-    { title: 'Employee Onboarding', lastEdited: 'Oct 22, 2023', submissions: 12 },
-    { title: 'Event Feedback Survey', lastEdited: 'Oct 20, 2023', submissions: 89 },
-    { title: 'NDA Template v2', lastEdited: 'Sep 28, 2023', submissions: 5 },
-  ];
+  let { data } = $props();
+  // Simple reactive state from data
+  let forms = $state(data.forms || []);
+
+  async function createForm() {
+    try {
+      const res = await fetch('/api/forms', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ title: 'Untitled Form' })
+      });
+      
+      if (res.ok) {
+        const newForm = await res.json();
+        goto(`/editor/${newForm.id}`);
+      }
+    } catch (e) {
+      console.error('Failed to create form', e);
+    }
+  }
+
+  function formatDate(dateStr: string) {
+    if (!dateStr) return 'N/A';
+    return new Date(dateStr).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+  }
 </script>
 
 <svelte:head>
@@ -24,17 +45,26 @@
   <main class="main-content">
     <div class="container">
       <div class="grid">
-        <CreateFormCard />
+        <CreateFormCard onCreate={createForm} />
         {#each forms as form}
-          <FormCard {...form} />
+          <a href="/editor/{form.id}" class="form-link">
+            <FormCard 
+                title={form.title} 
+                lastEdited={formatDate(form.updatedAt)} 
+                submissions={0} 
+                users={[]} 
+            />
+          </a>
         {/each}
       </div>
       
-      <div class="pagination">
-        <button class="load-more">
-          Load more forms
-        </button>
-      </div>
+      {#if forms.length === 0}
+         <div class="empty-state">
+            <p>You haven't created any forms yet.</p>
+         </div>
+      {/if}
+
+      <!-- Pagination/Load more hidden for now if all loaded -->
     </div>
   </main>
 </div>
@@ -94,37 +124,19 @@
     }
   }
 
-  .pagination {
-    margin-top: 2rem;
-    display: flex;
-    justify-content: center;
-    padding-bottom: 2rem;
+  .form-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
   }
-
-  .load-more {
-    padding: 0.5rem 1rem;
-    font-size: 0.75rem;
-    font-weight: 500;
+  
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
     color: #6b7280;
-    background: transparent;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.125rem;
-    cursor: pointer;
-    transition: all 0.2s;
   }
 
-  .load-more:hover {
-    border-color: #000000;
-    color: #000000;
-  }
+  /* ... previous media queries ... */
+  /* Remove unused pagination styles or keep if plan to re-add */
 
-  :global(.dark) .load-more {
-    border-color: #374151;
-    color: #9ca3af;
-  }
-
-  :global(.dark) .load-more:hover {
-    border-color: #ffffff;
-    color: #ffffff;
-  }
 </style>

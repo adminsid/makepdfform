@@ -1,6 +1,7 @@
 name = "makepdfform-server"
 main = "src/index.ts"
-compatibility_date = "2024-02-08"
+compatibility_date = "2025-04-01"
+compatibility_flags = ["nodejs_compat_populate_process_env", "nodejs_compat"]
 
 # Static Assets
 [assets]

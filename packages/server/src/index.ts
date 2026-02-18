@@ -1,4 +1,7 @@
 import { Hono } from 'hono'
+import { cors } from 'hono/cors'
+import { logger } from 'hono/logger'
+import { secureHeaders } from 'hono/secure-headers'
 import { Auth } from '@auth/core'
 import GitHub from '@auth/core/providers/github'
 import { DrizzleAdapter } from '@auth/drizzle-adapter'
@@ -25,6 +28,10 @@ type Bindings = {
 }
 
 const app = new Hono<{ Bindings: Bindings }>()
+
+app.use('*', logger())
+app.use('*', secureHeaders())
+app.use('/api/*', cors())
 
 app.use('/api/auth/*', async (c) => {
   const db = drizzle(c.env.DB)

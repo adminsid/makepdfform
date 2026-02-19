@@ -85,10 +85,9 @@ app.all('*', async (c) => {
     // We create a new request for /index.html but keep original headers/method if needed (usually GET)
     // But serving index.html is always a GET.
     const url = new URL(c.req.url);
-    url.pathname = '/index.html';
+    url.pathname = '/';
     return c.env.ASSETS.fetch(new Request(url.toString(), {
-      method: 'GET',
-      headers: c.req.raw.headers
+      method: 'GET'
     }))
   }
   return response

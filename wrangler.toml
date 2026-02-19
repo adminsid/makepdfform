@@ -39,7 +39,7 @@ new_sqlite_classes = ["FormRoom"]
 [env.production]
 name = "makepdfform-server-prod"
 [env.production.vars]
-POLAR_SUCCESS_URL = "https://your-production-domain.com/success?checkout_id={CHECKOUT_ID}"
+POLAR_SUCCESS_URL = "https://makepdfform.lama-4db.workers.dev/success?checkout_id={CHECKOUT_ID}"
 
 [[env.production.d1_databases]]
 binding = "DB"

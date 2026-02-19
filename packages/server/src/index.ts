@@ -78,8 +78,17 @@ app.get('/api/health', (c) => {
 
 // Root route removed to let static assets (Svelte) handle /
 
-app.all('*', (c) => {
-  return c.env.ASSETS.fetch(c.req.raw)
+app.all('*', async (c) => {
+  const response = await c.env.ASSETS.fetch(c.req.raw)
+  if (response.status === 404) {
+    // SPA Fallback: Serve index.html for unknown routes (handling client-side routing)
+    // We create a new request for /index.html but keep original headers/method if needed (usually GET)
+    // But serving index.html is always a GET.
+    const url = new URL(c.req.url);
+    url.pathname = '/index.html';
+    return c.env.ASSETS.fetch(new Request(url.toString(), c.req.raw))
+  }
+  return response
 })
 
 

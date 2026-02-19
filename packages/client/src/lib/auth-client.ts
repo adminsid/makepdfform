@@ -4,7 +4,7 @@ import { env } from '$env/dynamic/public'; // Use dynamic if needed, or just fal
 import { passkeyClient } from "@better-auth/passkey/client";
 
 export const authClient = createAuthClient({
-    baseURL: env.PUBLIC_APP_URL || "/api/auth",
+    baseURL: env.PUBLIC_APP_URL || (typeof window !== "undefined" ? window.location.origin + "/api/auth" : "http://localhost:8787/api/auth"),
     plugins: [passkeyClient()],
 });
 

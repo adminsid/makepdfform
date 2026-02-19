@@ -1,4 +1,4 @@
-name = "makepdfform-server"
+name = "makepdfform-api"
 main = "src/index.ts"
 compatibility_date = "2025-04-01"
 compatibility_flags = ["nodejs_compat_populate_process_env", "nodejs_compat"]
@@ -35,7 +35,7 @@ tag = "v1"
 new_classes = ["FormRoom"]
 
 [env.production]
-name = "makepdfform-server-prod"
+name = "makepdfform-api-prod"
 [[env.production.d1_databases]]
 binding = "DB"
 database_name = "makepdfform-prod"

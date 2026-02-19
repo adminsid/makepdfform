@@ -41,7 +41,7 @@ app.use('/api/*', cors({
 import { createAuth } from './auth'
 
 app.on(['POST', 'GET'], '/api/auth/*', (c) => {
-  return createAuth(c.env).handler(c.req.raw);
+  return createAuth(c.env).handler(new Request(c.req.raw));
 })
 
 import { authMiddleware } from './middleware/auth'

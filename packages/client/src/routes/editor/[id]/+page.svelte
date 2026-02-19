@@ -2,11 +2,11 @@
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
   import { editorState } from '../../../lib/editorState.svelte';
-  import Header from '../../components/design/Header.svelte';
-  import ComponentSidebar from '../../components/design/ComponentSidebar.svelte';
-  import EditorMain from '../../components/design/EditorMain.svelte';
-  import PreviewPane from '../../components/design/PreviewPane.svelte';
-  import HistorySidebar from '../../components/design/HistorySidebar.svelte';
+  import Header from '../../../components/design/Header.svelte';
+  import ComponentSidebar from '../../../components/design/ComponentSidebar.svelte';
+  import EditorMain from '../../../components/design/EditorMain.svelte';
+  import PreviewPane from '../../../components/design/PreviewPane.svelte';
+  import HistorySidebar from '../../../components/design/HistorySidebar.svelte';
 
   let { data } = $props();
   let historyOpen = $state(false);

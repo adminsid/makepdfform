@@ -1,4 +1,4 @@
-name = "makepdfform-server"
+name = "makepdfform"
 main = "packages/server/src/index.ts"
 compatibility_date = "2024-02-08"
 

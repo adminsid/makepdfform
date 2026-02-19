@@ -32,7 +32,9 @@ const app = new Hono<{ Bindings: Bindings }>()
 app.use('*', logger())
 app.use('*', secureHeaders())
 app.use('/api/*', cors({
-  origin: 'http://localhost:5173',
+  origin: (origin) => {
+    return origin.startsWith('http://localhost') ? origin : 'https://makepdfform.lama-4db.workers.dev';
+  },
   credentials: true,
   allowMethods: ['POST', 'GET', 'OPTIONS'],
   allowHeaders: ['Content-Type', 'Authorization'],

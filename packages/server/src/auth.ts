@@ -11,7 +11,8 @@ export const createAuth = (env: any) => {
       accessToken: env.POLAR_ACCESS_TOKEN,
     });
     return betterAuth({
-  database: drizzleAdapter(drizzle(env.DB), {
+      baseURL: env.BETTER_AUTH_URL,
+      database: drizzleAdapter(drizzle(env.DB), {
     provider: "sqlite",
     schema: schema,
   }),

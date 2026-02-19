@@ -13,7 +13,7 @@
     <h2 class="sidebar-title">Account Settings</h2>
     <nav class="nav-list">
       {#each navItems as item}
-        <a href="#" class="nav-link" class:active={item.active}>
+        <a href={'/settings/' + item.name.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')} class="nav-link" class:active={item.active}>
           <span class="material-symbols-outlined icon">{item.icon}</span>
           <span class="name">{item.name}</span>
         </a>

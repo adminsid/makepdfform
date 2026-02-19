@@ -31,31 +31,31 @@
         </div>
         <div class="grid-form">
           <div class="cell col-6 filled">
-            <label>NAME</label>
+            <span class="field-label">NAME</span>
             <div class="value">John Doe</div>
           </div>
           <div class="cell col-2 filled center">
-            <label>AGE</label>
+            <span class="field-label">AGE</span>
             <div class="value">42</div>
           </div>
           <div class="cell col-2 filled">
-            <label>MARITAL STATUS</label>
+            <span class="field-label">MARITAL STATUS</span>
             <div class="value">Married</div>
           </div>
           <div class="cell col-2 filled center">
-            <label>NO. IN FAMILY</label>
+            <span class="field-label">NO. IN FAMILY</span>
             <div class="value">4</div>
           </div>
           <div class="cell col-4 filled">
-            <label>ADDRESS</label>
+            <span class="field-label">ADDRESS</span>
             <div class="value">123 Pine Street, Apt 4B</div>
           </div>
           <div class="cell col-3 filled">
-            <label>CITY</label>
+            <span class="field-label">CITY</span>
             <div class="value">San Francisco</div>
           </div>
           <div class="cell col-1 filled uppercase">
-            <label>STATE</label>
+            <span class="field-label">STATE</span>
             <div class="value">CA</div>
           </div>
           <div class="cell col-4 empty"></div>
@@ -71,14 +71,14 @@
           <div class="column">
             <div class="col-header">ASSETS</div>
             <div class="field-item">
-              <label>CASH & MARKETABLE SECURITIES</label>
+              <span class="field-label">CASH & MARKETABLE SECURITIES</span>
               <div class="currency-cell">
                 <span class="currency-symbol">$</span>
                 <div class="currency-value">250,000.00</div>
               </div>
             </div>
             <div class="field-item">
-              <label>REAL ESTATE – MARKET VALUE</label>
+              <span class="field-label">REAL ESTATE – MARKET VALUE</span>
               <div class="currency-cell">
                 <span class="currency-symbol">$</span>
                 <div class="currency-value">1,200,000.00</div>
@@ -88,14 +88,14 @@
           <div class="column">
             <div class="col-header">LIABILITIES</div>
              <div class="field-item">
-              <label>NOTES PAYABLE TO BANKS</label>
+              <span class="field-label">NOTES PAYABLE TO BANKS</span>
               <div class="currency-cell">
                 <span class="currency-symbol">$</span>
                 <div class="currency-value">0.00</div>
               </div>
             </div>
             <div class="field-item">
-              <label>REAL ESTATE MORTGAGES</label>
+              <span class="field-label">REAL ESTATE MORTGAGES</span>
               <div class="currency-cell">
                 <span class="currency-symbol">$</span>
                 <div class="currency-value">850,000.00</div>
@@ -107,7 +107,7 @@
 
       <section class="doc-section">
         <div class="inline-field">
-          <label class="bold">I am interested in the following Businesses:</label>
+          <span class="field-label bold">I am interested in the following Businesses:</span>
           <div class="inline-value">SaaS, E-commerce, Logistics</div>
         </div>
       </section>
@@ -335,7 +335,7 @@
   .filled { background-color: rgba(239, 246, 255, 0.3); }
   .empty { background-color: #f9fafb; border-bottom: 1px solid #000000; }
 
-  label {
+  .field-label {
     font-size: 9px;
     font-weight: 700;
     color: #6b7280;

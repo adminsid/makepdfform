@@ -38,12 +38,12 @@
                 <div class="grid gap-2">
                     <div class="flex items-center">
                         <Label for="password">Password</Label>
-                        <a
-                            href="#"
-                            class="ml-auto inline-block text-sm underline"
+                        <button
+                            type="button"
+                            class="ml-auto inline-block text-sm underline text-muted-foreground hover:text-primary"
                         >
                             Forgot your password?
-                        </a>
+                        </button>
                     </div>
 
                     <Input

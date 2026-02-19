@@ -185,7 +185,6 @@
   /* Preview Common Elements */
   .preview-title { height: 1rem; width: 33.333333%; background-color: #000; margin-bottom: 0.5rem; }
   .preview-title.black { background-color: #000; }
-  .preview-title.gray { background-color: #1f2937; }
   .preview-line-full { height: 4px; width: 100%; background-color: #e5e7eb; margin-bottom: 0.5rem; }
   .preview-line-half { height: 4px; width: 50%; background-color: #f3f4f6; }
   .preview-line-3-4 { height: 4px; width: 75%; background-color: #e5e7eb; }

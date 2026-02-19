@@ -26,7 +26,7 @@
   <nav class="nav-section">
     <h3 class="label">Distribution</h3>
     {#each menuItems as item}
-      <a href="#" class="nav-link" class:active={item.active}>
+      <a href={'/share/' + item.name.toLowerCase().replace(/ /g, '-')} class="nav-link" class:active={item.active}>
         <span class="material-symbols-outlined icon">{item.icon}</span>
         {item.name}
       </a>
@@ -34,7 +34,7 @@
 
     <h3 class="label mt-6">Settings</h3>
     {#each settingsItems as item}
-      <a href="#" class="nav-link">
+      <a href={'/share/' + item.name.toLowerCase().replace(/ /g, '-')} class="nav-link">
         <span class="material-symbols-outlined icon">{item.icon}</span>
         {item.name}
       </a>

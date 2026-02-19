@@ -11,7 +11,7 @@
 	
 	// Simple global state for current user
 	class UserState {
-		session = $state(data.session);
+		session = $state<any>(null);
 		constructor(d: any) {
 			this.session = d.session;
 		}

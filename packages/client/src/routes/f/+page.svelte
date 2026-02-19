@@ -24,16 +24,16 @@
       
       <div class="form-grid-main">
         <div class="cell span-6 br bb">
-          <label>NAME</label>
-          <input type="text" placeholder="Full Legal Name" class="field-input" />
+          <label for="name">NAME</label>
+          <input id="name" type="text" placeholder="Full Legal Name" class="field-input" />
         </div>
         <div class="cell span-2 br bb">
-          <label>AGE</label>
-          <input type="number" class="field-input text-center" />
+          <label for="age">AGE</label>
+          <input id="age" type="number" class="field-input text-center" />
         </div>
         <div class="cell span-2 br bb">
-          <label>MARITAL STATUS</label>
-          <select class="field-select">
+          <label for="marital-status">MARITAL STATUS</label>
+          <select id="marital-status" class="field-select">
             <option value="" disabled selected></option>
             <option>Single</option>
             <option>Married</option>
@@ -42,34 +42,34 @@
           </select>
         </div>
         <div class="cell span-2 bb">
-          <label>NO. IN FAMILY</label>
-          <input type="number" class="field-input text-center" />
+          <label for="family-size">NO. IN FAMILY</label>
+          <input id="family-size" type="number" class="field-input text-center" />
         </div>
         
         <div class="cell span-4 br bb">
-          <label>ADDRESS</label>
-          <input type="text" class="field-input" />
+          <label for="address">ADDRESS</label>
+          <input id="address" type="text" class="field-input" />
         </div>
         <div class="cell span-3 br bb">
-          <label>CITY</label>
-          <input type="text" class="field-input" />
+          <label for="city">CITY</label>
+          <input id="city" type="text" class="field-input" />
         </div>
         <div class="cell span-1 br bb">
-          <label>STATE</label>
-          <input type="text" maxlength="2" class="field-input text-center uppercase" />
+          <label for="state">STATE</label>
+          <input id="state" type="text" maxlength="2" class="field-input text-center uppercase" />
         </div>
         <div class="cell span-2 br bb">
-          <label>ZIP</label>
-          <input type="text" class="field-input" />
+          <label for="zip">ZIP</label>
+          <input id="zip" type="text" class="field-input" />
         </div>
         <div class="cell span-2 bb">
-          <label>PHONE</label>
-          <input type="tel" class="field-input" />
+          <label for="phone">PHONE</label>
+          <input id="phone" type="tel" class="field-input" />
         </div>
         
         <div class="cell span-6 br">
-          <label>EMAIL</label>
-          <input type="email" class="field-input" />
+          <label for="email">EMAIL</label>
+          <input id="email" type="email" class="field-input" />
         </div>
         <div class="cell span-6 flex-center-left pl-4">
           <label class="checkbox-label">
@@ -91,31 +91,31 @@
         <div class="col br">
           <div class="col-header">ASSETS</div>
           <div class="fin-cell bb">
-            <label>CASH ON HAND</label>
+            <label for="assets-cash">CASH ON HAND</label>
             <div class="input-line">
               <span class="currency">$</span>
-              <input type="text" placeholder="0.00" class="fin-input" />
+              <input id="assets-cash" type="text" placeholder="0.00" class="fin-input" />
             </div>
           </div>
           <div class="fin-cell bb">
-            <label>STOCKS & BONDS</label>
+            <label for="assets-stocks">STOCKS & BONDS</label>
             <div class="input-line">
               <span class="currency">$</span>
-              <input type="text" placeholder="0.00" class="fin-input" />
+              <input id="assets-stocks" type="text" placeholder="0.00" class="fin-input" />
             </div>
           </div>
           <div class="fin-cell bb">
-            <label>REAL ESTATE (Market Value)</label>
+            <label for="assets-real-estate">REAL ESTATE (Market Value)</label>
             <div class="input-line">
               <span class="currency">$</span>
-              <input type="text" placeholder="0.00" class="fin-input" />
+              <input id="assets-real-estate" type="text" placeholder="0.00" class="fin-input" />
             </div>
           </div>
           <div class="fin-cell">
-            <label>OTHER ASSETS</label>
+            <label for="assets-other">OTHER ASSETS</label>
             <div class="input-line">
               <span class="currency">$</span>
-              <input type="text" placeholder="0.00" class="fin-input" />
+              <input id="assets-other" type="text" placeholder="0.00" class="fin-input" />
             </div>
           </div>
         </div>
@@ -123,24 +123,24 @@
         <div class="col">
           <div class="col-header">LIABILITIES</div>
           <div class="fin-cell bb">
-            <label>NOTES PAYABLE</label>
+            <label for="liabilities-notes">NOTES PAYABLE</label>
             <div class="input-line">
               <span class="currency">$</span>
-              <input type="text" placeholder="0.00" class="fin-input" />
+              <input id="liabilities-notes" type="text" placeholder="0.00" class="fin-input" />
             </div>
           </div>
           <div class="fin-cell bb">
-            <label>MORTGAGES</label>
+            <label for="liabilities-mortgages">MORTGAGES</label>
             <div class="input-line">
               <span class="currency">$</span>
-              <input type="text" placeholder="0.00" class="fin-input" />
+              <input id="liabilities-mortgages" type="text" placeholder="0.00" class="fin-input" />
             </div>
           </div>
           <div class="fin-cell bb">
-            <label>OTHER DEBTS</label>
+            <label for="liabilities-other">OTHER DEBTS</label>
             <div class="input-line">
               <span class="currency">$</span>
-              <input type="text" placeholder="0.00" class="fin-input" />
+              <input id="liabilities-other" type="text" placeholder="0.00" class="fin-input" />
             </div>
           </div>
           <div class="total-row">
@@ -153,27 +153,27 @@
 
     <div class="preferences-area mt-8">
       <div class="pref-row">
-        <label>I am interested in the following types of Businesses:</label>
+        <label for="business-types">I am interested in the following types of Businesses:</label>
         <div class="underline-input-wrap">
-          <input type="text" class="underline-input" />
+          <input id="business-types" type="text" class="underline-input" />
         </div>
       </div>
       <div class="pref-row mt-4">
-        <label>Geographic Preference:</label>
+        <label for="geographic-pref">Geographic Preference:</label>
         <div class="underline-input-wrap">
-          <input type="text" class="underline-input" />
+          <input id="geographic-pref" type="text" class="underline-input" />
         </div>
       </div>
     </div>
 
     <div class="signature-area mt-16">
       <div class="sign-box">
-        <input type="text" placeholder="Sign here..." class="sign-input" />
-        <label>Signature</label>
+        <input id="signature" type="text" placeholder="Sign here..." class="sign-input" />
+        <label for="signature">Signature</label>
       </div>
       <div class="sign-box">
-        <input type="date" class="date-input" />
-        <label>Date</label>
+        <input id="date" type="date" class="date-input" />
+        <label for="date">Date</label>
       </div>
     </div>
 

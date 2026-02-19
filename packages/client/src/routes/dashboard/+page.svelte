@@ -7,7 +7,7 @@
 
   let { data } = $props();
   // Simple reactive state from data
-  let forms = $state(data.forms || []);
+  let forms = $derived(data.forms || []);
 
   async function createForm() {
     try {

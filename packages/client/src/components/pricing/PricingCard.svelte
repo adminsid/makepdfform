@@ -29,7 +29,7 @@
     <span class="period">/month</span>
   </div>
   
-  <a href="#" class="cta-btn" class:primary={buttonVariant === 'primary'}>
+  <a href="/pricing/select" class="cta-btn" class:primary={buttonVariant === 'primary'}>
     {ctaText}
   </a>
   

@@ -116,6 +116,13 @@
       }
   }
 
+  function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleCanvasClick(e as unknown as MouseEvent);
+      }
+  }
+
   $effect(() => {
     // Re-render when scale changes
     if (pdfCanvas && pdfRenderer && scale) {
@@ -130,7 +137,9 @@
   ondragover={handleDragOver}
   ondrop={handleDrop}
   onclick={handleCanvasClick}
-  role="region"
+  onkeydown={handleKeyDown}
+  tabindex="0"
+  role="button"
   aria-label="PDF Page {pageNumber}"
 >
   <canvas bind:this={pdfCanvas} class="pdf-canvas"></canvas>

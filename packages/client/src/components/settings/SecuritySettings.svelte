@@ -14,7 +14,7 @@
     </div>
 
     <div class="form-group">
-      <label>Password</label>
+      <span class="label-text">Password</span>
       <div class="password-box">
         <div class="info">
           <span class="material-symbols-outlined icon">lock</span>
@@ -50,15 +50,16 @@
 
   .form-group { display: flex; flex-direction: column; }
 
-  label {
+  label, .label-text {
     font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
     color: #111827;
     margin-bottom: 0.375rem;
+    display: block;
   }
 
-  :global(.dark) label { color: #ffffff; }
+  :global(.dark) label, :global(.dark) .label-text { color: #ffffff; }
 
   .input {
     width: 100%;

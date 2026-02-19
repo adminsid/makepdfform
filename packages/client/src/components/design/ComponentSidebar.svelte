@@ -28,7 +28,7 @@
     <div class="section">
       <h3>Layout</h3>
       <div class="grid">
-        <div class="drag-item group" draggable="true" ondragstart={(e) => handleDragStart(e, 'section')}>
+        <div class="drag-item group" draggable="true" role="button" tabindex="0" ondragstart={(e) => handleDragStart(e, 'section')}>
           <span class="material-symbols-outlined icon">grid_view</span>
           <span class="label">Section</span>
         </div>
@@ -50,7 +50,7 @@
     <div class="section">
       <h3>Form Elements</h3>
       <div class="list">
-        <div class="drag-item-list group" draggable="true" ondragstart={(e) => handleDragStart(e, 'text-input')}>
+        <div class="drag-item-list group" draggable="true" role="button" tabindex="0" ondragstart={(e) => handleDragStart(e, 'text-input')}>
           <span class="material-symbols-outlined icon">short_text</span>
           <span class="label">Text Input</span>
         </div>

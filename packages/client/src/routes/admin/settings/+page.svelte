@@ -44,20 +44,22 @@
                 </div>
                 <div class="toggle-control">
                   <div class="toggle-switch">
-                    <input type="checkbox" id="maintenance" />
-                    <label for="maintenance"></label>
+                    <input type="checkbox" id="maintenance-mode" />
+                    <label for="maintenance-mode">
+                      <span class="sr-only">Toggle Maintenance Mode</span>
+                    </label>
                   </div>
                   <span class="status-label">Disabled</span>
                 </div>
               </div>
               <div class="section-content grid">
                 <div class="field">
-                  <label>Scheduled Window Start</label>
-                  <input type="datetime-local" class="input" />
+                  <label for="maintenance-start">Scheduled Window Start</label>
+                  <input id="maintenance-start" type="datetime-local" class="input" />
                 </div>
                 <div class="field">
-                  <label>Estimated Duration</label>
-                  <select class="input">
+                  <label for="maintenance-duration">Estimated Duration</label>
+                  <select id="maintenance-duration" class="input">
                     <option>30 Minutes</option>
                     <option>1 Hour</option>
                     <option>2 Hours</option>
@@ -81,24 +83,24 @@
               <div class="section-content stack">
                 <div class="grid">
                   <div class="field">
-                    <label>Core API Endpoint</label>
+                    <label for="api-endpoint">Core API Endpoint</label>
                     <div class="icon-input">
                       <span class="material-symbols-outlined input-icon">link</span>
-                      <input type="text" value="https://api.makepdfform.com/v1" class="input pl-8 mono" />
+                      <input id="api-endpoint" type="text" value="https://api.makepdfform.com/v1" class="input pl-8 mono" />
                     </div>
                   </div>
                   <div class="field">
-                    <label>Webhook Receiver</label>
+                    <label for="webhook-receiver">Webhook Receiver</label>
                     <div class="icon-input">
                       <span class="material-symbols-outlined input-icon">webhook</span>
-                      <input type="text" value="https://hooks.makepdfform.com/listener" class="input pl-8 mono" />
+                      <input id="webhook-receiver" type="text" value="https://hooks.makepdfform.com/listener" class="input pl-8 mono" />
                     </div>
                   </div>
                 </div>
                 <div class="field mt-4">
-                  <label>Rate Limit (Requests/Min)</label>
+                  <label for="rate-limit">Rate Limit (Requests/Min)</label>
                   <div class="range-wrap">
-                    <input type="range" min="60" max="1000" value="600" class="range" />
+                    <input id="rate-limit" type="range" min="60" max="1000" value="600" class="range" />
                     <span class="range-val mono">600</span>
                   </div>
                 </div>

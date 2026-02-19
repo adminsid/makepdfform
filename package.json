@@ -6,7 +6,7 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm run dev --workspaces --if-present",
+    "dev": "npm run dev --workspaces --if-present --parallel",
     "build": "npm run build --workspaces --if-present",
     "deploy": "npm run deploy --workspaces --if-present",
     "db:migrate": "npm run db:migrate --workspace=packages/server",

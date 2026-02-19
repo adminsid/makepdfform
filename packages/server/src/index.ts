@@ -86,7 +86,10 @@ app.all('*', async (c) => {
     // But serving index.html is always a GET.
     const url = new URL(c.req.url);
     url.pathname = '/index.html';
-    return c.env.ASSETS.fetch(new Request(url.toString(), c.req.raw))
+    return c.env.ASSETS.fetch(new Request(url.toString(), {
+      method: 'GET',
+      headers: c.req.raw.headers
+    }))
   }
   return response
 })

@@ -1,4 +1,5 @@
 import { betterAuth } from "better-auth";
+import { passkey } from "@better-auth/passkey";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { drizzle } from "drizzle-orm/d1";
 import * as schema from "./schema";
@@ -10,6 +11,19 @@ export const createAuth = (env: any) => betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
+  },
+  user: {
+    additionalFields: {
+      role: {
+        type: "string",
+        required: false,
+        defaultValue: "user",
+      },
+      organization: {
+        type: "string",
+        required: false,
+      },
+    },
   },
   socialProviders: {
     google: {

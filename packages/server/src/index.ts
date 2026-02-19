@@ -8,6 +8,7 @@ import { user, session, account, verification } from './schema'
 import formsRouter from './routes/forms'
 import submissionsRouter from './routes/submissions'
 import billingRouter from './routes/billing'
+import adminSetupRouter from './routes/admin-setup'
 
 import { FormRoom } from './do/FormRoom'
 
@@ -52,6 +53,7 @@ app.use('/api/forms/*', authMiddleware)
 app.route('/api/forms', formsRouter)
 app.route('/api/submissions', submissionsRouter)
 app.route('/api/billing', billingRouter)
+app.route('/api/admin', adminSetupRouter)
 
 app.get('/api/files/:path{.*}', async (c) => {
     const path = c.req.param('path');

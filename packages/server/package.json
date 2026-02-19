@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "wrangler dev",
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "wrangler d1 migrations apply DB"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260217.0",

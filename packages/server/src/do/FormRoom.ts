@@ -2,7 +2,9 @@ import { drizzle } from 'drizzle-orm/d1';
 import { eq } from 'drizzle-orm';
 import { forms } from '../db/schema';
 
-export class FormRoom implements DurableObject {
+import { DurableObject } from "cloudflare:workers";
+
+export class FormRoom extends DurableObject {
   state: DurableObjectState;
   sessions: Set<WebSocket>;
   currentFields: any[] = [];
@@ -10,6 +12,7 @@ export class FormRoom implements DurableObject {
   initialized: boolean = false;
 
   constructor(state: DurableObjectState, env: any) {
+    super(state, env);
     this.state = state;
     this.env = env;
     this.sessions = new Set();

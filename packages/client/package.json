@@ -24,6 +24,8 @@
   "type": "module",
   "dependencies": {
     "@better-auth/passkey": "^1.4.18",
+    "@polar-sh/better-auth": "^1.8.1",
+    "@polar-sh/sdk": "^0.42.5",
     "better-auth": "^1.4.18",
     "clsx": "^2.1.1",
     "fabric": "^7.1.0",

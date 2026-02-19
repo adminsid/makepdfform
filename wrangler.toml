@@ -2,6 +2,9 @@ name = "makepdfform"
 main = "packages/server/src/index.ts"
 compatibility_date = "2024-02-08"
 
+[vars]
+POLAR_SUCCESS_URL = "http://localhost:5173/success?checkout_id={CHECKOUT_ID}"
+
 # Static Assets
 [assets]
 directory = "./packages/client/build"
@@ -35,6 +38,9 @@ new_sqlite_classes = ["FormRoom"]
 
 [env.production]
 name = "makepdfform-server-prod"
+[env.production.vars]
+POLAR_SUCCESS_URL = "https://your-production-domain.com/success?checkout_id={CHECKOUT_ID}"
+
 [[env.production.d1_databases]]
 binding = "DB"
 database_name = "makepdfform-prod"

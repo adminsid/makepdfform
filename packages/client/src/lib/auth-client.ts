@@ -5,8 +5,8 @@ import { passkeyClient } from "@better-auth/passkey/client";
 import { polarClient } from "@polar-sh/better-auth/client";
 
 export const authClient = createAuthClient({
-    baseURL: env.PUBLIC_APP_URL || (typeof window !== "undefined" ? window.location.origin + "/api/auth" : "http://localhost:8787/api/auth"),
-    plugins: [passkeyClient(), polarClient()],
-});
+     baseURL: import.meta.env.PROD ? "https://makepdfform.lama-4db.workers.dev/api/auth" : "http://localhost:8787/api/auth",
+     plugins: [passkeyClient(), polarClient()],
+ });
 
 export const { signIn, signOut, signUp, useSession } = authClient;

@@ -1,9 +1,11 @@
 name = "makepdfform"
 main = "packages/server/src/index.ts"
 compatibility_date = "2024-02-08"
+compatibility_flags = ["nodejs_compat"]
 
 [vars]
 POLAR_SUCCESS_URL = "http://localhost:5173/success?checkout_id={CHECKOUT_ID}"
+PUBLIC_APP_URL = "http://localhost:5173"
 
 # Static Assets
 [assets]
@@ -40,6 +42,7 @@ new_sqlite_classes = ["FormRoom"]
 name = "makepdfform-server-prod"
 [env.production.vars]
 POLAR_SUCCESS_URL = "https://makepdfform.lama-4db.workers.dev/success?checkout_id={CHECKOUT_ID}"
+PUBLIC_APP_URL = "https://makepdfform.lama-4db.workers.dev"
 
 [[env.production.d1_databases]]
 binding = "DB"

@@ -3,24 +3,28 @@
     selectedTool?: string | null;
     isPro?: boolean;
     brandingConfig?: { logoUrl?: string; primaryColor?: string };
+    selectedFieldProperties?: { fontFamily?: string; fontSize?: number; fill?: string; type?: string } | null;
     onSelect?: (type: string | null) => void;
     onLogoUpload?: (file: File) => void;
     onBrandingUpdate?: (config: any) => void;
+    onUpdateProperties?: (props: any) => void;
   }
 
   let { 
     selectedTool = null, 
     isPro = false, 
     brandingConfig = {}, 
+    selectedFieldProperties = null,
     onSelect, 
     onLogoUpload, 
-    onBrandingUpdate 
+    onBrandingUpdate,
+    onUpdateProperties
   }: Props = $props();
 
   const tools = [
     { type: 'text', label: 'Text Field', icon: 'T' },
     { type: 'checkbox', label: 'Checkbox', icon: '☑' },
-    { type: 'signature', label: 'Signature', icon: '✎' },
+    { type: 'radio', label: 'Radio Button', icon: '🔘' },
     { type: 'date', label: 'Date', icon: '📅' }
   ];
 
@@ -48,6 +52,12 @@
       const target = e.target as HTMLInputElement;
       if (onBrandingUpdate) {
           onBrandingUpdate({ ...brandingConfig, primaryColor: target.value });
+      }
+  }
+
+  function handlePropertyChange(prop: string, value: any) {
+      if (onUpdateProperties && selectedFieldProperties) {
+          onUpdateProperties({ ...selectedFieldProperties, [prop]: value });
       }
   }
 </script>
@@ -110,6 +120,51 @@
         </div>
     </div>
   </div>
+
+  {#if selectedFieldProperties}
+  <div class="section properties">
+    <div class="section-header">
+        <h3>Properties</h3>
+    </div>
+    <div class="branding-tools">
+        {#if selectedFieldProperties.type === 'i-text' || selectedFieldProperties.type === 'textbox'}
+            <div class="tool-group">
+                <label for="fontFamily">Font Family</label>
+                <select 
+                    id="fontFamily" 
+                    value={selectedFieldProperties.fontFamily || 'Helvetica'} 
+                    onchange={(e) => handlePropertyChange('fontFamily', (e.target as HTMLSelectElement).value)}
+                >
+                    <option value="Helvetica">Sans-Serif (Helvetica)</option>
+                    <option value="Times New Roman">Serif (Times New Roman)</option>
+                    <option value="Courier">Monospace (Courier)</option>
+                </select>
+            </div>
+            
+            <div class="tool-group">
+                <label for="fontSize">Font Size</label>
+                <input 
+                    type="number" 
+                    id="fontSize" 
+                    min="8" max="72"
+                    value={selectedFieldProperties.fontSize || 16} 
+                    onchange={(e) => handlePropertyChange('fontSize', parseInt((e.target as HTMLInputElement).value))}
+                />
+            </div>
+
+            <div class="tool-group">
+                <label for="fontColor">Text Color</label>
+                <input 
+                    type="color" 
+                    id="fontColor" 
+                    value={selectedFieldProperties.fill || '#000000'} 
+                    onchange={(e) => handlePropertyChange('fill', (e.target as HTMLInputElement).value)}
+                />
+            </div>
+        {/if}
+    </div>
+  </div>
+  {/if}
 </div>
 
 <style>
@@ -252,5 +307,22 @@
       border: 1px solid #ddd;
       border-radius: 4px;
       cursor: pointer;
+  }
+
+  select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background: white;
+      font-size: 14px;
+  }
+
+  input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
   }
 </style>

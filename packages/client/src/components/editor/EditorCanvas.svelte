@@ -22,6 +22,14 @@
   let isPro = $state(false);
   let brandingConfig = $state({ logoUrl: '', primaryColor: '#000000' });
   let selectedTool = $state<string | null>(null);
+  let selectedFieldProperties = $state<{ fontFamily?: string; fontSize?: number; fill?: string; type?: string } | null>(null);
+
+  function handleUpdateProperties(props: any) {
+      selectedFieldProperties = props;
+      Object.values(managers).forEach(manager => {
+          manager.updateSelectedField(props);
+      });
+  }
 
   async function handleLogoUpload(file: File) {
       if (!formId) return;
@@ -154,6 +162,14 @@
                   allFields.push(...m.getFields(Number(p)));
               });
               collabManager.sendFieldsUpdate(allFields);
+          }
+      };
+
+      manager.onSelectionChanged = (props) => {
+          // If we deselect, props will be null.
+          // Don't override if we just selected something else (naive check)
+          if (props || !selectedFieldProperties) {
+              selectedFieldProperties = props;
           }
       };
   }
@@ -392,9 +408,11 @@
         {selectedTool} 
         {isPro} 
         {brandingConfig}
+        {selectedFieldProperties}
         onSelect={(t: string | null) => selectedTool = t} 
         onLogoUpload={handleLogoUpload}
         onBrandingUpdate={handleBrandingUpdate}
+        onUpdateProperties={handleUpdateProperties}
       />
     </div>
   {/if}

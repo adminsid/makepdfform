@@ -8,9 +8,26 @@
     isPopular?: boolean;
     isComingSoon?: boolean;
     buttonVariant?: 'primary' | 'secondary';
+    productId?: string;
   }
 
-  let { name, description, price, ctaText, features, isPopular = false, isComingSoon = false, buttonVariant = 'secondary' }: Props = $props();
+  let { name, description, price, ctaText, features, isPopular = false, isComingSoon = false, buttonVariant = 'secondary', productId }: Props = $props();
+
+  import { authClient, useSession } from '$lib/auth-client';
+  
+  const session = useSession();
+  
+  async function handleCheckout() {
+      if (productId && $session.data?.user) {
+          // Trigger checkout using Better Auth Polar plugin
+          await authClient.checkout({
+              productId,
+          });
+      } else {
+          // If not logged in, you might want to redirect to login first
+          window.location.href = '/login?callbackURL=/pricing';
+      }
+  }
 </script>
 
 <div class="pricing-card" class:popular={isPopular}>
@@ -29,9 +46,15 @@
     <span class="period">/month</span>
   </div>
   
-  <a href="/pricing/select" class="cta-btn" class:primary={buttonVariant === 'primary'}>
-    {ctaText}
-  </a>
+  {#if productId}
+    <button class="cta-btn" class:primary={buttonVariant === 'primary'} onclick={handleCheckout}>
+      {ctaText}
+    </button>
+  {:else}
+    <a href="/pricing/select" class="cta-btn" class:primary={buttonVariant === 'primary'}>
+      {ctaText}
+    </a>
+  {/if}
   
   {#if name === 'Team' || name === 'Business'}
     <div class="separator-text">Everything in {name === 'Team' ? 'Pro' : 'Team'}, plus:</div>

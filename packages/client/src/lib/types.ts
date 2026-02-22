@@ -1,6 +1,6 @@
 export interface FormField {
   id: string;
-  type: 'text' | 'checkbox' | 'signature' | 'date';
+  type: 'text' | 'checkbox' | 'radio' | 'date';
   x: number;
   y: number;
   width: number;
@@ -9,6 +9,9 @@ export interface FormField {
   value?: string | boolean;
   name?: string;
   required?: boolean;
+  fontFamily?: string;
+  fontSize?: number;
+  color?: string;
 }
 
 export interface FormMetadata {

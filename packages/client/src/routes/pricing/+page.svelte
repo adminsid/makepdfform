@@ -10,7 +10,8 @@
       description: 'Perfect for trying out the editor and simple personal forms.',
       price: '0',
       ctaText: 'Get Started Free',
-      features: ['3 active forms', '50 submissions / mo', 'Basic field types', '"Made with MakePDFForm" watermark']
+      features: ['3 active forms', '50 submissions / mo', 'Basic field types', '"Made with MakePDFForm" watermark'],
+      productId: "040c9d6f-ac27-448f-a441-d0625d1e7bf2"
     },
     {
       name: 'Pro',
@@ -19,21 +20,24 @@
       ctaText: 'Start Free Trial',
       isPopular: true,
       buttonVariant: 'primary' as const,
-      features: ['Unlimited forms', '1,000 submissions / mo', 'No watermark', 'All field types (Signature, Date)', 'Export to Google Drive']
+      features: ['Unlimited forms', '1,000 submissions / mo', 'No watermark', 'All field types (Signature, Date)', 'Export to Google Drive'],
+      productId: "50f2f190-59ca-481d-9a4c-305c7a10fa67"
     },
     {
       name: 'Team',
       description: 'Collaborate with your team in real-time on complex forms.',
       price: '25',
       ctaText: 'Upgrade to Team',
-      features: ['Real-time collaboration', '5 team members', 'Shared workspace', 'Field locking & history']
+      features: ['Real-time collaboration', '5 team members', 'Shared workspace', 'Field locking & history'],
+      productId: "562b02bf-13f1-4aad-b316-b36e565b1642"
     },
     {
       name: 'Business',
       description: 'For scaling organizations requiring automation and branding.',
       price: '59',
       ctaText: 'Contact Sales',
-      features: ['Custom Branding', 'API Access & Webhooks', 'Unlimited team members', 'Priority Support']
+      features: ['Custom Branding', 'API Access & Webhooks', 'Unlimited team members', 'Priority Support'],
+      productId: "db14d3f1-59eb-4192-83aa-340c9d08091e"
     }
   ];
 </script>

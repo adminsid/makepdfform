@@ -111,8 +111,10 @@
   function addField(type: string, x: number, y: number) {
       if (type === 'text') {
         editorManager.addTextField(x, y);
-      } else {
-         editorManager.addRect(x, y, 100, 30);
+      } else if (type === 'checkbox') {
+         editorManager.addCheckbox(x, y);
+      } else if (type === 'radio') {
+         editorManager.addRadio(x, y);
       }
   }
 

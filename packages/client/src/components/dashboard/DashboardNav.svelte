@@ -1,6 +1,9 @@
 <script lang="ts">
   import { appState } from '../../lib/appState.svelte';
   import Logo from '../ui/Logo.svelte';
+  import { getContext } from 'svelte';
+  
+  const userState: any = getContext('user');
 </script>
 
 <header class="header">
@@ -21,8 +24,10 @@
     <button class="icon-btn" onclick={() => appState.toggleDarkMode()} title="Toggle Dark Mode">
       <span class="material-symbols-outlined">{appState.isDarkMode ? 'light_mode' : 'dark_mode'}</span>
     </button>
-    <div class="user-avatar">
-      <div class="avatar-bg">JD</div>
+    <div class="user-avatar" title={userState?.session?.user?.email || 'User'}>
+      <div class="avatar-bg">
+        {userState?.session?.user?.name ? userState.session.user.name.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() : 'U'}
+      </div>
     </div>
   </div>
 </header>

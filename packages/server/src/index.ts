@@ -43,7 +43,15 @@ app.use('/api/*', cors({
 import { createAuth } from './auth'
 
 app.on(['POST', 'GET'], '/api/auth/*', (c) => {
-  return createAuth(c.env).handler(new Request(c.req.raw));
+  console.log('HANDLING AUTH REQUEST', c.req.method, c.req.url); // Log to confirm deployment
+  const newReq = new Request(c.req.raw.url, {
+      method: c.req.raw.method,
+      headers: new Headers(c.req.raw.headers), // Explicitly clone headers
+      body: c.req.raw.body,
+      // @ts-ignore - duplex is needed for some environments but might be missing in types
+      duplex: 'half' 
+  });
+  return createAuth(c.env).handler(newReq);
 })
 
 import { authMiddleware } from './middleware/auth'
@@ -83,16 +91,26 @@ app.get('/api/health', (c) => {
 // Root route removed to let static assets (Svelte) handle /
 
 app.all('*', async (c) => {
-  const response = await c.env.ASSETS.fetch(c.req.raw)
+  console.log('HANDLING ASSET REQUEST', c.req.method, c.req.url);
+  // Clone request to avoid immutable headers issue
+  const newReq = new Request(c.req.raw.url, {
+      method: c.req.raw.method,
+      headers: new Headers(c.req.raw.headers),
+      body: c.req.raw.body,
+       // @ts-ignore
+      duplex: 'half'
+  });
+
+  let response = await c.env.ASSETS.fetch(newReq)
   if (response.status === 404) {
     // SPA Fallback: Serve index.html for unknown routes (handling client-side routing)
-    // We create a new request for /index.html but keep original headers/method if needed (usually GET)
-    // But serving index.html is always a GET.
     const url = new URL(c.req.url);
     url.pathname = '/';
-    return c.env.ASSETS.fetch(url.toString())
+    response = await c.env.ASSETS.fetch(url.toString())
   }
-  return response
+  
+  // Clone response to make headers mutable for secureHeaders middleware
+  return new Response(response.body, response);
 })
 
 

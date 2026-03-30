@@ -7,9 +7,11 @@
 
   interface Props {
     toggleHistory: () => void;
+    onSave?: () => void;
+    onContinue?: () => void;
   }
 
-  let { toggleHistory }: Props = $props();
+  let { toggleHistory, onSave, onContinue }: Props = $props();
   const userState: any = getContext('user');
 </script>
 
@@ -62,6 +64,14 @@
       <span class="material-symbols-outlined">save_alt</span>
       <span>Export PDF</span>
     </Button>
+
+    {#if onContinue}
+      <div class="divider"></div>
+      <Button variant="primary" size="sm" onclick={onContinue}>
+        <span class="material-symbols-outlined">arrow_forward</span>
+        <span>Next: Add Fields</span>
+      </Button>
+    {/if}
     
     <button class="icon-btn theme-toggle" onclick={() => appState.toggleDarkMode()}>
       <span class="material-symbols-outlined">{appState.isDarkMode ? 'light_mode' : 'dark_mode'}</span>

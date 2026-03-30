@@ -2,19 +2,20 @@
   import { editorState } from '../../lib/editorState.svelte';
   import { goto } from '$app/navigation';
 
-  let { onCreate }: { onCreate?: () => void } = $props();
+  let { onCreate, onImportPDF }: { onCreate?: () => void; onImportPDF?: (file: File) => void } = $props();
 
   function handleFileSelect(e: Event) {
     const input = e.target as HTMLInputElement;
     if (input.files && input.files[0]) {
-      // For import, we might want to also create a form first?
-      // For now, let's keep import logic client-side first, 
-      // OR ideally upload PDF to new form endpoint.
-      // Let's stick to existing flow for import for now, 
-      // but for "Create New" we use the backend.
-      editorState.importPDF(input.files[0]).then(() => {
-        goto('/editor');
-      });
+      if (onImportPDF) {
+        // Let the parent handle creating the form record and uploading to R2
+        onImportPDF(input.files[0]);
+      } else {
+        // Fallback: client-side DSL import (legacy)
+        editorState.importPDF(input.files[0]).then(() => {
+          goto('/editor');
+        });
+      }
     }
   }
   

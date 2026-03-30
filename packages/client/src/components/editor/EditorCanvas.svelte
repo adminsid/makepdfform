@@ -11,14 +11,21 @@
   import type { FormField } from '$lib/types';
   import { CollaborationManager } from '$lib/collaboration';
 
+  interface Props {
+    formId?: string | null;
+  }
+
+  let { formId: propFormId = null }: Props = $props();
+
   let pdfRenderer = new PDFRenderer();
   let pdfGenerator = new PDFGenerator();
   
   let numPages = $state(0);
   let scale = $state(1.5);
   let isLoaded = $state(false);
-  let formId = $state<string | null>(null);
+  let formId = $state<string | null>(propFormId);
   let isSaving = $state(false);
+  let pdfLoadedFromFile = $state(false);
   let isPro = $state(false);
   let brandingConfig = $state({ logoUrl: '', primaryColor: '#000000' });
   let selectedTool = $state<string | null>(null);
@@ -127,7 +134,8 @@
   }
 
   $effect(() => {
-      const id = $page.url.searchParams.get('id');
+      const urlId = $page.url.searchParams.get('id');
+      const id = propFormId || urlId;
       if (id && id !== formId) {
           formId = id;
       }
@@ -189,7 +197,11 @@
                   
                   // 2. Fetch Base PDF
                   const fileRes = await fetch(`/api/forms/${formId}/file`);
-                  if (!fileRes.ok) throw new Error('Failed to load PDF file');
+                  if (!fileRes.ok) {
+                      // No PDF uploaded yet — show the file upload UI so the user can add one
+                      isLoaded = false;
+                      return;
+                  }
                   const buffer = await fileRes.arrayBuffer();
                   
                   // 3. Load PDF
@@ -297,6 +309,7 @@
     try {
         const buffer = await file.arrayBuffer();
         originalPdfBytes = new Uint8Array(buffer);
+        pdfLoadedFromFile = true;
         // Pass a copy to the renderer because PDF.js might detach the buffer when transferring to worker
         const rendererCopy = new Uint8Array(originalPdfBytes);
         await pdfRenderer.loadDocument(rendererCopy);
@@ -381,6 +394,17 @@
 
           } else {
               // UPDATE EXISTING FORM
+              // If the user loaded a new PDF from disk (not from R2), upload it first
+              if (pdfLoadedFromFile) {
+                  const uploadRes = await fetch(`/api/forms/${formId}/file`, {
+                      method: 'PUT',
+                      headers: { 'Content-Type': 'application/pdf' },
+                      body: new Blob([originalPdfBytes], { type: 'application/pdf' })
+                  });
+                  if (!uploadRes.ok) throw new Error('Failed to upload file');
+                  pdfLoadedFromFile = false;
+              }
+
               // Save Fields
               const res = await fetch(`/api/forms/${formId}`, {
                   method: 'PATCH',

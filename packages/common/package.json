@@ -1,0 +1,65 @@
+{
+  "name": "@makepdfform/common",
+  "version": "0.1.0",
+  "description": "MakePDFForm vendored package: @makepdfform/common (based on pdfme MIT, Copyright (c) 2020 HandDot)",
+  "keywords": [
+    "pdf",
+    "pdf-designer",
+    "pdf-generation",
+    "pdf-viewer",
+    "react",
+    "typescript"
+  ],
+  "homepage": "https://makepdfform.com",
+  "bugs": {
+    "url": "https://github.com/pdfme/pdfme/issues"
+  },
+  "license": "MIT",
+  "author": "Siddhartha Lama <lama@primeamericany.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adminsid/makepdfform.git"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "node set-version.js && vite build --watch",
+    "build": "node set-version.js && vite build && tsc -p tsconfig.build.json",
+    "clean": "rimraf dist",
+    "lint": "vp lint -c ../../.oxlintrc.json src",
+    "fmt": "vp fmt -c ../../.oxfmtrc.json src --write",
+    "test": "vitest run --config ../../vitest.config.ts"
+  },
+  "dependencies": {
+    "@makepdfform/pdf-lib": "*",
+    "acorn": "^8.16.0",
+    "buffer": "^6.0.3",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/estree": "^1.0.9"
+  },
+  "contributors": [
+    {
+      "name": "hand-dot",
+      "url": "https://github.com/hand-dot"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+/**
+ * Global styles for the MakePDFForm editor island.
+ *
+ * antd v6 uses a CSS-in-JS design token system and does not require
+ * a global reset CSS import. The `antd/dist/reset.css` below provides
+ * a minimal baseline reset that normalises browser defaults consistently
+ * with antd v5/v6 components.
+ *
+ * If you encounter style conflicts with your host application, you can
+ * scope the reset by removing this import and using antd's ConfigProvider
+ * with `prefixCls` to isolate styles.
+ */
+@import 'antd/dist/reset.css';

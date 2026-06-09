@@ -9,6 +9,7 @@ import formsRouter from './routes/forms'
 import submissionsRouter from './routes/submissions'
 import billingRouter from './routes/billing'
 import adminSetupRouter from './routes/admin-setup'
+import { pdfGenerateRouter, templatesRouter } from './routes/pdf'
 
 import { FormRoom } from './do/FormRoom'
 
@@ -64,6 +65,13 @@ app.route('/api/forms', formsRouter)
 app.route('/api/submissions', submissionsRouter)
 app.route('/api/billing', billingRouter)
 app.route('/api/admin', adminSetupRouter)
+
+// PDF generation and template management (auth-protected)
+app.use('/api/pdf/*', authMiddleware)
+app.use('/api/templates/*', authMiddleware)
+app.use('/api/templates', authMiddleware)
+app.route('/api/pdf', pdfGenerateRouter)
+app.route('/api/templates', templatesRouter)
 
 app.get('/api/files/:path{.*}', async (c) => {
     const path = c.req.param('path');

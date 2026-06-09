@@ -7,7 +7,8 @@
   ],
   "scripts": {
     "dev": "npm run dev --workspaces --if-present --parallel",
-    "build": "npm run build --workspaces --if-present",
+    "build:pdf": "npm run build -w packages/pdf-lib && npm run build -w packages/common && npm run build -w packages/schemas && npm run build -w packages/jsx && npm run build -w packages/converter && npm run build -w packages/generator && npm run build -w packages/manipulator && npm run build -w packages/ui",
+    "build": "npm run build:pdf && npm run build --workspaces --if-present",
     "deploy": "npm run deploy --workspaces --if-present",
     "db:migrate": "npm run db:migrate --workspace=packages/server",
     "start": "npm run dev",

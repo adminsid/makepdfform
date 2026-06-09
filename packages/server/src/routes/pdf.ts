@@ -10,7 +10,7 @@
 import { Hono } from 'hono';
 import { drizzle } from 'drizzle-orm/d1';
 import { eq, and, desc } from 'drizzle-orm';
-import { templates } from '../db/schema';
+import { forms } from '../schema';
 import type { D1Database } from '@cloudflare/workers-types';
 
 type Bindings = {
@@ -127,22 +127,22 @@ templatesRouter.post('/', async (c) => {
 
   const existing = await db
     .select()
-    .from(templates)
-    .where(and(eq(templates.id, id), eq(templates.userId, user.id)))
+    .from(forms)
+    .where(and(eq(forms.id, id), eq(forms.userId, user.id)))
     .get();
 
   if (existing) {
     await db
-      .update(templates)
-      .set({ name, data: JSON.stringify(body.template), updatedAt: now })
-      .where(eq(templates.id, id));
+      .update(forms)
+      .set({ name, schema: JSON.stringify(body.template), updatedAt: now })
+      .where(eq(forms.id, id));
     return c.json({ id, updated: true });
   } else {
-    await db.insert(templates).values({
+    await db.insert(forms).values({
       id,
       userId: user.id,
       name,
-      data: JSON.stringify(body.template),
+      schema: JSON.stringify(body.template),
       createdAt: now,
       updatedAt: now,
     });
@@ -160,9 +160,9 @@ templatesRouter.get('/', async (c) => {
 
   const results = await db
     .select()
-    .from(templates)
-    .where(eq(templates.userId, user.id))
-    .orderBy(desc(templates.updatedAt))
+    .from(forms)
+    .where(eq(forms.userId, user.id))
+    .orderBy(desc(forms.updatedAt))
     .all();
 
   return c.json(
@@ -186,8 +186,8 @@ templatesRouter.get('/:id', async (c) => {
 
   const result = await db
     .select()
-    .from(templates)
-    .where(and(eq(templates.id, id), eq(templates.userId, user.id)))
+    .from(forms)
+    .where(and(eq(forms.id, id), eq(forms.userId, user.id)))
     .get();
 
   if (!result) {
@@ -196,7 +196,7 @@ templatesRouter.get('/:id', async (c) => {
 
   let template: unknown;
   try {
-    template = JSON.parse(result.data);
+    template = JSON.parse(result.schema);
   } catch {
     template = null;
   }

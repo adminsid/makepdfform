@@ -1,22 +1,23 @@
 <script lang="ts">
+  import { TEMPLATE_CATEGORIES, templates } from '../../lib/templates';
+
   let { selectedCategory = $bindable() } = $props();
 
-  const categories = [
-    { name: 'All Templates', count: 124 },
-    { name: 'Real Estate', count: 42 },
-    { name: 'Finance & Tax', count: 28 },
-    { name: 'Human Resources', count: 35 },
-    { name: 'Legal Contracts', count: 19 },
-    { name: 'Education', count: 12 },
-    { name: 'Healthcare', count: 8 },
-  ];
+  const categoryCounts = $derived(
+    TEMPLATE_CATEGORIES.map(cat => ({
+      name: cat,
+      count: cat === 'All Templates'
+        ? templates.length
+        : templates.filter(t => t.category === cat).length
+    })).filter(c => c.count > 0 || c.name === 'All Templates')
+  );
 </script>
 
 <aside class="sidebar">
   <div class="sticky-content">
     <h3 class="sidebar-title">Categories</h3>
     <ul class="category-list">
-      {#each categories as cat}
+      {#each categoryCounts as cat}
         <li>
           <button 
             class="category-link" 

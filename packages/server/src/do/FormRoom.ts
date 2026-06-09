@@ -1,6 +1,6 @@
 import { drizzle } from 'drizzle-orm/d1';
 import { eq } from 'drizzle-orm';
-import { forms } from '../db/schema';
+import { forms } from '../schema';
 
 import { DurableObject } from "cloudflare:workers";
 

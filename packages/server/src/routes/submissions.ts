@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import { drizzle } from 'drizzle-orm/d1';
-import { submissions } from '../db/schema';
+import { submissions } from '../schema';
 import { eq, desc } from 'drizzle-orm';
 import type { D1Database } from '@cloudflare/workers-types';
 

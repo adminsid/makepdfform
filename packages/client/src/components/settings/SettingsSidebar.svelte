@@ -1,11 +1,15 @@
 <script lang="ts">
+  import { page } from '$app/stores';
+
   const navItems = [
-    { name: 'Profile', icon: 'person', active: true },
-    { name: 'Login & Security', icon: 'lock' },
-    { name: 'Billing & Plans', icon: 'credit_card' },
-    { name: 'Notifications', icon: 'notifications' },
-    { name: 'API Access', icon: 'api' },
+    { name: 'Profile', href: '/settings', icon: 'person' },
+    { name: 'Login & Security', href: '/settings/security', icon: 'lock' },
+    { name: 'Billing & Plans', href: '/settings/billing', icon: 'credit_card' },
   ];
+
+  function isActive(href: string) {
+    return $page.url.pathname === href;
+  }
 </script>
 
 <aside class="settings-sidebar">
@@ -13,7 +17,7 @@
     <h2 class="sidebar-title">Account Settings</h2>
     <nav class="nav-list">
       {#each navItems as item}
-        <a href={'/settings/' + item.name.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')} class="nav-link" class:active={item.active}>
+        <a href={item.href} class="nav-link" class:active={isActive(item.href)}>
           <span class="material-symbols-outlined icon">{item.icon}</span>
           <span class="name">{item.name}</span>
         </a>

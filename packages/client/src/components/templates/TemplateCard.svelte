@@ -1,17 +1,22 @@
 <script lang="ts">
   interface Props {
+    id?: string;
     title: string;
     category: string;
-    previewType?: 'lease' | 'tax' | 'invoice' | 'checklist' | 'notice' | 'application';
+    description?: string;
+    previewType?: 'lease' | 'tax' | 'invoice' | 'checklist' | 'notice' | 'application' | 'nda' | 'intake' | 'hr' | 'legal' | 'medical' | 'education';
+    content?: string;
+    isLoading?: boolean;
   }
 
-  let { title, category, previewType = 'lease' }: Props = $props();
+  let { id = '', title, category, description = '', previewType = 'lease', content = '', isLoading = false }: Props = $props();
+
 </script>
 
 <div class="card group">
   <div class="thumbnail">
     <div class="overlay">
-      <button class="preview-btn">Preview</button>
+      <button class="preview-btn" disabled={isLoading}>{isLoading ? 'Creating...' : 'Use Template'}</button>
     </div>
     <div class="doc-preview">
       {#if previewType === 'lease'}
@@ -105,10 +110,8 @@
     <div class="text-group">
       <h3 class="card-title">{title}</h3>
       <p class="card-category">{category}</p>
+      {#if description}<p class="card-desc">{description}</p>{/if}
     </div>
-    <button class="bookmark-btn">
-      <span class="material-symbols-outlined icon">bookmark</span>
-    </button>
   </div>
 </div>
 
@@ -232,17 +235,13 @@
     color: #6b7280;
   }
 
-  .bookmark-btn {
-    color: #d1d5db;
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: color 0.2s;
+  .card-desc {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin: 0.125rem 0 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
-
-  .bookmark-btn:hover {
-    color: #111111;
-  }
-
-  .icon { font-size: 20px; }
 </style>

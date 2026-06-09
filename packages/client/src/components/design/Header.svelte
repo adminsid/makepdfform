@@ -3,14 +3,33 @@
   import { editorState } from '../../lib/editorState.svelte';
   import Logo from '../ui/Logo.svelte';
   import Button from '../ui/Button.svelte';
+  import { page } from '$app/stores';
+
   import { getContext } from 'svelte';
 
   interface Props {
     toggleHistory: () => void;
+    onSave?: () => void;
+    onContinue?: () => void;
   }
 
-  let { toggleHistory }: Props = $props();
+  let { toggleHistory, onSave, onContinue }: Props = $props();
+  let isTemplate = $state(false);
   const userState: any = getContext('user');
+
+  async function handleSave() {
+    const id = $page.params.id;
+    // If isTemplate changed, patch it first
+    if (id) {
+      await fetch(`/api/forms/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ isTemplate })
+      });
+    }
+    editorState.saveSnapshot();
+    onSave?.();
+  }
 </script>
 
 <header class="header">
@@ -29,10 +48,19 @@
 
   <div class="right-section">
     <div class="save-template">
-      <span>Save as Template</span>
-      <button class="toggle-switch">
-        <span class="toggle-handle"></span>
-      </button>
+      <label class="save-label">
+        <input type="checkbox" class="sr-only" bind:checked={isTemplate} />
+        <span class="save-text">Save as Template</span>
+        <button
+          class="toggle-switch"
+          class:on={isTemplate}
+          onclick={() => isTemplate = !isTemplate}
+          aria-label="Toggle save as template"
+          type="button"
+        >
+          <span class="toggle-handle" class:on={isTemplate}></span>
+        </button>
+      </label>
     </div>
     
     <button class="icon-btn" title="Undo" onclick={() => editorState.undo()} disabled={!editorState.canUndo}>
@@ -44,10 +72,7 @@
 
     <div class="divider"></div>
      
-    <button class="icon-btn" title="Save" onclick={() => {
-        editorState.saveSnapshot();
-        onSave?.();
-    }}>
+    <button class="icon-btn" title="Save" onclick={handleSave}>
       <span class="material-symbols-outlined">save</span>
     </button>
     
@@ -62,6 +87,14 @@
       <span class="material-symbols-outlined">save_alt</span>
       <span>Export PDF</span>
     </Button>
+
+    {#if onContinue}
+      <div class="divider"></div>
+      <Button variant="primary" size="sm" onclick={onContinue}>
+        <span class="material-symbols-outlined">arrow_forward</span>
+        <span>Next: Add Fields</span>
+      </Button>
+    {/if}
     
     <button class="icon-btn theme-toggle" onclick={() => appState.toggleDarkMode()}>
       <span class="material-symbols-outlined">{appState.isDarkMode ? 'light_mode' : 'dark_mode'}</span>
@@ -86,7 +119,7 @@
 
 <style>
   .header {
-    height: 56px; /* h-14 */
+    height: 56px;
     background-color: var(--color-surface-light);
     border-bottom: 1px solid var(--color-border-light);
     display: flex;
@@ -102,6 +135,8 @@
     background-color: var(--color-surface-dark);
     border-bottom-color: var(--color-border-dark);
   }
+
+  .logo-link { text-decoration: none; display: flex; align-items: center; }
 
   .left-section, .right-section {
     display: flex;
@@ -196,7 +231,7 @@
     position: relative;
     width: 36px;
     height: 20px;
-    background-color: #E5E7EB; /* gray-200 */
+    background-color: #E5E7EB;
     border-radius: 9999px;
     border: none;
     cursor: pointer;
@@ -204,9 +239,9 @@
     transition: background-color 0.2s;
   }
   
-  :global(.dark) .toggle-switch {
-    background-color: #374151; /* gray-700 */
-  }
+  .toggle-switch.on { background-color: #000000; }
+  :global(.dark) .toggle-switch { background-color: #374151; }
+  :global(.dark) .toggle-switch.on { background-color: #ffffff; }
   
   .toggle-handle {
     position: absolute;
@@ -219,6 +254,17 @@
     border-radius: 50%;
     transition: transform 0.2s;
   }
+  
+  .toggle-handle.on { transform: translateX(16px); }
+  :global(.dark) .toggle-handle.on { background-color: #000; }
+
+  .save-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); }
 
   .icon-btn {
     padding: 8px;

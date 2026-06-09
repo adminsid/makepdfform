@@ -1,22 +1,40 @@
 <script lang="ts">
   import { appState } from '../../lib/appState.svelte';
   import Logo from '../ui/Logo.svelte';
-  import { getContext } from 'svelte';
-  
-  const userState: any = getContext('user');
+  import { page } from '$app/stores';
+  import { authClient } from '../../lib/auth-client';
+  import { goto } from '$app/navigation';
+
+  const userState = $derived($page.data.session);
+  let profileOpen = $state(false);
+
+  function isActive(path: string) {
+    return $page.url.pathname === path || $page.url.pathname.startsWith(path + '/');
+  }
+
+  async function signOut() {
+    await authClient.signOut();
+    goto('/');
+  }
 </script>
+
+<svelte:window onclick={(e) => {
+  if (!(e.target as Element).closest('.profile-wrap')) profileOpen = false;
+}} />
 
 <header class="header">
   <div class="left-section">
-    <Logo size="sm" />
+    <a href="/" class="logo-link">
+      <Logo size="sm" />
+    </a>
     <div class="title-container">
-      <h1 class="title">Make PDF Form</h1>
+      <h1 class="title">MakePDFForm</h1>
     </div>
     <div class="divider"></div>
     <nav class="nav">
-      <a href="/dashboard" class="nav-btn" class:active={true}>Forms</a>
-      <a href="/submissions" class="nav-btn">Submissions</a>
-      <a href="/templates" class="nav-btn">Templates</a>
+      <a href="/dashboard" class="nav-btn" class:active={isActive('/dashboard') && !isActive('/dashboard/templates')}>Forms</a>
+      <a href="/submissions" class="nav-btn" class:active={isActive('/submissions')}>Submissions</a>
+      <a href="/dashboard/templates" class="nav-btn" class:active={isActive('/dashboard/templates')}>Templates</a>
     </nav>
   </div>
 
@@ -24,10 +42,28 @@
     <button class="icon-btn" onclick={() => appState.toggleDarkMode()} title="Toggle Dark Mode">
       <span class="material-symbols-outlined">{appState.isDarkMode ? 'light_mode' : 'dark_mode'}</span>
     </button>
-    <div class="user-avatar" title={userState?.session?.user?.email || 'User'}>
-      <div class="avatar-bg">
-        {userState?.session?.user?.name ? userState.session.user.name.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() : 'U'}
-      </div>
+    <div class="profile-wrap">
+      <button class="profile-btn" onclick={() => profileOpen = !profileOpen} title={userState?.user?.email || 'Profile'}>
+        {#if userState?.user?.image}
+          <img src={userState.user.image} alt={userState.user.name} class="avatar-img" />
+        {:else}
+          <div class="avatar-bg">
+            {userState?.user?.name ? userState.user.name[0].toUpperCase() : 'U'}
+          </div>
+        {/if}
+      </button>
+      {#if profileOpen}
+        <div class="dropdown">
+          <div class="dropdown-header">
+            <p class="user-name">{userState?.user?.name || 'User'}</p>
+            <p class="user-email">{userState?.user?.email || ''}</p>
+          </div>
+          <div class="dropdown-divider"></div>
+          <a href="/settings" class="dropdown-item"><span class="material-symbols-outlined">settings</span>Settings</a>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item danger" onclick={signOut}><span class="material-symbols-outlined">logout</span>Sign Out</button>
+        </div>
+      {/if}
     </div>
   </div>
 </header>
@@ -151,33 +187,75 @@
     background-color: #1f2937;
   }
 
-  .user-avatar {
+  .logo-link {
+    display: flex;
+    text-decoration: none;
+  }
+
+  .profile-wrap { position: relative; }
+
+  .profile-btn {
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
-    background-color: #e5e7eb;
-    overflow: hidden;
     border: 1px solid #d1d5db;
-  }
-
-  :global(.dark) .user-avatar {
-    background-color: #374151;
-    border-color: #4b5563;
-  }
-
-  .avatar-bg {
-    width: 100%;
-    height: 100%;
+    overflow: hidden;
+    cursor: pointer;
+    background: #e5e7eb;
+    padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: #4b5563;
+    transition: border-color 0.2s;
   }
 
-  :global(.dark) .avatar-bg {
-    color: #d1d5db;
+  .profile-btn:hover { border-color: #000; }
+  :global(.dark) .profile-btn { border-color: #4b5563; background: #374151; }
+
+  .avatar-img { width: 100%; height: 100%; object-fit: cover; }
+
+  .dropdown {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.5rem);
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    min-width: 12rem;
+    z-index: 100;
+    overflow: hidden;
   }
+
+  :global(.dark) .dropdown { background-color: #1f2937; border-color: #374151; }
+
+  .dropdown-header { padding: 0.75rem 1rem; }
+  .user-name { font-weight: 600; font-size: 0.875rem; color: #111; margin: 0; }
+  :global(.dark) .user-name { color: #f9fafb; }
+  .user-email { font-size: 0.75rem; color: #6b7280; margin: 0.25rem 0 0; }
+
+  .dropdown-divider { height: 1px; background-color: #f3f4f6; }
+  :global(.dark) .dropdown-divider { background-color: #374151; }
+
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+    color: #374151;
+    text-decoration: none;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.15s;
+  }
+
+  .dropdown-item .material-symbols-outlined { font-size: 16px; }
+  :global(.dark) .dropdown-item { color: #d1d5db; }
+  .dropdown-item:hover { background-color: #f9fafb; }
+  :global(.dark) .dropdown-item:hover { background-color: #374151; }
+  .dropdown-item.danger { color: #ef4444; }
 </style>

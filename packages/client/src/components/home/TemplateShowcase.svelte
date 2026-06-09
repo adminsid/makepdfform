@@ -1,3 +1,70 @@
+<script lang="ts">
+  import { goto } from '$app/navigation';
+  import { page } from '$app/stores';
+
+  // Hardcoded showcase templates (home page only shows 4)
+  const showcaseTemplates = [
+    {
+      id: 'residential-lease',
+      title: 'Residential Lease',
+      category: 'Real Estate',
+      content: `# Residential Lease Agreement\n\n**LANDLORD:** ___________________________\n**TENANT:** ___________________________\n\n<div class="grid grid-cols-12 gap-0 border border-black">\n  <field type="date" label="Lease Start Date" cols="6" />\n  <field type="date" label="Lease End Date" cols="6" />\n  <field type="number" label="Monthly Rent ($)" cols="6" />\n  <field type="number" label="Security Deposit ($)" cols="6" />\n</div>\n`,
+      preview: 'lease'
+    },
+    {
+      id: 'client-intake',
+      title: 'Client Intake Form',
+      category: 'Business',
+      content: `# Client Intake Form\n\n<div class="grid grid-cols-12 gap-0 border border-black">\n  <field type="text" label="Full Name" cols="8" />\n  <field type="date" label="Date of Birth" cols="4" />\n  <field type="email" label="Email" cols="6" />\n  <field type="tel" label="Phone" cols="6" />\n</div>\n`,
+      preview: 'intake'
+    },
+    {
+      id: 'simple-invoice',
+      title: 'Simple Invoice',
+      category: 'Finance',
+      content: `# INVOICE\n\n<div class="grid grid-cols-12 gap-0 border border-black">\n  <field type="text" label="Client Name" cols="8" />\n  <field type="date" label="Invoice Date" cols="4" />\n  <field type="number" label="Amount ($)" cols="6" />\n  <field type="date" label="Due Date" cols="6" />\n</div>\n`,
+      preview: 'invoice'
+    },
+    {
+      id: 'standard-nda',
+      title: 'Standard NDA',
+      category: 'Legal',
+      content: `# NON-DISCLOSURE AGREEMENT\n\n**PARTIES:** ___________________________\n\nThe Receiving Party agrees to keep all disclosed information confidential.\n\n<div class="grid grid-cols-12 gap-0 border border-black">\n  <signature label="Party A Signature" cols="6" />\n  <field type="date" label="Date" cols="6" />\n  <signature label="Party B Signature" cols="6" />\n  <field type="date" label="Date" cols="6" />\n</div>\n`,
+      preview: 'nda'
+    }
+  ];
+
+  let loading = $state<string | null>(null);
+
+  async function useTemplate(template: typeof showcaseTemplates[0]) {
+    const session = $page.data.session;
+    if (!session?.user) {
+      // Save intended template and redirect to login
+      sessionStorage.setItem('pendingTemplate', JSON.stringify({ id: template.id, title: template.title, content: template.content }));
+      goto(`/login?redirect=/templates`);
+      return;
+    }
+
+    loading = template.id;
+    try {
+      const res = await fetch('/api/forms', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: template.title,
+          fields: { content: template.content }
+        })
+      });
+      if (!res.ok) throw new Error('Failed to create form');
+      const { id } = await res.json();
+      goto(`/editor/${id}`);
+    } catch (e) {
+      console.error(e);
+      loading = null;
+    }
+  }
+</script>
+
 <section class="templates">
   <div class="container">
     <div class="header">
@@ -12,95 +79,58 @@
     </div>
 
     <div class="template-grid">
-      <!-- Template 1 -->
-      <div class="template-card">
-        <div class="preview-container">
-          <div class="doc-preview">
-            <div class="doc-title">RENTAL AGREEMENT</div>
-            <div class="doc-line black"></div>
-            <p class="doc-text">This agreement is made on this day between Landlord and Tenant.</p>
-            <div class="doc-bar gray"></div>
-            <div class="doc-bar gray short"></div>
-            <div class="doc-footer">
-              <div class="doc-sign"></div>
-              <div class="doc-sign"></div>
+      {#each showcaseTemplates as template}
+        <div class="template-card">
+          <div class="preview-container">
+            <div class="doc-preview">
+              {#if template.preview === 'lease'}
+                <div class="doc-title">RENTAL AGREEMENT</div>
+                <div class="doc-line black"></div>
+                <p class="doc-text">This agreement is made between Landlord and Tenant.</p>
+                <div class="doc-bar gray"></div>
+                <div class="doc-bar gray short"></div>
+                <div class="doc-footer">
+                  <div class="doc-sign"></div>
+                  <div class="doc-sign"></div>
+                </div>
+              {:else if template.preview === 'intake'}
+                <div class="doc-title left">CLIENT INTAKE</div>
+                <div class="doc-grid">
+                  <div class="doc-bar gray"></div>
+                  <div class="doc-bar gray"></div>
+                </div>
+                <div class="doc-bar gray full"></div>
+                <div class="doc-bar gray full"></div>
+                <div class="doc-checkbox-row">
+                  <div class="checkbox"></div>
+                  <span>I agree to terms</span>
+                </div>
+              {:else if template.preview === 'invoice'}
+                <div class="doc-title center">INVOICE</div>
+                <div class="doc-id">#00123</div>
+                <div class="doc-line light"></div>
+                <div class="doc-row"><div class="bar-long"></div><div class="bar-short"></div></div>
+                <div class="doc-row"><div class="bar-long"></div><div class="bar-short"></div></div>
+                <div class="doc-total">Total: $0.00</div>
+              {:else if template.preview === 'nda'}
+                <div class="doc-title center">NDA</div>
+                <div class="doc-tagline">NON-DISCLOSURE AGREEMENT</div>
+                <div class="doc-bar gray full dot"></div>
+                <div class="doc-bar gray full dot"></div>
+                <div class="doc-bar gray full dot"></div>
+                <div class="doc-sign-box">Sign Here</div>
+              {/if}
+            </div>
+            <div class="overlay">
+              <button class="use-btn" onclick={() => useTemplate(template)} disabled={loading === template.id}>
+                {loading === template.id ? 'Creating...' : 'Use Template'}
+              </button>
             </div>
           </div>
-          <div class="overlay">
-            <button class="use-btn">Use Template</button>
-          </div>
+          <h3 class="card-title">{template.title}</h3>
+          <p class="card-category">{template.category}</p>
         </div>
-        <h3 class="card-title">Residential Lease</h3>
-        <p class="card-category">Real Estate</p>
-      </div>
-
-      <!-- Template 2 -->
-      <div class="template-card">
-        <div class="preview-container">
-          <div class="doc-preview">
-            <div class="doc-title left">CLIENT INTAKE</div>
-            <div class="doc-grid">
-              <div class="doc-bar gray"></div>
-              <div class="doc-bar gray"></div>
-            </div>
-            <div class="doc-bar gray full"></div>
-            <div class="doc-bar gray full"></div>
-            <div class="doc-checkbox-row">
-              <div class="checkbox"></div>
-              <span>I agree to terms</span>
-            </div>
-          </div>
-          <div class="overlay">
-            <button class="use-btn">Use Template</button>
-          </div>
-        </div>
-        <h3 class="card-title">Client Intake Form</h3>
-        <p class="card-category">Business</p>
-      </div>
-
-      <!-- Template 3 -->
-      <div class="template-card">
-        <div class="preview-container">
-          <div class="doc-preview">
-            <div class="doc-title center">INVOICE</div>
-            <div class="doc-id">#00123</div>
-            <div class="doc-line light"></div>
-            <div class="doc-row">
-              <div class="bar-long"></div>
-              <div class="bar-short"></div>
-            </div>
-            <div class="doc-row">
-              <div class="bar-long"></div>
-              <div class="bar-short"></div>
-            </div>
-            <div class="doc-total">Total: $0.00</div>
-          </div>
-          <div class="overlay">
-            <button class="use-btn">Use Template</button>
-          </div>
-        </div>
-        <h3 class="card-title">Simple Invoice</h3>
-        <p class="card-category">Finance</p>
-      </div>
-
-      <!-- Template 4 -->
-      <div class="template-card">
-        <div class="preview-container">
-          <div class="doc-preview">
-            <div class="doc-title center">NDA</div>
-            <div class="doc-tagline">NON-DISCLOSURE AGREEMENT</div>
-            <div class="doc-bar gray full dot"></div>
-            <div class="doc-bar gray full dot"></div>
-            <div class="doc-bar gray full dot"></div>
-            <div class="doc-sign-box">Sign Here</div>
-          </div>
-          <div class="overlay">
-            <button class="use-btn">Use Template</button>
-          </div>
-        </div>
-        <h3 class="card-title">Standard NDA</h3>
-        <p class="card-category">Legal</p>
-      </div>
+      {/each}
     </div>
 
     <div class="mobile-only footer-link">
@@ -117,6 +147,11 @@
     border-top: 1px solid #f3f4f6;
   }
 
+  :global(.dark) .templates {
+    background-color: #111827;
+    border-top-color: #374151;
+  }
+
   .container {
     max-width: 80rem;
     margin-left: auto;
@@ -126,17 +161,11 @@
   }
 
   @media (min-width: 640px) {
-    .container {
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
-    }
+    .container { padding-left: 1.5rem; padding-right: 1.5rem; }
   }
 
   @media (min-width: 1024px) {
-    .container {
-      padding-left: 2rem;
-      padding-right: 2rem;
-    }
+    .container { padding-left: 2rem; padding-right: 2rem; }
   }
 
   .header {
@@ -153,10 +182,14 @@
     color: #000000;
   }
 
+  :global(.dark) .title { color: #f9fafb; }
+
   .subtitle {
     margin-top: 0.5rem;
     color: #6b7280;
   }
+
+  :global(.dark) .subtitle { color: #9ca3af; }
 
   .browse-link {
     display: flex;
@@ -167,9 +200,9 @@
     text-decoration: none;
   }
 
-  .browse-link:hover {
-    text-decoration: underline;
-  }
+  :global(.dark) .browse-link { color: #f9fafb; }
+
+  .browse-link:hover { text-decoration: underline; }
 
   .arrow {
     font-size: 1.125rem;
@@ -177,19 +210,11 @@
     transition: transform 0.2s;
   }
 
-  .browse-link:hover .arrow {
-    transform: translateX(0.25rem);
-  }
+  .browse-link:hover .arrow { transform: translateX(0.25rem); }
 
-  .desktop-only {
-    display: none;
-  }
+  .desktop-only { display: none; }
 
-  @media (min-width: 640px) {
-    .desktop-only {
-      display: flex;
-    }
-  }
+  @media (min-width: 640px) { .desktop-only { display: flex; } }
 
   .template-grid {
     display: grid;
@@ -197,17 +222,9 @@
     gap: 2rem;
   }
 
-  @media (min-width: 640px) {
-    .template-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
+  @media (min-width: 640px) { .template-grid { grid-template-columns: repeat(2, 1fr); } }
 
-  @media (min-width: 1024px) {
-    .template-grid {
-      grid-template-columns: repeat(4, 1fr);
-    }
-  }
+  @media (min-width: 1024px) { .template-grid { grid-template-columns: repeat(4, 1fr); } }
 
   .template-card {
     display: block;
@@ -225,11 +242,15 @@
     transition: box-shadow 0.2s;
   }
 
+  :global(.dark) .preview-container {
+    background-color: #1f2937;
+    border-color: #374151;
+  }
+
   .template-card:hover .preview-container {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   }
 
-  /* Doc Preview Styles */
   .doc-preview {
     aspect-ratio: 1 / 1.414;
     background-color: #ffffff;
@@ -252,19 +273,11 @@
   .doc-title.center { text-align: center; }
   .doc-title.left { text-align: left; }
 
-  .doc-line {
-    width: 100%;
-    height: 1px;
-    margin-bottom: 0.5rem;
-  }
-
+  .doc-line { width: 100%; height: 1px; margin-bottom: 0.5rem; }
   .doc-line.black { background-color: #000; }
   .doc-line.light { background-color: #e5e7eb; }
 
-  .doc-text {
-    margin-bottom: 0.25rem;
-    text-align: justify;
-  }
+  .doc-text { margin-bottom: 0.25rem; text-align: justify; }
 
   .doc-bar {
     height: 0.5rem;
@@ -338,7 +351,7 @@
   }
 
   .template-card:hover .overlay {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: rgba(0, 0, 0, 0.5);
   }
 
   .use-btn {
@@ -356,6 +369,8 @@
     transition: all 0.2s;
   }
 
+  .use-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
   .template-card:hover .use-btn {
     opacity: 1;
     transform: translateY(0);
@@ -368,6 +383,8 @@
     color: #000000;
   }
 
+  :global(.dark) .card-title { color: #f9fafb; }
+
   .card-category {
     font-size: 0.75rem;
     color: #6b7280;
@@ -379,9 +396,5 @@
     justify-content: center;
   }
 
-  @media (min-width: 640px) {
-    .mobile-only {
-      display: none;
-    }
-  }
+  @media (min-width: 640px) { .mobile-only { display: none; } }
 </style>

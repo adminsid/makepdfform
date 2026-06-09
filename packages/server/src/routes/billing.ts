@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import { drizzle } from 'drizzle-orm/d1';
-import { forms } from '../db/schema';
+import { forms } from '../schema';
 import { eq } from 'drizzle-orm';
 import Stripe from 'stripe';
 

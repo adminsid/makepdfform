@@ -8,3 +8,5 @@ coverage
 .svelte-kit
 drizzle/*.sql
 packages/server/drizzle/*.sql
+.dev.vars
+packages/server/.dev.vars

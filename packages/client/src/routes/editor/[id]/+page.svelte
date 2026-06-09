@@ -1,6 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
+  import { goto } from '$app/navigation';
+  import { toast } from 'svelte-sonner';
   import { editorState } from '../../../lib/editorState.svelte';
   import Header from '../../../components/design/Header.svelte';
   import ComponentSidebar from '../../../components/design/ComponentSidebar.svelte';
@@ -15,8 +17,6 @@
   // Load content on mount
   onMount(() => {
     if (data.form && data.form.fields) {
-        // Assuming fields is parsed JSON object from Drizzle based on 'json' mode
-        // If it's stored as { content: string }
         const storedContent = data.form.fields.content;
         if (storedContent && typeof storedContent === 'string') {
             editorState.updateContent(storedContent);
@@ -27,7 +27,7 @@
   async function saveForm() {
     isSaving = true;
     try {
-        const id = $page.params.id; // Or data.form.id
+        const id = $page.params.id;
         const content = editorState.content;
         
         // 1. Save Content (DSL)
@@ -35,7 +35,7 @@
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                fields: { content } // Wrapping in object as planned
+                fields: { content }
             })
         });
 
@@ -46,13 +46,22 @@
             headers: { 'Content-Type': 'application/pdf' },
             body: pdfBlob
         });
-        
-        console.log('Saved successfully');
-        // Optional: Toast "Saved"
     } catch (e) {
         console.error('Failed to save', e);
+        throw e;
     } finally {
         isSaving = false;
+    }
+  }
+
+  async function continueToFields() {
+    try {
+        await saveForm();
+        const id = $page.params.id;
+        goto(`/editor/${id}/fields`);
+    } catch (e) {
+        console.error('Failed to continue to field editor', e);
+        toast.error('Failed to save document. Please try again.');
     }
   }
 
@@ -69,7 +78,7 @@
 </svelte:head>
 
 <div class="app-container">
-  <Header {toggleHistory} onSave={saveForm} />
+  <Header {toggleHistory} onSave={saveForm} onContinue={continueToFields} />
   
   <div class="main-content">
     <ComponentSidebar />

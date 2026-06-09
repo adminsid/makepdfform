@@ -4,6 +4,7 @@
   import FormCard from '../../components/dashboard/FormCard.svelte';
   import CreateFormCard from '../../components/dashboard/CreateFormCard.svelte';
   import { goto } from '$app/navigation';
+  import { toast } from 'svelte-sonner';
 
   let { data } = $props();
   // Simple reactive state from data
@@ -28,6 +29,33 @@
     }
   }
 
+  async function importForm(file: File) {
+    try {
+      // 1. Create form record
+      const res = await fetch('/api/forms', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: file.name.replace(/\.pdf$/i, '') || 'Imported Form' })
+      });
+      if (!res.ok) throw new Error('Failed to create form');
+      const newForm = await res.json();
+
+      // 2. Upload PDF to R2
+      const uploadRes = await fetch(`/api/forms/${newForm.id}/file`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/pdf' },
+        body: file
+      });
+      if (!uploadRes.ok) throw new Error('Failed to upload PDF');
+
+      // 3. Go directly to the field editor (Step 2)
+      goto(`/editor/${newForm.id}/fields`);
+    } catch (e) {
+      console.error('Failed to import PDF', e);
+      toast.error('Failed to import PDF. Please try again.');
+    }
+  }
+
   function formatDate(dateStr: string) {
     if (!dateStr) return 'N/A';
     return new Date(dateStr).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
@@ -45,7 +73,7 @@
   <main class="main-content">
     <div class="container">
       <div class="grid">
-        <CreateFormCard onCreate={createForm} />
+        <CreateFormCard onCreate={createForm} onImportPDF={importForm} />
         {#each forms as form}
           <a href="/editor/{form.id}" class="form-link">
             <FormCard 

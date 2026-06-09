@@ -52,8 +52,10 @@ export const forms = sqliteTable('forms', {
   id: text('id').primaryKey(),
   userId: text('user_id').notNull().references(() => user.id),
   title: text('title').notNull(),
-  pdfDataUrl: text('pdf_data_url'),
-  settingsJson: text('settings_json'),
+  fields: text('fields', { mode: 'json' }), // JSON array of field definitions
+  isPro: integer('is_pro', { mode: 'boolean' }).default(false),
+  brandingConfig: text('branding_config', { mode: 'json' }), // { logoUrl: string, primaryColor: string }
+  isTemplate: integer('is_template', { mode: 'boolean' }).default(false),
   createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
   updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull(),
 });
@@ -73,9 +75,9 @@ export const formFields = sqliteTable('form_fields', {
 });
 
 export const submissions = sqliteTable('submissions', {
-  id: text('id').primaryKey(),
+  id: text('id').primaryKey(), // UUID
   formId: text('form_id').notNull().references(() => forms.id),
-  dataJson: text('data_json').notNull(),
-  submittedAt: integer('submitted_at', { mode: 'timestamp' }).notNull(),
+  data: text('data', { mode: 'json' }).notNull(), // JSON object of submitted values
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
   ipAddress: text('ip_address'),
 });

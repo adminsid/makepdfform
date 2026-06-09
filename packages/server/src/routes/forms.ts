@@ -1,9 +1,8 @@
 import { Hono } from 'hono';
 import { drizzle } from 'drizzle-orm/d1';
-import { forms } from '../db/schema';
+import { forms } from '../schema';
 import { eq, and, desc } from 'drizzle-orm';
 import type { D1Database, R2Bucket } from '@cloudflare/workers-types';
-import type { AdapterUser } from '@auth/core/adapters';
 
 type Bindings = {
   DB: D1Database;
@@ -11,7 +10,7 @@ type Bindings = {
 };
 
 type Variables = {
-  user: AdapterUser;
+  user: { id: string; email: string; name: string; image?: string };
 }
 
 const app = new Hono<{ Bindings: Bindings; Variables: Variables }>();
@@ -61,26 +60,15 @@ app.patch('/:id', async (c) => {
         const form = await db.select().from(forms).where(and(eq(forms.id, id), eq(forms.userId, user.id))).get();
         if (!form) return c.json({ error: 'Form not found' }, 404);
 
-        if (body.fields) {
-            await db.update(forms)
-                .set({ 
-                    fields: body.fields,
-                    updatedAt: now 
-                })
-                .where(eq(forms.id, id))
-                .run();
-        }
-        
-        // Handle renaming
-        if (body.title) {
-             await db.update(forms)
-                .set({ 
-                    title: body.title,
-                    updatedAt: now 
-                })
-                .where(eq(forms.id, id))
-                .run();
-        }
+        const updateData: Record<string, unknown> = { updatedAt: now };
+        if (body.fields !== undefined) updateData.fields = body.fields;
+        if (body.title !== undefined) updateData.title = body.title;
+        if (body.isTemplate !== undefined) updateData.isTemplate = body.isTemplate;
+
+        await db.update(forms)
+            .set(updateData)
+            .where(eq(forms.id, id))
+            .run();
 
         return c.json({ success: true });
     } catch (e) {

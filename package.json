@@ -7,8 +7,8 @@
   ],
   "scripts": {
     "dev": "npm run dev --workspaces --if-present --parallel",
-    "build:pdf": "npm run build -w packages/pdf-lib && npm run build -w packages/common && npm run build -w packages/schemas && npm run build -w packages/jsx && npm run build -w packages/converter && npm run build -w packages/generator && npm run build -w packages/manipulator && npm run build -w packages/ui",
-    "build": "npm run build:pdf && npm run build --workspaces --if-present",
+    "build:pdf": "npm run build -w packages/pdf-lib && npm run build -w packages/common && npm run build -w packages/schemas && npm run build -w packages/jsx && npm run build -w packages/converter && npm run build -w packages/generator && npm run build -w packages/manipulator && npm run build -w packages/ui && npm run build -w packages/editor-react",
+    "build": "npm run build:pdf && npm run build -w packages/client",
     "deploy": "npm run deploy --workspaces --if-present",
     "db:migrate": "npm run db:migrate --workspace=packages/server",
     "start": "npm run dev",
@@ -17,6 +17,8 @@
   },
   "overrides": {
     "@types/react": "18.2.74",
-    "@types/react-dom": "18.2.23"
+    "@types/react-dom": "18.2.23",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   }
 }

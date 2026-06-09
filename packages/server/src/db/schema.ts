@@ -10,6 +10,15 @@ export const forms = sqliteTable('forms', {
   updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull(),
 });
 
+export const templates = sqliteTable('templates', {
+  id: text('id').primaryKey(), // UUID
+  userId: text('user_id').notNull(), // owning user
+  name: text('name').notNull(),
+  data: text('data').notNull(), // JSON-stringified pdfme Template
+  createdAt: integer('created_at').notNull(), // Unix seconds
+  updatedAt: integer('updated_at').notNull(), // Unix seconds
+});
+
 export const submissions = sqliteTable('submissions', {
   id: text('id').primaryKey(), // UUID
   formId: text('form_id').references(() => forms.id).notNull(),

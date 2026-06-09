@@ -1,0 +1,47 @@
+{
+  "name": "@makepdfform/editor-react",
+  "version": "0.1.0",
+  "description": "MakePDFForm React editor island — framework-agnostic mounts for Designer, Form, and Viewer (based on pdfme MIT, Copyright (c) 2020 HandDot)",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "homepage": "https://makepdfform.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adminsid/makepdfform.git"
+  },
+  "author": "Siddhartha Lama <lama@primeamericany.com>",
+  "contributors": [
+    {
+      "name": "hand-dot",
+      "url": "https://github.com/hand-dot"
+    }
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@makepdfform/ui": "*",
+    "@makepdfform/schemas": "*",
+    "@makepdfform/common": "*",
+    "@makepdfform/generator": "*"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "@vitejs/plugin-react": "^4.0.0",
+    "typescript": "^5.0.0",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7"
+  }
+}

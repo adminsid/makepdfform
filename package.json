@@ -14,5 +14,9 @@
     "start": "npm run dev",
     "deploy:prod": "npm run build && npx wrangler deploy --env production",
     "deploy:dev": "npm run build && npx wrangler deploy"
+  },
+  "overrides": {
+    "@types/react": "18.2.74",
+    "@types/react-dom": "18.2.23"
   }
 }

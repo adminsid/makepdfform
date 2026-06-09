@@ -217,12 +217,14 @@ const runnersToPage = (
       const isItalic = style.fontStyle === 'italic';
       const getFont = (bold: boolean, italic: boolean, family: string) =>
         fonts[family + (bold ? '_bold' : '') + (italic ? '_italic' : '')];
+      
+      const fallbackKey = Object.keys(fonts).find((fontFamily) => fontFamily.startsWith(family));
       return (
         getFont(isBold, isItalic, family) ||
         getFont(isBold, false, family) ||
         getFont(false, isItalic, family) ||
         getFont(false, false, family) ||
-        Object.keys(fonts).find((fontFamily) => fontFamily.startsWith(family))
+        (fallbackKey ? fonts[fallbackKey] : undefined)
       );
     }
 

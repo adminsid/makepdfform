@@ -53,7 +53,7 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@makepdfform/converter": "*",
     "@scena/react-guides": "^0.28.2",
-    "antd": "^6.4.3",
+    "antd": "^5.0.0",
     "dompurify": "^3.4.7",
     "form-render": "^2.5.5",
     "hotkeys-js": "^4.0.4",
